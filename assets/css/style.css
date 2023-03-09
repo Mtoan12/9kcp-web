@@ -13,17 +13,154 @@ body {
     height: 135px;
     width: 100%;
     background-color: white;
+    padding: 10px 0;
 }
 
 #header .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    border-bottom: 1px solid #f1e8e8;
 }
 
-#header .header-right a {
+#header span {
+}
+
+#header a {
     color: black;
     outline: none;
     text-decoration: none;
     text-transform: uppercase;
+}
+
+#header .phone-number {
+    font-weight: 700;
+}
+
+#header .logo {
+    width: 140px;
+    height: 70px;
+    cursor: pointer;
+}
+
+#header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+#header .header-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+#banner {
+    padding-top: 55%;
+    max-width: 100%;
+    background: url('/assets/img/slider_2.webp');
+    background-repeat: no-repeat;
+}
+
+#main {
+}
+
+#main .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    padding: 40px 10px 0;
+}
+
+#main a {
+    color: black;
+    outline: none;
+    text-decoration: none;
+}
+
+#main .title {
+    font-size: 26px;
+}
+
+#main .title span {
+    font-weight: 500;
+}
+
+#main .products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+    margin-top: 40px;
+}
+
+#main .product-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+#main img {
+    width: 280px;
+    margin-bottom: 10px;
+    border-radius: inherit;
+}
+
+#main .product-category {
+    color: #c9d6df;
+}
+
+#main .product-desc,
+#main .product-price {
+    font-weight: 500;
+    margin-bottom: 2px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#main del {
+    color: #c9d6df;
+}
+
+#main .allBtn {
+    padding: 14px 28px;
+    color: white;
+    background-color: #1c1c1c;
+    border: 1px solid #1c1c1c;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin-top: 30px;
+    position: relative;
+}
+
+#main .allBtn::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    height: 100%;
+    width: 0;
+    background-color: white;
+}
+
+#main .allBtn:hover {
+    color: black;
+    background-color: transparent;
+}
+
+#main .allBtn:hover::before {
+    background-color: white;
+    width: 100%;
+    z-index: -1;
 }
