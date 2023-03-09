@@ -63,7 +63,7 @@ body {
 #banner {
     padding-top: 55%;
     max-width: 100%;
-    background: url('/assets/img/slider_2.webp');
+    background: url('../img/slider_2.png');
     background-repeat: no-repeat;
 }
 
