@@ -77,6 +77,7 @@ body {
     align-items: center;
     text-transform: uppercase;
     padding: 40px 10px 0;
+    border-bottom: 1px solid #f1e8e8;
 }
 
 #main a {
@@ -141,6 +142,7 @@ body {
     font-size: 11px;
     letter-spacing: 1.5px;
     margin-top: 30px;
+    margin-bottom: 32px;
     position: relative;
 }
 
