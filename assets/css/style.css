@@ -137,7 +137,7 @@ body {
 #main .allBtn {
     padding: 14px 28px;
     color: white;
-    background-color: #1c1c1c;
+    background-color: transparent;
     border: 1px solid #1c1c1c;
     font-size: 11px;
     letter-spacing: 1.5px;
@@ -165,4 +165,20 @@ body {
     background-color: white;
     width: 100%;
     z-index: -1;
+}
+
+#main .allBtn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1c1c;
+    z-index: -1;
+    transition: width ease-in-out 0.4s;
+}
+
+#main .allBtn:hover::after {
+    width: 0;
 }
