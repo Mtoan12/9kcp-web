@@ -1,0 +1,51 @@
+#header {
+    background-color: black;
+    height: 135px;
+    width: 100%;
+    background-color: white;
+    padding: 10px 0;
+}
+
+#header .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    border-bottom: 1px solid #f1e8e8;
+}
+
+#header span {
+}
+
+#header a {
+    color: black;
+    outline: none;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#header .phone-number {
+    font-weight: 700;
+}
+
+#header .logo {
+    width: 140px;
+    height: 70px;
+    cursor: pointer;
+}
+
+#header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+#header .header-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    font-weight: 500;
+}
