@@ -1,5 +1,6 @@
 import React from 'react';
 import './MainStyles.css';
+import { Link } from 'react-router-dom';
 const Main = () => {
     return (
         <div>
@@ -9,7 +10,7 @@ const Main = () => {
                         Sản phẩm <span>mới</span>
                     </a>
                     <div className="products">
-                        <a className="product-item" href="/">
+                        <Link className="product-item" to="/product">
                             <img
                                 className="product-img"
                                 src="./assets/img/lmk81.webp"
@@ -22,7 +23,7 @@ const Main = () => {
                             <span className="product-price">
                                 2.150.000 <del>2.300.000</del>{' '}
                             </span>
-                        </a>
+                        </Link>
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
