@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './HeaderStyles.css';
 import logo from '../../img/logo.webp';
+import { Link } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 const Header = () => {
     return (
         <div id="header">
             <div className="header-content">
                 <span>
-                    HOTLINE TƯ VẤN:{' '}
+                    HOTLINE TƯ VẤN:
                     <a className="phone-number" href="tel:0369161095">
-                        0369161095
+                        0982843420
                     </a>
                 </span>
                 <img className="logo" src={logo} alt="logo" />
                 <div className="header-right">
-                    <a href="/" className="header-account">
+                    <Link to="/login" className="header-account">
                         Tài khoản
-                    </a>
+                    </Link>
                     <a href="/" className="header-cart">
                         Giỏ hàng
                     </a>

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     const { email, password, name } = req.body;
 
     if (!email || !password || !name) {
@@ -41,12 +41,49 @@ const register = async (req, res) => {
             accessToken,
         });
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 };
 
-const login = async (req, res) => {
-    
+const login = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: 'Chưa nhập email hoặc mật khẩu',
+        });
+    }
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Email không tồn tại',
+            });
+        }
+
+        const checkPassword = await bcrypt.compare(password, user.password);
+
+        if (!checkPassword) {
+            return res.status(400).json({
+                success: false,
+                message: 'Sai mật khẩu',
+            });
+        }
+
+        const accessToken = jwt.sign({ userId: user._id, email }, process.env.ACCESS_TOKEN_SECRET);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Đăng nhập thành công',
+            accessToken,
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
 module.exports = {

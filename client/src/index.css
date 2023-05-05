@@ -1,13 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+        'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.allBtn {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    color: white;
+    background-color: transparent;
+    border: 1px solid #1c1c1c;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin-top: 30px;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.allBtn::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    height: 100%;
+    width: 0;
+    background-color: white;
+}
+
+.allBtn:hover {
+    color: black;
+    background-color: transparent;
+}
+
+.allBtn:hover::before {
+    background-color: white;
+    width: 100%;
+    z-index: -1;
+}
+
+.allBtn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1c1c;
+    z-index: -1;
+    transition: width ease-in-out 0.4s;
+}
+
+.allBtn:hover::after {
+    width: 0;
 }
