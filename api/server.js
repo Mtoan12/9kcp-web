@@ -1,10 +1,25 @@
-import express from 'express';
-import dotenv from 'dotenv';
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const connectDb = require('./config/db.js');
+const authRoute = require('./routes/auth.js');
 const app = express();
-dotenv.config();
 
-app.get('/', (req, res) => {
-    res.json('Ok');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+connectDb();
+
+app.use('/api/auth', authRoute);
+
+app.use((err, req, res, next) => {
+    console.error(err.message);
+    res.status(500).json({
+        success: false,
+        message: 'Something broke!',
+    });
 });
 
 const PORT = process.env.PORT || 5000;
