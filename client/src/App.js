@@ -3,12 +3,12 @@ import Header from './components/header/Header';
 import Home from './components/home/Home';
 import { Routes, Route } from 'react-router-dom';
 import Product from './components/product/Product';
-import AuthContext from './context/AuthContext';
+import AuthContextProvider from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 function App() {
     return (
-        <AuthContext>
+        <AuthContextProvider>
             <div className="wrapper">
                 <Header></Header>
                 <Routes>
@@ -18,7 +18,7 @@ function App() {
                     <Route path="/register" element={<Register />}></Route>
                 </Routes>
             </div>
-        </AuthContext>
+        </AuthContextProvider>
     );
 }
 
