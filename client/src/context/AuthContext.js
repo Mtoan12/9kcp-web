@@ -71,6 +71,26 @@ const AuthContextProvider = ({ children }) => {
         }
     };
 
+    const registerHandler = async (user) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/register`, user);
+            if (response.data.success) {
+                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) {
+                return error.response.data;
+            } else {
+                return {
+                    success: false,
+                    message: error.message,
+                };
+            }
+        }
+    };
+
     const logOutHandler = () => {
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
         setAuth(null);
@@ -83,7 +103,7 @@ const AuthContextProvider = ({ children }) => {
             },
         });
     };
-    const authContextData = { loginHandler, logOutHandler, loadUser, authState };
+    const authContextData = { loginHandler, logOutHandler, loadUser, authState, registerHandler };
     return <AuthContext.Provider value={authContextData}>{children}</AuthContext.Provider>;
 };
 
