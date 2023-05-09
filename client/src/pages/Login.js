@@ -9,6 +9,7 @@ const Login = () => {
         password: '',
     });
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
     const {
         loginHandler,
@@ -33,10 +34,11 @@ const Login = () => {
             const response = await loginHandler(loginForm);
             if (response.success) {
                 navigate('/');
+            } else {
+                setMessage(response.message);
             }
-            console.log(response);
         } catch (error) {
-            console.log(error);
+            setMessage('Đăng nhập thất bại');
         }
     };
 
@@ -80,6 +82,7 @@ const Login = () => {
                         </span>
                     </div>
                 </div>
+                <span className="text-red-600 mt-6">{message}</span>
             </div>
             <div className="flex justify-center">
                 <button

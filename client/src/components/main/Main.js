@@ -9,7 +9,7 @@ const Main = () => {
                     <a href="/" className="title">
                         Sản phẩm <span>mới</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
                         <Link className="product-item" to="/product">
                             <img
                                 className="product-img"
@@ -17,7 +17,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1 line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -31,7 +31,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -45,7 +45,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -59,7 +59,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -75,7 +75,7 @@ const Main = () => {
                     <a href="/" className="title">
                         Bàn phím cơ <span>Custom</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
@@ -83,7 +83,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -97,7 +97,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -111,7 +111,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -125,7 +125,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -141,7 +141,7 @@ const Main = () => {
                     <a href="/" className="title">
                         Bộ sưu tập keycap <span>Cherry</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
@@ -149,7 +149,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -163,7 +163,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -177,7 +177,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -191,7 +191,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -208,7 +208,7 @@ const Main = () => {
                         {' '}
                         Bộ sưu tập <span>Keycap SA Aifei</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
@@ -216,7 +216,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -230,7 +230,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -244,7 +244,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -258,7 +258,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -274,7 +274,7 @@ const Main = () => {
                     <a href="/" className="title">
                         Switch <span>cho bàn phím cơ</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
@@ -282,7 +282,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -296,7 +296,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -310,7 +310,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -324,7 +324,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -340,7 +340,7 @@ const Main = () => {
                     <a href="/" className="title">
                         Phụ kiện cho <span>Bàn phím cơ</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
@@ -348,7 +348,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -362,7 +362,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -376,7 +376,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -390,7 +390,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -406,7 +406,7 @@ const Main = () => {
                     <a href="/" className="title">
                         Tin tức <span>Kicap</span>
                     </a>
-                    <div className="products">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <a className="product-item" href="/">
                             <img
                                 className="product-img"
@@ -414,7 +414,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -428,7 +428,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -442,7 +442,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">
@@ -456,7 +456,7 @@ const Main = () => {
                                 alt="product"
                             ></img>
                             <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc">
+                            <p className="product-desc line-clamp-1">
                                 BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
                             </p>
                             <span className="product-price">

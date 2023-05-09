@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './components/header/Header';
-import Home from './components/home/Home';
+import Home from './pages/home/Home';
 import { Routes, Route } from 'react-router-dom';
 import Product from './components/product/Product';
 import AuthContextProvider from './context/AuthContext';

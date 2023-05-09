@@ -24,7 +24,9 @@ const Product = () => {
                     <img className="product-img" src={imgSrc} alt="product-img" />
                 </div>
                 <div className="product-content">
-                    <h3 className="product-name">BỘ KEYCAP CMK RESONANCE</h3>
+                    <h3 className="product-name truncate overflow-hidden">
+                        BỘ KEYCAP CMK RESONANCE
+                    </h3>
                     <p className="product-price">600.000₫</p>
                     <a href="/" className="buy-btn">
                         Mua ngay

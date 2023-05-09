@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Banner from '../banner/Banner';
-import Main from './../main/Main';
+import Banner from '../../components/banner/Banner';
+import Main from '../../components/main/Main';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
