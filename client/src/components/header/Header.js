@@ -4,6 +4,7 @@ import logo from '../../img/logo.webp';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../nav/Navbar';
+import { ProductContext } from '../../context/ProductContext';
 const Header = () => {
     const {
         logOutHandler,
@@ -36,7 +37,9 @@ const Header = () => {
                         0982843420
                     </a>
                 </span>
-                <img className="logo" src={logo} alt="logo" />
+                <Link to="/">
+                    <img className="logo" src={logo} alt="logo" />
+                </Link>
                 <div className="header-right">
                     <div className="hidden lg:block">
                         {isAuthenticated ? (

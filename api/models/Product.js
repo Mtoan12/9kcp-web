@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const { KEYBOARD, KEYCAP, KIT } = require('../constance/constance');
 
 const productSchema = mongoose.Schema({
-    name: {
+    title: {
         type: String,
         require: true,
     },
@@ -21,4 +22,18 @@ const productSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    imageName: {
+        type: String,
+    },
+    category: {
+        type: String,
+        enum: [KEYBOARD, KEYCAP, KIT],
+        default: KEYBOARD,
+    },
+    createAt: {
+        type: Date,
+        default: Date.now(),
+    },
 });
+
+module.exports = mongoose.model('products', productSchema);

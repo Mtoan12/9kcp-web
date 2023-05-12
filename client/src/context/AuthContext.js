@@ -1,11 +1,6 @@
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 import axios from 'axios';
-import {
-    API_URL,
-    LOCAL_STORAGE_ACCESS_TOKEN_NAME,
-    LOG_OUT,
-    SET_AUTH,
-} from '../constants/constance';
+import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME, SET_AUTH } from '../constants/constance';
 import { authReducer } from '../reducers/authReducer';
 import { setAuth } from '../utils/setAuth';
 export const AuthContext = createContext();

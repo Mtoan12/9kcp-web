@@ -4,8 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const connectDb = require('./config/db.js');
 const authRoute = require('./routes/auth.js');
+const productRoute = require('./routes/product.js');
 const app = express();
 
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -13,6 +15,7 @@ app.use(cors());
 connectDb();
 
 app.use('/api/auth', authRoute);
+app.use('/api/product', productRoute);
 
 app.use((err, req, res, next) => {
     console.error(err.message);

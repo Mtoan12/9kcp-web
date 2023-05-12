@@ -6,19 +6,19 @@ const Navbar = () => {
             <Link to="/" className="home hover:opacity-50">
                 Trang chủ
             </Link>
-            <Link to="/" className="home hover:opacity-50">
+            <Link to="/products" className="home hover:opacity-50">
                 Tất cả Sản phẩm
             </Link>
-            <Link to="/" className="home hover:opacity-50">
+            <Link to="/keyboard" className="home hover:opacity-50">
                 Bàn phím cơ
             </Link>
-            <Link to="/" className="home hover:opacity-50">
+            <Link to="/keycap" className="home hover:opacity-50">
                 Keycap
             </Link>
-            <Link to="/" className="home hover:opacity-50">
+            <Link to="/kit" className="home hover:opacity-50">
                 Kit
             </Link>
-            <Link to="/" className="home hover:opacity-50">
+            <Link to="/about" className="home hover:opacity-50">
                 Về keycap
             </Link>
         </nav>
