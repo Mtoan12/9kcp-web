@@ -73,7 +73,7 @@ const getAllKits = async (req, res, next) => {
             res.json({
                 success: true,
                 message: 'Get kits successfully',
-                kits,
+                products: kits,
             });
         } else {
             res.json({
@@ -94,7 +94,7 @@ const getAllKeycaps = async (req, res, next) => {
             res.json({
                 success: true,
                 message: 'Get keycaps successfully',
-                keycaps,
+                products: keycaps,
             });
         } else {
             res.json({
@@ -115,7 +115,7 @@ const getAllKeyboard = async (req, res, next) => {
             res.json({
                 success: true,
                 message: 'Get Keyboards successfully',
-                keyboards,
+                products: keyboards,
             });
         } else {
             res.json({

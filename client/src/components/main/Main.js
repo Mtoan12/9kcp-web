@@ -1,474 +1,73 @@
-import React from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import './MainStyles.css';
 import { Link } from 'react-router-dom';
+import HomeProducts from './../HomeProducts';
+import reducer from '../../reducers/productReducer';
+import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from '../../constants/constance';
+import axios from 'axios';
+import Loading from '../Loading';
+import Error from '../Error';
 const Main = () => {
+    const [newProducts, setNewProducts] = useState([]);
+    const [newKeyboards, setNewKeyboards] = useState([]);
+    const [newKits, setNewKits] = useState([]);
+    const [newKeycaps, setNewKeycaps] = useState([]);
+
+    const [productsState, dispatch] = useReducer(reducer, {
+        isLoading: true,
+        error: '',
+        products: null,
+    });
+
+    const { isLoading, error, products } = productsState;
+
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/product`);
+
+                if (response.data.success) {
+                    const products = response.data.products;
+                    dispatch({ type: LOAD_SUCCESSFUL, payload: products });
+                    setNewProducts(products.slice(products.length - 4));
+                    const newKeyboards = products.filter(
+                        (product) => product.category === 'BÀN PHÍM CƠ'
+                    );
+                    const newKeycaps = products.filter((product) => product.category === 'KEYCAP');
+                    const newKits = products.filter((product) => product.category === 'KIT');
+                    setNewKeyboards(newKeyboards.slice(newKeyboards.length - 4));
+                    setNewKeycaps(newKeycaps.slice(newKeycaps.length - 4));
+                    setNewKits(newKits.slice(newKits.length - 4));
+                }
+            } catch (error) {
+                if (error.response.data) {
+                    dispatch({ type: LOAD_FAILURE, payload: error.response.data.message });
+                } else {
+                    dispatch({ type: LOAD_FAILURE, payload: 'Lỗi không xác định' });
+                }
+            }
+        };
+
+        getProducts();
+    }, []);
     return (
-        <div>
-            <div id="main">
-                <div className="content">
-                    <a href="/" className="title">
-                        Sản phẩm <span>mới</span>
-                    </a>
-                    <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-                        <Link className="product-item" to="/product">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1 line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </Link>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả, sản phẩm mới
-                    </a>
+        <div className="px-2 mt-5">
+            {isLoading ? (
+                <div className="flex justify-center mt-5">
+                    <Loading />
                 </div>
-                <div className="content">
-                    <a href="/" className="title">
-                        Bàn phím cơ <span>Custom</span>
-                    </a>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả, Bàn phím cơ Custom
-                    </a>
-                </div>
-                <div className="content">
-                    <a href="/" className="title">
-                        Bộ sưu tập keycap <span>Cherry</span>
-                    </a>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả, Bộ sưu tập keycap Cherry
-                    </a>
-                </div>
-                <div className="content">
-                    <a href="/" className="title">
-                        {' '}
-                        Bộ sưu tập <span>Keycap SA Aifei</span>
-                    </a>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả, Bộ sưu tập Keycap SA Aifei
-                    </a>
-                </div>
-                <div className="content">
-                    <a href="/" className="title">
-                        Switch <span>cho bàn phím cơ</span>
-                    </a>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả, Switch cho bàn phím cơ
-                    </a>
-                </div>
-                <div className="content">
-                    <a href="/" className="title">
-                        Phụ kiện cho <span>Bàn phím cơ</span>
-                    </a>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả, Phụ kiện cho Bàn phím cơ
-                    </a>
-                </div>
-                <div className="content">
-                    <a href="/" className="title">
-                        Tin tức <span>Kicap</span>
-                    </a>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                        <a className="product-item" href="/">
-                            <img
-                                className="product-img"
-                                src="./assets/img/lmk81.webp"
-                                alt="product"
-                            ></img>
-                            <span className="product-category">bàn phím cơ</span>
-                            <p className="product-desc line-clamp-1">
-                                BÀN PHÍM CƠ KIT LMK81 - ZUOYA [PRE-ORDER]
-                            </p>
-                            <span className="product-price">
-                                2.150.000 <del>2.300.000</del>{' '}
-                            </span>
-                        </a>
-                    </div>
-                    <a href="/" className="allBtn">
-                        Xem tất cả
-                    </a>
-                </div>
-            </div>
+            ) : error.length > 0 ? (
+                <h2 className="flex justify-center mt-5">
+                    <Error error={error} />
+                </h2>
+            ) : (
+                <>
+                    <HomeProducts header="Sản phẩm mới" products={newProducts} />
+                    <HomeProducts header="Bàn phim cơ" products={newKeyboards} />
+                    <HomeProducts header="Keycap" products={newKeycaps} />
+                    <HomeProducts header="Kit" products={newKits} />
+                </>
+            )}
         </div>
     );
 };
