@@ -56,20 +56,21 @@ const ProductsPage = () => {
                 <div className="container mx-auto grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
                     {products &&
                         products.map((product) => {
-                            if (!product.imageName) {
-                                product = {
-                                    ...product,
-                                    imageName: `${product._id}.webp`,
-                                };
-                            }
+                            const {
+                                _id,
+                                title,
+                                price,
+                                category,
+                                imageName = `${product._id}.webp`,
+                            } = product;
                             return (
                                 <Product
-                                    key={product._id}
-                                    id={product._id}
-                                    title={product.title}
-                                    price={product.price}
-                                    category={product.category}
-                                    imageName={product.imageName}
+                                    key={_id}
+                                    id={_id}
+                                    title={title}
+                                    price={price}
+                                    category={category}
+                                    imageName={imageName}
                                 />
                             );
                         })}

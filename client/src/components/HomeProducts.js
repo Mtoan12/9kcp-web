@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import Product from './product/Product';
 
-const HomeProducts = ({ header, products }) => {
+const HomeProducts = ({ header, products, link }) => {
     if (header !== 'Sản phẩm mới') {
         header = 'Bộ sưu tập ' + header;
     }
@@ -29,7 +30,9 @@ const HomeProducts = ({ header, products }) => {
                     })}
             </div>
             <div className="flex justify-center">
-                <button className="allBtn px-4 py-1 uppercase">Xem tất cả {header}</button>
+                <Link to={link} className="allBtn px-4 py-1 uppercase">
+                    Xem tất cả {header}
+                </Link>
             </div>
         </div>
     );

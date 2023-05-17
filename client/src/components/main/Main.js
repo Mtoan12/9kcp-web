@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import './MainStyles.css';
-import { Link } from 'react-router-dom';
 import HomeProducts from './../HomeProducts';
 import reducer from '../../reducers/productReducer';
 import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from '../../constants/constance';
@@ -19,7 +18,7 @@ const Main = () => {
         products: null,
     });
 
-    const { isLoading, error, products } = productsState;
+    const { isLoading, error } = productsState;
 
     useEffect(() => {
         const getProducts = async () => {
@@ -62,10 +61,10 @@ const Main = () => {
                 </h2>
             ) : (
                 <>
-                    <HomeProducts header="Sản phẩm mới" products={newProducts} />
-                    <HomeProducts header="Bàn phim cơ" products={newKeyboards} />
-                    <HomeProducts header="Keycap" products={newKeycaps} />
-                    <HomeProducts header="Kit" products={newKits} />
+                    <HomeProducts header="Sản phẩm mới" products={newProducts} link="/products" />
+                    <HomeProducts header="Bàn phim cơ" products={newKeyboards} link="/keyboard" />
+                    <HomeProducts header="Keycap" products={newKeycaps} link="/keycap" />
+                    <HomeProducts header="Kit" products={newKits} link="/kit" />
                 </>
             )}
         </div>

@@ -8,12 +8,15 @@ const {
     getAllKits,
     getAllKeycaps,
     getAllKeyboard,
+    getProduct,
 } = require('../controllers/product');
 
 router.get('/', getProducts);
 router.post('/add-product', addProduct);
-router.put('/:id', editProduct);
-router.delete('/:id', removeProduct);
+
+router.get('/detail/:id', getProduct);
+router.put('/detail/:id', editProduct);
+router.delete('/detail/:id', removeProduct);
 
 router.get('/kit', getAllKits);
 router.get('/keycap', getAllKeycaps);

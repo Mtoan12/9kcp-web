@@ -2,9 +2,9 @@ import React from 'react';
 import './ProductStyle.css';
 import { API_UPLOADS } from '../../constants/constance';
 import { Link } from 'react-router-dom';
+import { formatPrice } from '../../utils/formatPrice';
 
 const Product = ({ id, title, category, price, imageName }) => {
-    price = price ? price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) : '';
     return (
         <div>
             <Link to={`/product/${id}`} className="flex flex-col items-center">
@@ -23,7 +23,7 @@ const Product = ({ id, title, category, price, imageName }) => {
                 <h3 className={`w-full truncate text-center`} title={title}>
                     {title}
                 </h3>
-                <p className="text-sm font-semibold">{price}</p>
+                <p className="text-sm font-semibold">{formatPrice(price)}</p>
             </Link>
         </div>
     );

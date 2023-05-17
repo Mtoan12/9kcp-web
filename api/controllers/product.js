@@ -14,6 +14,28 @@ const getProducts = async (req, res, next) => {
     }
 };
 
+const getProduct = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const product = await Products.findById(id);
+        console.log({ id, product });
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found',
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Found product',
+            product,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 const addProduct = async (req, res, next) => {
     const { title, brand, price, inStock, category } = req.body;
 
@@ -136,4 +158,5 @@ module.exports = {
     getAllKits,
     getAllKeycaps,
     getAllKeyboard,
+    getProduct,
 };
