@@ -5,14 +5,14 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 const Home = () => {
-    const { loadUser } = useContext(AuthContext);
-    useEffect(() => {
-        try {
-            loadUser();
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
+    // const { loadUser } = useContext(AuthContext);
+    // useEffect(() => {
+    //     try {
+    //         loadUser();
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }, []);
     return (
         <div>
             <Banner></Banner>

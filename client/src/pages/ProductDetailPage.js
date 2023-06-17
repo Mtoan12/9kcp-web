@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
@@ -8,6 +8,8 @@ import { formatPrice } from '../utils/formatPrice';
 import { InputNumber } from 'antd';
 import Description from '../components/Description';
 import HomeProducts from '../components/HomeProducts';
+import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 const reducer = (state, action) => {
     const { type, payload } = action;
@@ -32,6 +34,7 @@ const reducer = (state, action) => {
 
 const ProductDetailPage = () => {
     const { id } = useParams();
+    const [quantity, setQuantity] = useState('1');
     const [productState, dispatch] = useReducer(reducer, {
         isLoading: true,
         error: '',
@@ -39,6 +42,8 @@ const ProductDetailPage = () => {
     });
 
     const { isLoading, error, product } = productState;
+
+    const { addToCart, loadCart } = useContext(CartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -66,8 +71,13 @@ const ProductDetailPage = () => {
         fetchProduct();
     }, [id]);
 
+    useEffect(() => loadCart(), []);
     if (product) {
     }
+
+    // const addToCart = async () => {
+    //     const newCart = await axios.post(`${API_URL}/cart`);
+    // };
     return (
         <div className="px-2 mt-10">
             {isLoading ? (
@@ -82,7 +92,6 @@ const ProductDetailPage = () => {
                 <>
                     {product &&
                         [product].map((item) => {
-                            console.log(item);
                             const {
                                 _id,
                                 title,
@@ -94,7 +103,7 @@ const ProductDetailPage = () => {
                                 inStock,
                             } = item;
                             return (
-                                <div>
+                                <div key={_id}>
                                     <div className="flex flex-col lg:flex-row gap-10">
                                         <div className="h-[750px]">
                                             <img
@@ -115,22 +124,31 @@ const ProductDetailPage = () => {
                                             <span>{review}</span>
                                             <span>{formatPrice(price)}</span>
                                             <div>
-                                                Tình trạng:{' '}
+                                                Tình trạng:
                                                 <span className="text-detail font-medium">
                                                     {inStock === 0
                                                         ? 'Hết hàng'
                                                         : `${inStock} sản phẩm có sẵn`}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center">
+                                            <div className="flex items-center gap-2">
                                                 Số lượng:
                                                 <InputNumber
                                                     min={1}
                                                     defaultValue={1}
                                                     max={inStock}
+                                                    size="middle"
+                                                    onChange={(value) => setQuantity(value)}
                                                 />
                                             </div>
-                                            <button className="allBtn px-3 py-2">
+                                            <button
+                                                onClick={(e) => addToCart(product, quantity)}
+                                                className={
+                                                    inStock
+                                                        ? 'allBtn px-3 py-2'
+                                                        : 'allBtn px-3 py-2 disable'
+                                                }
+                                            >
                                                 {inStock ? 'Thêm vào giỏ hàng' : 'Hết hàng'}
                                             </button>
                                             <div className="font-thin text-sm flex items-center gap-2">

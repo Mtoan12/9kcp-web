@@ -62,3 +62,7 @@ code {
 .allBtn:hover::after {
     width: 0;
 }
+
+.disable {
+    @apply opacity-40 transition-none cursor-not-allowed;
+}

@@ -96,7 +96,14 @@ const AuthContextProvider = ({ children }) => {
             },
         });
     };
-    const authContextData = { loginHandler, logOutHandler, loadUser, authState, registerHandler };
+    const authContextData = {
+        loginHandler,
+        logOutHandler,
+        loadUser,
+        authState,
+        registerHandler,
+        user: authState.user,
+    };
     return <AuthContext.Provider value={authContextData}>{children}</AuthContext.Provider>;
 };
 

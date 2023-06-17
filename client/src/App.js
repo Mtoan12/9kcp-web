@@ -3,17 +3,19 @@ import Header from './components/header/Header';
 import Home from './pages/home/Home';
 import { Routes, Route } from 'react-router-dom';
 import Product from './components/product/Product';
-import AuthContextProvider from './context/AuthContext';
+import AuthContextProvider, { AuthContext } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import ProductContextProvider from './context/ProductContext';
 import ProductsPage from './pages/ProductsPage';
 import AllProductsPage from './pages/AllProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import CartPage from './pages/CartPage';
+import CartContextProvider from './context/CartContext';
+import { useContext, useEffect } from 'react';
 function App() {
     return (
         <AuthContextProvider>
-            <ProductContextProvider>
+            <CartContextProvider>
                 <div className="container mx-auto">
                     <Header></Header>
                     <div className="pb-20">
@@ -27,10 +29,11 @@ function App() {
                             <Route path="/kit" element={<ProductsPage />}></Route>
                             <Route path="/keyboard" element={<ProductsPage />}></Route>
                             <Route path="/product/:id" element={<ProductDetailPage />}></Route>
+                            <Route path="/cart" element={<CartPage />}></Route>
                         </Routes>
                     </div>
                 </div>
-            </ProductContextProvider>
+            </CartContextProvider>
         </AuthContextProvider>
     );
 }

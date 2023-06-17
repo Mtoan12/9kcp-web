@@ -30,7 +30,7 @@ const HomeProducts = ({ header, products, link }) => {
                     })}
             </div>
             <div className="flex justify-center">
-                <Link to={link} className="allBtn px-4 py-1 uppercase">
+                <Link to={link} className="allBtn px-5 py-1 uppercase">
                     Xem tất cả {header}
                 </Link>
             </div>
