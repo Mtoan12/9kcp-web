@@ -8,7 +8,7 @@ const Product = ({ id, title, category, price, imageName }) => {
     return (
         <div>
             <Link to={`/product/${id}`} className="flex flex-col items-center">
-                <div className="rounded-lg overflow-hidden hover:opacity-90 h-[300px]">
+                <div className="rounded-lg overflow-hidden hover:opacity-90 h-[300px]  hover-effect">
                     <img
                         className="object-cover h-full"
                         src={`${API_UPLOADS}/${imageName}`}

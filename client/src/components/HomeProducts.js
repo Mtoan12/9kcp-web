@@ -8,7 +8,7 @@ const HomeProducts = ({ header, products, link }) => {
     return (
         <div className="mt-20 flex flex-col justify-center">
             <h2 className="uppercase text-center text-lg lg:text-2xl mb-10">{header}</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-2">
                 {products &&
                     products.map((product) => {
                         if (!product.imageName) {

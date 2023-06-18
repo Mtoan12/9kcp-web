@@ -66,3 +66,7 @@ code {
 .disable {
     @apply opacity-40 transition-none cursor-not-allowed;
 }
+
+.hover-effect {
+    @apply transition ease-in duration-150;
+}

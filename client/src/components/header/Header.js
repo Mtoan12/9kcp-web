@@ -45,7 +45,7 @@ const Header = () => {
 
                 <span className=" hidden lg:block">
                     HOTLINE TƯ VẤN:
-                    <a className="phone-number hover:opacity-50" href="tel:0982843420">
+                    <a className="phone-number hover:opacity-50 hover-effect" href="tel:0982843420">
                         0982843420
                     </a>
                 </span>
@@ -66,7 +66,7 @@ const Header = () => {
                                     viewBox="0 0 24 24"
                                     strokeWidth={1.5}
                                     stroke="currentColor"
-                                    className="w-6 h-6 cursor-pointer hover:opacity-50"
+                                    className="w-6 h-6 cursor-pointer hover:opacity-50  hover-effect"
                                     onClick={onClickLogOutHandler}
                                 >
                                     <path
@@ -79,17 +79,17 @@ const Header = () => {
                         ) : (
                             <div className="relative uppercase cursor-pointer group">
                                 Tài khoản
-                                <div className="subnav hidden group-hover:block absolute top-6">
+                                <div className="subnav hidden group-hover:block  hover-effect absolute top-6">
                                     <div className="flex flex-col gap-3 w-max mt-3 text-left bg-white">
                                         <Link
                                             to="/login"
-                                            className="relative uppercase cursor-pointer hover:opacity-50"
+                                            className="relative uppercase cursor-pointer hover:opacity-50 hover-effect"
                                         >
                                             Đăng nhập
                                         </Link>
                                         <Link
                                             to="/register"
-                                            className="relative uppercase cursor-pointer hover:opacity-50"
+                                            className="relative uppercase cursor-pointer hover:opacity-50 hover-effect"
                                         >
                                             Đăng ký
                                         </Link>
@@ -99,7 +99,10 @@ const Header = () => {
                         )}
                     </div>
 
-                    <Link to="/cart" className="flex gap-1 items-center hover:opacity-50">
+                    <Link
+                        to="/cart"
+                        className="flex gap-1 items-center hover:opacity-50  hover-effect"
+                    >
                         <span className="header-cart hidden lg:block">Giỏ hàng</span>
                         <div className="relative">
                             <svg
@@ -127,7 +130,7 @@ const Header = () => {
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-6 h-6 cursor-pointer hover:opacity-50"
+                        className="w-6 h-6 cursor-pointer hover:opacity-50 hover-effect"
                     >
                         <path
                             strokeLinecap="round"

@@ -16,7 +16,7 @@ function App() {
     return (
         <AuthContextProvider>
             <CartContextProvider>
-                <div className="container mx-auto">
+                <div className="container mx-auto  text-sm md:text-md lg:text-lg">
                     <Header></Header>
                     <div className="pb-20">
                         <Routes>
