@@ -1,5 +1,5 @@
 import { useContext, useEffect, useReducer, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
 import Loading from './../components/Loading';
@@ -10,6 +10,7 @@ import Description from '../components/Description';
 import HomeProducts from '../components/HomeProducts';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
+import NotExistPage from './NotExistPage/NotExistPage';
 
 const reducer = (state, action) => {
     const { type, payload } = action;
@@ -44,6 +45,7 @@ const ProductDetailPage = () => {
     const { isLoading, error, product } = productState;
 
     const { addToCart, loadCart } = useContext(CartContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -65,6 +67,7 @@ const ProductDetailPage = () => {
                     type: LOAD_FAILURE,
                     payload: errMessage,
                 });
+                navigate('/not-found');
             }
         };
 
@@ -72,8 +75,6 @@ const ProductDetailPage = () => {
     }, [id]);
 
     useEffect(() => loadCart(), []);
-    if (product) {
-    }
 
     // const addToCart = async () => {
     //     const newCart = await axios.post(`${API_URL}/cart`);

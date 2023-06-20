@@ -11,30 +11,25 @@ import AllProductsPage from './pages/AllProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CartContextProvider from './context/CartContext';
-import { useContext, useEffect } from 'react';
+import AdminPage from './pages/AdminPage';
+import AdminAuthContextProvider from './context/AdminAuthContext';
+import AppPages from './components/AppPages';
 function App() {
     return (
-        <AuthContextProvider>
-            <CartContextProvider>
-                <div className="container mx-auto  text-sm md:text-md lg:text-lg">
-                    <Header></Header>
-                    <div className="pb-20">
-                        <Routes>
-                            <Route path="/" element={<Home />}></Route>
-                            <Route path="/product" element={<Product />}></Route>
-                            <Route path="/login" element={<Login />}></Route>
-                            <Route path="/register" element={<Register />}></Route>
-                            <Route path="/products" element={<AllProductsPage />}></Route>
-                            <Route path="/keycap" element={<ProductsPage />}></Route>
-                            <Route path="/kit" element={<ProductsPage />}></Route>
-                            <Route path="/keyboard" element={<ProductsPage />}></Route>
-                            <Route path="/product/:id" element={<ProductDetailPage />}></Route>
-                            <Route path="/cart" element={<CartPage />}></Route>
-                        </Routes>
+        <div>
+            <AuthContextProvider>
+                <CartContextProvider>
+                    <div className="container mx-auto  text-sm md:text-md lg:text-lg">
+                        <AppPages />
                     </div>
-                </div>
-            </CartContextProvider>
-        </AuthContextProvider>
+                </CartContextProvider>
+            </AuthContextProvider>
+            <AdminAuthContextProvider>
+                <Routes>
+                    <Route path="/admin" element={<AdminPage />}></Route>
+                </Routes>
+            </AdminAuthContextProvider>
+        </div>
     );
 }
 
