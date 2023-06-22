@@ -1,6 +1,7 @@
 import { createContext, useEffect, useReducer, useState } from 'react';
-import { LOCAL_STORAGE_CART } from '../constants/constance';
+import { API_URL, LOCAL_STORAGE_CART } from '../constants/constance';
 import { message } from 'antd';
+import axios from 'axios';
 
 export const CartContext = createContext();
 
@@ -73,6 +74,29 @@ const CartContextProvider = ({ children }) => {
         writeToLocalStorage(newCartItems);
         loadCart();
     };
+
+    const removeAllCart = () => {
+        localStorage.setItem('cart', '[]');
+        loadCart();
+        setCartItems([]);
+    };
+
+    const paymentHandle = async () => {
+        try {
+            for (const cart of cartItems) {
+                const { item, quantity } = cart;
+                const rs = await axios.post(`${API_URL}/order`, {
+                    productId: item._id,
+                    quantity,
+                });
+            }
+            message.success('Thanh toán thành công');
+            removeAllCart();
+        } catch (error) {
+            message.error('Thanh toán thất bại');
+            console.log(error);
+        }
+    };
     const data = {
         addToCart,
         cartItems,
@@ -82,6 +106,7 @@ const CartContextProvider = ({ children }) => {
         calTotalAmount,
         deleteProductFromCart,
         changeProductQuantity,
+        paymentHandle,
     };
     return <CartContext.Provider value={data}>{children}</CartContext.Provider>;
 };

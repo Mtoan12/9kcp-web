@@ -56,9 +56,14 @@ const Header = () => {
                     <div className="hidden lg:block">
                         {isAuthenticated ? (
                             <div className="flex items-center gap-1">
-                                <span className="header-account text-ellipsis">
-                                    Xin chào: {user.name}
-                                </span>
+                                <div className="relative group">
+                                    <Link
+                                        to={'/orders'}
+                                        className="header-account text-ellipsis cursor-pointer hover:opacity-50 hover-effect "
+                                    >
+                                        Xin chào: {user.name}
+                                    </Link>
+                                </div>
                                 <svg
                                     data-tooltip-target="tooltip-default"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +84,7 @@ const Header = () => {
                         ) : (
                             <div className="relative uppercase cursor-pointer group">
                                 Tài khoản
-                                <div className="subnav hidden group-hover:block  hover-effect absolute top-6">
+                                <div className="subnav hidden group-hover:block hover-effect absolute top-6">
                                     <div className="flex flex-col gap-3 w-max mt-3 text-left bg-white">
                                         <Link
                                             to="/login"

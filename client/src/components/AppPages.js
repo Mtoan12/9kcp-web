@@ -9,6 +9,7 @@ import CartPage from '../pages/CartPage';
 import Header from './header/Header';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import NotExistPage from '../pages/NotExistPage/NotExistPage';
+import OrdersPage from '../pages/OrdersPage';
 
 const pages = [
     {
@@ -46,6 +47,10 @@ const pages = [
     {
         path: '/cart',
         element: CartPage,
+    },
+    {
+        path: '/orders',
+        element: OrdersPage,
     },
     {
         path: '*',

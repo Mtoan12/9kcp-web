@@ -13,6 +13,7 @@ const CartPage = () => {
         totalAmount,
         deleteProductFromCart,
         changeProductQuantity,
+        paymentHandle,
     } = useContext(CartContext);
     useEffect(() => {
         loadCart();
@@ -41,7 +42,9 @@ const CartPage = () => {
             <div className="flex flex-col justify-start items-start mt-5">
                 <span>{productsCartQuantity > 0 && `Thành tiền: ${formatPrice(totalAmount)}`}</span>
                 {productsCartQuantity > 0 && (
-                    <button className="allBtn py-2 px-10 uppercase text-md">Thanh toán ngay</button>
+                    <button className="allBtn py-2 px-10 uppercase text-md" onClick={paymentHandle}>
+                        Thanh toán ngay
+                    </button>
                 )}
                 <Link
                     to={'/'}
