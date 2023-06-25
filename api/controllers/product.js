@@ -150,6 +150,21 @@ const getAllKeyboard = async (req, res, next) => {
     }
 };
 
+const getSearch = async (req, res, next) => {
+    const { query } = req.query;
+    console.log(query);
+    try {
+        const products = await Products.find({ title: new RegExp(query, 'i') });
+        res.json({
+            success: true,
+            products,
+            message: 'Found products',
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getProducts,
     addProduct,
@@ -159,4 +174,5 @@ module.exports = {
     getAllKeycaps,
     getAllKeyboard,
     getProduct,
+    getSearch,
 };

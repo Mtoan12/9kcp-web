@@ -5,8 +5,10 @@ import reducer from '../reducers/productReducer';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import Product from '../components/product/Product';
+import { useLocation } from 'react-router-dom';
 
 const AllProductsPage = () => {
+    const [searchText, setSearchText] = useState(null);
     const [productsState, dispatch] = useReducer(reducer, {
         isLoading: true,
         error: '',
@@ -15,10 +17,17 @@ const AllProductsPage = () => {
 
     const { isLoading, error, products } = productsState;
 
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    let query = useQuery();
+
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const response = await axios.get(`${API_URL}/product`);
+                setSearchText(query.get('query'));
+                const url = searchText
+                    ? `${API_URL}/product/search?query=${searchText}`
+                    : `${API_URL}/product/`;
+                const response = await axios.get(url);
 
                 if (response.data.success) {
                     dispatch({ type: LOAD_SUCCESSFUL, payload: response.data.products });
@@ -33,7 +42,7 @@ const AllProductsPage = () => {
         };
 
         getProducts();
-    }, []);
+    }, [searchText, products]);
 
     return (
         <div className="px-2 mt-5">
@@ -46,26 +55,31 @@ const AllProductsPage = () => {
                     <Error error={error} />
                 </h2>
             ) : (
-                <div className="container mx-auto grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
-                    {products &&
-                        products.map((product) => {
-                            if (!product.imageName) {
-                                product = {
-                                    ...product,
-                                    imageName: `${product._id}.webp`,
-                                };
-                            }
-                            return (
-                                <Product
-                                    key={product._id}
-                                    id={product._id}
-                                    title={product.title}
-                                    price={product.price}
-                                    category={product.category}
-                                    imageName={product.imageName}
-                                />
-                            );
-                        })}
+                <div>
+                    <span className="uppercase mb-10">
+                        {searchText && `Có ${products.length} kết quả tìm kiếm phù hợp`}
+                    </span>
+                    <div className="container mx-auto grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
+                        {products &&
+                            products.map((product) => {
+                                if (!product.imageName) {
+                                    product = {
+                                        ...product,
+                                        imageName: `${product._id}.webp`,
+                                    };
+                                }
+                                return (
+                                    <Product
+                                        key={product._id}
+                                        id={product._id}
+                                        title={product.title}
+                                        price={product.price}
+                                        category={product.category}
+                                        imageName={product.imageName}
+                                    />
+                                );
+                            })}
+                    </div>
                 </div>
             )}
         </div>

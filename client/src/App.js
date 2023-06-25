@@ -24,11 +24,6 @@ function App() {
                     </div>
                 </CartContextProvider>
             </AuthContextProvider>
-            <AdminAuthContextProvider>
-                <Routes>
-                    <Route path="/admin" element={<AdminPage />}></Route>
-                </Routes>
-            </AdminAuthContextProvider>
         </div>
     );
 }

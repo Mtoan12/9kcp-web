@@ -1,17 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './HeaderStyles.css';
 import logo from '../../img/logo.webp';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../nav/Navbar';
 import { CartContext } from '../../context/CartContext';
+import { Input } from 'antd';
 const Header = () => {
+    const [inputShowing, setInputShowing] = useState(false);
+    const [infoShowing, setInfoShowing] = useState(true);
+    const [searchText, setSearchText] = useState('');
     const {
         logOutHandler,
         loadUser,
         authState: { isAuthLoading, isAuthenticated, user },
     } = useContext(AuthContext);
     const { loadCart, productsCartQuantity } = useContext(CartContext);
+    const navigate = useNavigate();
     useEffect(() => {
         try {
             loadUser();
@@ -24,6 +29,15 @@ const Header = () => {
     }, []);
     const onClickLogOutHandler = () => {
         logOutHandler();
+    };
+
+    const searchHandle = () => {
+        if (inputShowing) {
+            navigate(`/products?query=${searchText}`);
+        }
+
+        setInfoShowing(!infoShowing);
+        setInputShowing(!inputShowing);
     };
     return (
         <header>
@@ -53,7 +67,7 @@ const Header = () => {
                     <img className="logo" src={logo} alt="logo" />
                 </Link>
                 <div className="header-right">
-                    <div className="hidden lg:block">
+                    <div className={`hidden lg:block ${!infoShowing && 'lg:hidden'}`}>
                         {isAuthenticated ? (
                             <div className="flex items-center gap-1">
                                 <div className="relative group">
@@ -106,7 +120,9 @@ const Header = () => {
 
                     <Link
                         to="/cart"
-                        className="flex gap-1 items-center hover:opacity-50  hover-effect"
+                        className={`flex gap-1 items-center hover:opacity-50  hover-effect ${
+                            !infoShowing && 'hidden'
+                        }`}
                     >
                         <span className="header-cart hidden lg:block">Giỏ hàng</span>
                         <div className="relative">
@@ -129,6 +145,11 @@ const Header = () => {
                             </span>
                         </div>
                     </Link>
+                    <Input
+                        size="small"
+                        className={`${!inputShowing && 'hidden'}`}
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -136,6 +157,7 @@ const Header = () => {
                         strokeWidth={1.5}
                         stroke="currentColor"
                         className="w-6 h-6 cursor-pointer hover:opacity-50 hover-effect"
+                        onClick={searchHandle}
                     >
                         <path
                             strokeLinecap="round"

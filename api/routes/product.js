@@ -9,9 +9,12 @@ const {
     getAllKeycaps,
     getAllKeyboard,
     getProduct,
+    getSearch,
 } = require('../controllers/product');
 
 router.get('/', getProducts);
+router.get('/search', getSearch);
+
 router.post('/add-product', addProduct);
 
 router.get('/detail/:id', getProduct);
