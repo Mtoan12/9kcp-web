@@ -41,7 +41,7 @@ const Header = () => {
     };
     return (
         <header>
-            <div className="header-content px-2">
+            <div className="grid grid-cols-12 px-2 border-b-[1px]">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -57,16 +57,20 @@ const Header = () => {
                     />
                 </svg>
 
-                <span className=" hidden lg:block">
+                <span className=" hidden lg:flex justify-center items-center col-span-4 ">
                     HOTLINE TƯ VẤN:
                     <a className="phone-number hover:opacity-50 hover-effect" href="tel:0982843420">
                         0982843420
                     </a>
                 </span>
-                <Link to="/">
-                    <img className="logo" src={logo} alt="logo" />
+                <Link to="/" className="col-span-4 flex justify-center items-center">
+                    <img
+                        className={`logo ${!infoShowing && 'hidden lg:inline-block '}`}
+                        src={logo}
+                        alt="logo"
+                    />
                 </Link>
-                <div className="header-right">
+                <div className="col-span-4 flex justify-center items-center gap-4">
                     <div className={`hidden lg:block ${!infoShowing && 'lg:hidden'}`}>
                         {isAuthenticated ? (
                             <div className="flex items-center gap-1">
@@ -147,7 +151,7 @@ const Header = () => {
                     </Link>
                     <Input
                         size="small"
-                        className={`${!inputShowing && 'hidden'}`}
+                        className={`${!inputShowing && 'hidden focus'}`}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
                     <svg
