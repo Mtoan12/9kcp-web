@@ -152,7 +152,6 @@ const getAllKeyboard = async (req, res, next) => {
 
 const getSearch = async (req, res, next) => {
     const { query } = req.query;
-    console.log(query);
     try {
         const products = await Products.find({ title: new RegExp(query, 'i') });
         res.json({

@@ -42,27 +42,31 @@ const Header = () => {
     return (
         <header>
             <div className="grid grid-cols-12 px-2 border-b-[1px]">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 lg:hidden "
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                </svg>
-
-                <span className=" hidden lg:flex justify-center items-center col-span-4 ">
-                    HOTLINE TƯ VẤN:
-                    <a className="phone-number hover:opacity-50 hover-effect" href="tel:0982843420">
-                        0982843420
-                    </a>
-                </span>
+                <div className="flex justify-start lg:justify-center items-center col-span-4">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="lg:hidden w-6 "
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                        />
+                    </svg>
+                    <span className=" hidden lg:flex">
+                        HOTLINE TƯ VẤN:
+                        <a
+                            className="phone-number hover:opacity-50 hover-effect"
+                            href="tel:0982843420"
+                        >
+                            0982843420
+                        </a>
+                    </span>
+                </div>
                 <Link to="/" className="col-span-4 flex justify-center items-center">
                     <img
                         className={`logo ${!infoShowing && 'hidden lg:inline-block '}`}
@@ -70,7 +74,7 @@ const Header = () => {
                         alt="logo"
                     />
                 </Link>
-                <div className="col-span-4 flex justify-center items-center gap-4">
+                <div className="col-span-4 flex justify-end lg:justify-center items-center gap-4">
                     <div className={`hidden lg:block ${!infoShowing && 'lg:hidden'}`}>
                         {isAuthenticated ? (
                             <div className="flex items-center gap-1">
