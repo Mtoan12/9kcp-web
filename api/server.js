@@ -7,6 +7,7 @@ const authRoute = require('./routes/auth.js');
 const productRoute = require('./routes/product.js');
 const cartRoute = require('./routes/cart.js');
 const orderRoute = require('./routes/order.js');
+const deliveryRoute = require('./routes/delivery.js');
 const app = express();
 
 app.use(express.static('public'));
@@ -20,6 +21,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/product', productRoute);
 app.use('/api/cart', cartRoute);
 app.use('/api/order', orderRoute);
+app.use('/api/delivery', deliveryRoute);
 
 app.use((err, req, res, next) => {
     console.error(err.message);

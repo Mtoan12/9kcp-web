@@ -3,6 +3,7 @@ import CartProduct from '../components/CartProduct';
 import { CartContext } from '../context/CartContext';
 import { useContext, useEffect } from 'react';
 import { formatPrice } from '../utils/formatPrice';
+import Delivery from './../components/Delivery';
 
 const CartPage = () => {
     const {
@@ -38,6 +39,8 @@ const CartPage = () => {
                         );
                     })}
             </div>
+
+            <Delivery />
 
             <div className="flex flex-col justify-start items-start mt-5">
                 <span>{productsCartQuantity > 0 && `Thành tiền: ${formatPrice(totalAmount)}`}</span>
