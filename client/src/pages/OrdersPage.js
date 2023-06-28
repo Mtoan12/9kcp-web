@@ -1,7 +1,10 @@
 import { Table } from 'antd';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../constants/constance';
+import UserMenu from './../components/UserMenu';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 const columns = [
     {
         title: 'Mã đơn hàng',
@@ -31,10 +34,10 @@ const columns = [
 ];
 const OrdersPage = () => {
     const [orders, setOrders] = useState([]);
+    const { user } = useContext(AuthContext);
     useEffect(() => {
         const fetchOrders = async () => {
             const rs = await axios.get(`${API_URL}/order`);
-            console.log(rs);
             const orders = rs.data.orders;
             const newOrders = orders.map((order) => {
                 const {
@@ -46,7 +49,7 @@ const OrdersPage = () => {
                 return {
                     id: _id,
                     name: title,
-                    date: createAt,
+                    date: new Date(createAt).toUTCString(),
                     quantity,
                     status,
                 };
@@ -57,8 +60,16 @@ const OrdersPage = () => {
 
         fetchOrders();
     }, []);
+
+    const navigate = useNavigate();
+    if (!user) {
+        navigate('/login');
+    }
+
     return (
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center gap-5">
+            <UserMenu />
+            <span className="uppercase">Đơn hàng của bạn</span>
             <Table columns={columns} dataSource={orders} />
         </div>
     );

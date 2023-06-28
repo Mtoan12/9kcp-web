@@ -6,7 +6,11 @@ import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../nav/Navbar';
 import { CartContext } from '../../context/CartContext';
 import { Input } from 'antd';
+import useLoadUser from '../../hooks/useLoadUser';
+import AccountNav from '../AccountNav';
+import { UserNav } from '../UserNav';
 const Header = () => {
+    useLoadUser();
     const [inputShowing, setInputShowing] = useState(false);
     const [infoShowing, setInfoShowing] = useState(true);
     const [searchText, setSearchText] = useState('');
@@ -17,13 +21,7 @@ const Header = () => {
     } = useContext(AuthContext);
     const { loadCart, productsCartQuantity } = useContext(CartContext);
     const navigate = useNavigate();
-    useEffect(() => {
-        try {
-            loadUser();
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
+
     useEffect(() => {
         loadCart();
     }, []);
@@ -33,7 +31,7 @@ const Header = () => {
 
     const searchHandle = () => {
         if (inputShowing) {
-            navigate(`/products?query=${searchText}`);
+            searchText && navigate(`/products?query=${searchText}`);
         }
 
         setInfoShowing(!infoShowing);
@@ -77,52 +75,9 @@ const Header = () => {
                 <div className="col-span-4 flex justify-end lg:justify-center items-center gap-4">
                     <div className={`hidden lg:block ${!infoShowing && 'lg:hidden'}`}>
                         {isAuthenticated ? (
-                            <div className="flex items-center gap-1">
-                                <div className="relative group">
-                                    <Link
-                                        to={'/orders'}
-                                        className="header-account text-ellipsis cursor-pointer hover:opacity-50 hover-effect "
-                                    >
-                                        Xin chào: {user.name}
-                                    </Link>
-                                </div>
-                                <svg
-                                    data-tooltip-target="tooltip-default"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6 cursor-pointer hover:opacity-50  hover-effect"
-                                    onClick={onClickLogOutHandler}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                                    />
-                                </svg>
-                            </div>
+                            <UserNav user={user} onClickLogOutHandler={onClickLogOutHandler} />
                         ) : (
-                            <div className="relative uppercase cursor-pointer group">
-                                Tài khoản
-                                <div className="subnav hidden group-hover:block hover-effect absolute top-6">
-                                    <div className="flex flex-col gap-3 w-max mt-3 text-left bg-white">
-                                        <Link
-                                            to="/login"
-                                            className="relative uppercase cursor-pointer hover:opacity-50 hover-effect"
-                                        >
-                                            Đăng nhập
-                                        </Link>
-                                        <Link
-                                            to="/register"
-                                            className="relative uppercase cursor-pointer hover:opacity-50 hover-effect"
-                                        >
-                                            Đăng ký
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
+                            <AccountNav />
                         )}
                     </div>
 

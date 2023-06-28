@@ -1,8 +1,9 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useState } from 'react';
 import axios from 'axios';
 import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME, SET_AUTH } from '../constants/constance';
 import { authReducer } from '../reducers/authReducer';
 import { setAuth } from '../utils/setAuth';
+import { message } from 'antd';
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
@@ -11,8 +12,8 @@ const AuthContextProvider = ({ children }) => {
         isAuthenticated: false,
         user: null,
     });
+    const [token, setToken] = useState('');
     const loadUser = async () => {
-        const token = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
         if (token) {
             setAuth(token);
         }
@@ -50,6 +51,7 @@ const AuthContextProvider = ({ children }) => {
             if (response.data.success) {
                 localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
 
+                setToken(response.data.accessToken);
                 return response.data;
             }
         } catch (error) {
@@ -69,6 +71,8 @@ const AuthContextProvider = ({ children }) => {
             const response = await axios.post(`${API_URL}/auth/register`, user);
             if (response.data.success) {
                 localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+
+                setToken(response.data.accessToken);
 
                 return response.data;
             }
@@ -95,6 +99,7 @@ const AuthContextProvider = ({ children }) => {
                 user: null,
             },
         });
+        message.success('Đã đăng xuất tài khoản');
     };
     const authContextData = {
         loginHandler,
@@ -103,6 +108,8 @@ const AuthContextProvider = ({ children }) => {
         authState,
         registerHandler,
         user: authState.user,
+        token,
+        setToken,
     };
     return <AuthContext.Provider value={authContextData}>{children}</AuthContext.Provider>;
 };

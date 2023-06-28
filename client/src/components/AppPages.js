@@ -1,5 +1,4 @@
 import Home from '../pages/home/Home';
-import Product from '../components/product/Product';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import ProductsPage from '../pages/ProductsPage';
@@ -10,6 +9,7 @@ import Header from './header/Header';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import NotExistPage from '../pages/NotExistPage/NotExistPage';
 import OrdersPage from '../pages/OrdersPage';
+import UserInformation from './UserInformation';
 
 const pages = [
     {
@@ -51,6 +51,10 @@ const pages = [
     {
         path: '/orders',
         element: OrdersPage,
+    },
+    {
+        path: '/user',
+        element: UserInformation,
     },
     {
         path: '*',

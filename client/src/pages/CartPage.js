@@ -1,11 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CartProduct from '../components/CartProduct';
 import { CartContext } from '../context/CartContext';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { formatPrice } from '../utils/formatPrice';
 import Delivery from './../components/Delivery';
+import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
+import { API_URL } from '../constants/constance';
+import { message } from 'antd';
 
 const CartPage = () => {
+    const [deliveryAddress, setDeliveryAddress] = useState({
+        isSubmit: false,
+        province: '',
+        district: '',
+        address: '',
+    });
     const {
         cartItems,
         loadCart,
@@ -16,14 +26,24 @@ const CartPage = () => {
         changeProductQuantity,
         paymentHandle,
     } = useContext(CartContext);
+    const { user } = useContext(AuthContext);
     useEffect(() => {
         loadCart();
     }, []);
     useEffect(() => {
         calTotalAmount();
     }, [cartItems]);
+    const navigate = useNavigate();
+    const paymentBtnClickHandle = () => {
+        if (!user) {
+            navigate('/login');
+        }
+        !deliveryAddress.isSubmit
+            ? message.warning('Vui lòng chọn địa chỉ giao hàng')
+            : paymentHandle();
+    };
     return (
-        <div className="container mx-auto mt-2 px-3">
+        <div className="container flex flex-col gap-5 mt-2 px-3">
             <h2 className="uppercase">{`Giỏ hàng (${productsCartQuantity || 0} sản phẩm)`}</h2>
 
             <div className="">
@@ -40,12 +60,20 @@ const CartPage = () => {
                     })}
             </div>
 
-            <Delivery />
+            {productsCartQuantity > 0 && (
+                <Delivery
+                    deliveryAddress={deliveryAddress}
+                    setDeliveryAddress={setDeliveryAddress}
+                />
+            )}
 
             <div className="flex flex-col justify-start items-start mt-5">
                 <span>{productsCartQuantity > 0 && `Thành tiền: ${formatPrice(totalAmount)}`}</span>
                 {productsCartQuantity > 0 && (
-                    <button className="allBtn py-2 px-10 uppercase text-md" onClick={paymentHandle}>
+                    <button
+                        className="allBtn py-2 px-10 uppercase text-md"
+                        onClick={paymentBtnClickHandle}
+                    >
                         Thanh toán ngay
                     </button>
                 )}

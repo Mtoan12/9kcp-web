@@ -5,18 +5,11 @@ const deliverySchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    name: {
-        type: String,
-        require: true,
-    },
     province: {
         type: String,
         require: true,
     },
     district: {
-        type: String,
-    },
-    ward: {
         type: String,
     },
     address: {
