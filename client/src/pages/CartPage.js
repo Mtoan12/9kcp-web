@@ -1,13 +1,11 @@
+import { message } from 'antd';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CartProduct from '../components/CartProduct';
+import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
-import { useContext, useEffect, useState } from 'react';
 import { formatPrice } from '../utils/formatPrice';
 import Delivery from './../components/Delivery';
-import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
-import { API_URL } from '../constants/constance';
-import { message } from 'antd';
 
 const CartPage = () => {
     const [deliveryAddress, setDeliveryAddress] = useState({

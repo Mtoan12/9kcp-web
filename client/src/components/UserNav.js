@@ -5,13 +5,24 @@ export const UserNav = ({ user, onClickLogOutHandler }) => {
         {
             key: '1',
             label: (
+                <Link
+                    to="/admin/products"
+                    className="uppercase cursor-pointer hover:opacity-50 hover-effect"
+                >
+                    Quản lý
+                </Link>
+            ),
+        },
+        {
+            key: '2',
+            label: (
                 <Link to="/user" className="uppercase cursor-pointer hover:opacity-50 hover-effect">
                     Thông tin tài khoản
                 </Link>
             ),
         },
         {
-            key: '2',
+            key: '3',
             label: (
                 <Link
                     to="/orders"
@@ -22,10 +33,10 @@ export const UserNav = ({ user, onClickLogOutHandler }) => {
             ),
         },
         {
-            key: '3',
+            key: '4',
             label: (
                 <button
-                    onClick={onClickLogOutHandler}
+                    onClick={() => onClickLogOutHandler()}
                     className="uppercase cursor-pointer hover:opacity-50 hover-effect"
                 >
                     Đăng xuất

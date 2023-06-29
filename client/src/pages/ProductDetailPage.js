@@ -1,16 +1,13 @@
+import { InputNumber } from 'antd';
+import axios from 'axios';
 import { useContext, useEffect, useReducer, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
-import Loading from './../components/Loading';
-import Error from '../components/Error';
-import { formatPrice } from '../utils/formatPrice';
-import { InputNumber } from 'antd';
 import Description from '../components/Description';
-import HomeProducts from '../components/HomeProducts';
-import { AuthContext } from '../context/AuthContext';
+import Error from '../components/Error';
 import { CartContext } from '../context/CartContext';
-import NotExistPage from './NotExistPage/NotExistPage';
+import { formatPrice } from '../utils/formatPrice';
+import Loading from './../components/Loading';
+import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
 
 const reducer = (state, action) => {
     const { type, payload } = action;
@@ -99,7 +96,6 @@ const ProductDetailPage = () => {
                                 brand,
                                 price,
                                 review,
-                                category,
                                 imageName = `${item._id}.webp`,
                                 inStock,
                             } = item;

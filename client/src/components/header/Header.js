@@ -16,8 +16,7 @@ const Header = () => {
     const [searchText, setSearchText] = useState('');
     const {
         logOutHandler,
-        loadUser,
-        authState: { isAuthLoading, isAuthenticated, user },
+        authState: { isAuthenticated, user },
     } = useContext(AuthContext);
     const { loadCart, productsCartQuantity } = useContext(CartContext);
     const navigate = useNavigate();
@@ -26,6 +25,7 @@ const Header = () => {
         loadCart();
     }, []);
     const onClickLogOutHandler = () => {
+        console.log('log');
         logOutHandler();
     };
 

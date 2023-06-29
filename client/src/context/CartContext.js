@@ -1,7 +1,7 @@
-import { createContext, useEffect, useReducer, useState } from 'react';
-import { API_URL, LOCAL_STORAGE_CART } from '../constants/constance';
 import { message } from 'antd';
 import axios from 'axios';
+import { createContext, useState } from 'react';
+import { API_URL, LOCAL_STORAGE_CART } from '../constants/constance';
 
 export const CartContext = createContext();
 
@@ -85,7 +85,7 @@ const CartContextProvider = ({ children }) => {
         try {
             for (const cart of cartItems) {
                 const { item, quantity } = cart;
-                const rs = await axios.post(`${API_URL}/order`, {
+                await axios.post(`${API_URL}/order`, {
                     productId: item._id,
                     quantity,
                 });

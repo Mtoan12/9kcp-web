@@ -10,6 +10,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import NotExistPage from '../pages/NotExistPage/NotExistPage';
 import OrdersPage from '../pages/OrdersPage';
 import UserInformation from './UserInformation';
+import AboutPage from '../pages/AboutPage';
 
 const pages = [
     {
@@ -57,22 +58,22 @@ const pages = [
         element: UserInformation,
     },
     {
-        path: '*',
-        element: NotExistPage,
+        path: '/about',
+        element: AboutPage,
     },
 ];
 
 const AppPages = () => {
-    const paths = pages.reduce((pathsArr, page) => {
-        return [...pathsArr, page.path];
-    }, []);
+    // const paths = pages.reduce((pathsArr, page) => {
+    //     return [...pathsArr, page.path];
+    // }, []);
 
-    const location = useLocation();
-    const haveHeader =
-        paths.includes(location.pathname) || location.pathname.startsWith('/product/');
+    // const location = useLocation();
+    // const haveHeader =
+    //     paths.includes(location.pathname) || location.pathname.startsWith('/product/');
     return (
         <>
-            {haveHeader && <Header />}
+            {/* {haveHeader && <Header />} */}
             <Routes>
                 {pages &&
                     pages.map((page) => {

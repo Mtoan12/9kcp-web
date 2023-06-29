@@ -4,6 +4,8 @@ const Products = require('../models/Product');
 const getProducts = async (req, res, next) => {
     try {
         const products = await Products.find();
+        await products.sort((a, b) => b.createAt - a.createAt);
+
         res.json({
             success: true,
             message: 'Get products successfully',
@@ -37,7 +39,7 @@ const getProduct = async (req, res, next) => {
 };
 
 const addProduct = async (req, res, next) => {
-    const { title, brand, price, inStock, category } = req.body;
+    const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
 
     try {
         const newProduct = new Products({
@@ -46,8 +48,12 @@ const addProduct = async (req, res, next) => {
             price,
             inStock,
             category,
+            imageName: req.file.filename,
         });
+
+        // console.log({ title, brand, price, inStock, category });
         await newProduct.save();
+        // console.log(newProduct, { image: req.file });
 
         res.json({
             success: true,
@@ -76,20 +82,28 @@ const editProduct = async (req, res, next) => {
 const removeProduct = async (req, res, next) => {
     const _id = req.params.id;
 
-    try {
-        await Products.findOneAndDelete({ _id });
+    if (req.id) {
+        try {
+            await Products.findOneAndDelete({ _id });
+            res.json({
+                success: true,
+                message: 'Delete product successfully',
+            });
+        } catch (error) {
+            next(error);
+        }
+    } else {
         res.json({
-            success: true,
-            message: 'Delete product successfully',
+            success: false,
+            message: 'Can not delete',
         });
-    } catch (error) {
-        next(error);
     }
 };
 
 const getAllKits = async (req, res, next) => {
     try {
         const kits = await Products.find({ category: KIT });
+        await kits.sort((a, b) => b.createAt - a.createAt);
 
         if (kits) {
             res.json({
@@ -111,6 +125,7 @@ const getAllKits = async (req, res, next) => {
 const getAllKeycaps = async (req, res, next) => {
     try {
         const keycaps = await Products.find({ category: KEYCAP });
+        await keycaps.sort((a, b) => b.createAt - a.createAt);
 
         if (keycaps) {
             res.json({
@@ -132,6 +147,7 @@ const getAllKeycaps = async (req, res, next) => {
 const getAllKeyboard = async (req, res, next) => {
     try {
         const keyboards = await Products.find({ category: KEYBOARD });
+        await keyboards.sort((a, b) => b.createAt - a.createAt);
 
         if (keyboards) {
             res.json({

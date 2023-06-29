@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import './NotExistPage.css';
-import Header from '../../components/header/Header';
 const NotExistPage = () => {
     return (
         <div>
-            <Header />
             <section className="page_404">
                 <div className="container">
                     <div className="row">

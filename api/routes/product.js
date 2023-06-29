@@ -11,15 +11,17 @@ const {
     getProduct,
     getSearch,
 } = require('../controllers/product');
+const upload = require('../middleware/upload');
+const verifyToken = require('../middleware/verifyToken');
 
 router.get('/', getProducts);
 router.get('/search', getSearch);
 
-router.post('/add-product', addProduct);
+router.post('/add-product', upload.single('image'), addProduct);
 
 router.get('/detail/:id', getProduct);
-router.put('/detail/:id', editProduct);
-router.delete('/detail/:id', removeProduct);
+router.put('/detail/:id', verifyToken, editProduct);
+router.delete('/detail/:id', verifyToken, removeProduct);
 
 router.get('/kit', getAllKits);
 router.get('/keycap', getAllKeycaps);
