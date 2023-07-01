@@ -7,6 +7,7 @@ import { API_URL } from '../constants/constance';
 const AdminProductTable = ({ products, setProducts }) => {
     const [isShow, setIsShow] = useState(false);
     const [method, setMethod] = useState('');
+    const [product, setProduct] = useState('');
 
     const handleAddClick = () => {
         setIsShow(true);
@@ -15,6 +16,7 @@ const AdminProductTable = ({ products, setProducts }) => {
 
     const handleEditClick = (e) => {
         setIsShow(true);
+        setProduct(products.find((product) => product._id === e.target.value));
         setMethod('put');
     };
     const handleDeleteClick = async (e) => {
@@ -148,6 +150,7 @@ const AdminProductTable = ({ products, setProducts }) => {
                 method={method}
                 products={products}
                 setProducts={setProducts}
+                productEdit={product}
             />
         </div>
     );

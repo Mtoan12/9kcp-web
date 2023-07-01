@@ -5,7 +5,7 @@ import { API_URL } from './../constants/constance';
 import axios from 'axios';
 import { sortByCreateAt } from '../utils/sortByCreate';
 
-const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts }) => {
+const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, productEdit }) => {
     const [image, setImage] = useState('');
     const [title, setTitle] = useState('');
     const [brand, setBrand] = useState('');
@@ -28,13 +28,24 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts })
             console.log(image);
             formData.append('image', image);
             formData.append('info', JSON.stringify({ title, brand, price, inStock, category }));
-            const rs = await axios.post(`${API_URL}/product/add-product`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            if (method === 'post') {
+                const rs = await axios.post(`${API_URL}/product/add-product`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
 
-            if (rs.data.success) {
-                message.success('Thêm thành công');
-                setProducts(sortByCreateAt([...products, rs.data.newProduct]));
+                if (rs.data.success) {
+                    message.success('Thêm thành công');
+                    setProducts(sortByCreateAt([...products, rs.data.newProduct]));
+                }
+            }
+
+            if (method === 'put') {
+                const { title, brand, category, inStock, price } = productEdit;
+                setTitle(title);
+                setBrand(brand);
+                setCategory(category);
+                setInStock(inStock);
+                setPrice(price);
             }
         } catch (error) {
             console.log(error);
@@ -73,7 +84,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts })
                             <label htmlFor="brand">Danh mục: </label>
                             <Select
                                 showSearch
-                                placeholder="Select a person"
+                                placeholder="Chọn danh mục"
                                 optionFilterProp="children"
                                 onChange={(value) => setCategory(value)}
                                 filterOption={(input, option) =>
@@ -125,10 +136,13 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts })
                             />
                         </div>
                     </div>
-                    <button onClick={handleOk} type="submit">
+                    <button
+                        onClick={handleOk}
+                        type="submit"
+                        className="border-2 border-black bg-black text-white px-2 py-1 mt-5 hover:opacity-50 hover-effect"
+                    >
                         Xác nhận
                     </button>
-                    ,
                 </form>
             </Modal>
         </div>

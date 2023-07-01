@@ -5,12 +5,14 @@ export const UserNav = ({ user, onClickLogOutHandler }) => {
         {
             key: '1',
             label: (
-                <Link
-                    to="/admin/products"
-                    className="uppercase cursor-pointer hover:opacity-50 hover-effect"
-                >
-                    Quản lý
-                </Link>
+                <div>
+                    {user.isAdmin && <Link
+                        to="/admin/products"
+                        className="uppercase cursor-pointer hover:opacity-50 hover-effect"
+                    >
+                        Quản lý
+                    </Link>}
+                </div>
             ),
         },
         {

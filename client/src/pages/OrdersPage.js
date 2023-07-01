@@ -5,6 +5,7 @@ import { API_URL } from '../constants/constance';
 import UserMenu from './../components/UserMenu';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import formatTimeStamp from '../utils/formatTimeStamp';
 const columns = [
     {
         title: 'Mã đơn hàng',
@@ -39,23 +40,23 @@ const OrdersPage = () => {
         const fetchOrders = async () => {
             const rs = await axios.get(`${API_URL}/order`);
             const orders = rs.data.orders;
-            const newOrders = orders.map((order) => {
-                const {
-                    productId: { title, createAt },
-                    _id,
-                    quantity,
-                    status,
-                } = order;
-                return {
-                    id: _id,
-                    name: title,
-                    date: new Date(createAt).toUTCString(),
-                    quantity,
-                    status,
-                };
-            });
+            const products = rs.data.products;
+            if (orders && products) {
+                const newOrders = [];
+                console.log(products);
+                for (let i = 0; i < Math.min(orders.length, products.length); i++) {
+                    console.log(products[i].title);
+                    newOrders.push({
+                        name: products[i].title,
+                        date: formatTimeStamp(products[i].createAt),
+                        id: orders[i]._id,
+                        quantity: orders[i].quantity,
+                        status: orders[i].status,
+                    });
+                }
 
-            setOrders(newOrders);
+                setOrders(newOrders);
+            }
         };
 
         fetchOrders();

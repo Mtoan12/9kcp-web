@@ -3,6 +3,10 @@ const Products = require('../models/Product');
 const Orders = require('../models/OrderStatus');
 const { default: mongoose } = require('mongoose');
 
+const getAllOrders = async (req, res, next) => {
+    
+}
+
 const getOrder = async (req, res, next) => {
     if (req.id) {
         const userId = req.id;
@@ -18,6 +22,7 @@ const getOrder = async (req, res, next) => {
             res.json({
                 success: true,
                 orders: allUserOrders,
+                products,
                 message: 'Get orders successfully',
             });
         } catch (error) {
