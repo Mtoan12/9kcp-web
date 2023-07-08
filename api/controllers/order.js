@@ -1,11 +1,27 @@
 const Users = require('../models/User');
 const Products = require('../models/Product');
 const Orders = require('../models/OrderStatus');
+const Deliveries = require('../models/Delivery');
 const { default: mongoose } = require('mongoose');
 
 const getAllOrders = async (req, res, next) => {
-    
-}
+    if (req.user.isAdmin) {
+        try {
+            const orders = await Orders.find({}).populate('userId').populate('productId').exec();
+
+            // const address = await Deliveries.find().where('userId').in(orders.userId._id).exec();
+            // const address = await Deliveries.find().where('userId').in(orders.userId._id).exec();
+
+            res.json({
+                success: true,
+                message: 'Get all orders',
+                orders,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+};
 
 const getOrder = async (req, res, next) => {
     if (req.id) {
@@ -90,4 +106,5 @@ const saveOrder = async (req, res, next) => {
 module.exports = {
     getOrder,
     saveOrder,
+    getAllOrders,
 };
