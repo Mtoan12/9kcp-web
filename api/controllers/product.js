@@ -40,50 +40,70 @@ const getProduct = async (req, res, next) => {
 };
 
 const addProduct = async (req, res, next) => {
-    const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
+    if (req.user.isAdmin) {
+        const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
 
-    try {
-        const newProduct = new Products({
-            title,
-            brand,
-            price,
-            inStock,
-            category,
-            imageName: req.file.filename,
-        });
+        try {
+            const newProduct = new Products({
+                title,
+                brand,
+                price,
+                inStock,
+                category,
+                imageName: req.file.filename,
+            });
 
-        // console.log({ title, brand, price, inStock, category });
-        await newProduct.save();
-        // console.log(newProduct, { image: req.file });
+            // console.log({ title, brand, price, inStock, category });
+            await newProduct.save();
+            // console.log(newProduct, { image: req.file });
 
-        res.json({
-            success: true,
-            message: 'Add new product successfully',
-            newProduct,
-        });
-    } catch (error) {
-        next(error);
+            res.json({
+                success: true,
+                message: 'Add new product successfully',
+                newProduct,
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 };
 
 const editProduct = async (req, res, next) => {
-    const _id = req.params.id;
-    const { title, brand, price, inStock, category } = req.body;
-    try {
-        const product = await Products.findOneAndDelete({ _id });
-        res.json({
-            success: true,
-            message: 'Update product successfully',
-        });
-    } catch (error) {
-        next(error);
+    if (req.user.isAdmin) {
+        const _id = req.params.id;
+        const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
+        console.log({ title, brand, price, inStock, category });
+        try {
+            const newImageName = req?.file?.filename;
+            const oldProduct = await Products.findById(_id);
+            let imageName;
+            if (newImageName) {
+                imageName = newImageName;
+                oldProduct.imageName && deleteImage(oldProduct.imageName);
+            } else {
+                imageName = oldProduct.imageName || `${oldProduct._id}.webp`;
+            }
+            //const imageName = newImageName? newImageName : oldProduct.imageName && deleteImage(oldProduct.imageName);
+            const product = await Products.findOneAndUpdate(
+                { _id },
+                { title, brand, price, inStock, category, imageName },
+                { new: true }
+            );
+            res.json({
+                success: true,
+                message: 'Update product successfully',
+                product,
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 };
 
 const removeProduct = async (req, res, next) => {
     const _id = req.params.id;
 
-    if (req.id) {
+    if (req.user.isAdmin) {
         try {
             const product = await Products.findOneAndDelete({ _id });
             console.log(product);
@@ -186,7 +206,11 @@ const getSearch = async (req, res, next) => {
 
 const deleteImage = (imgName) => {
     const filePath = path.join(__dirname, '../public/uploads/', imgName);
-    fs.unlinkSync(filePath);
+    try {
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        return;
+    }
 };
 
 module.exports = {

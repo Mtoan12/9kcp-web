@@ -49,7 +49,7 @@ const ProductDetailPage = () => {
             try {
                 const response = await axios.get(`${API_URL}/product/detail/${id}`);
                 if (response.data.success) {
-                    document.title = response.data.product.title;   
+                    document.title = response.data.product.title;
                     dispatch({
                         type: LOAD_SUCCESSFUL,
                         payload: response.data.product,
@@ -102,8 +102,8 @@ const ProductDetailPage = () => {
                             } = item;
                             return (
                                 <div key={_id}>
-                                    <div className="flex flex-col lg:flex-row gap-10">
-                                        <div className="h-[750px]">
+                                    <div className="flex flex-col lg:flex-row lg:justify-center gap-10">
+                                        <div className="w-1/2 max-w-[750px]">
                                             <img
                                                 src={`${API_UPLOADS}/${imageName}`}
                                                 className="w-full h-full object-cover"
@@ -113,7 +113,7 @@ const ProductDetailPage = () => {
                                         <div className="flex flex-col gap-2">
                                             <h2 className="text-2xl font-semibold">{title}</h2>
                                             <div>
-                                                Thương hiệu:{' '}
+                                                Thương hiệu:
                                                 <span className="text-detail font-medium">
                                                     {' '}
                                                     {brand}
