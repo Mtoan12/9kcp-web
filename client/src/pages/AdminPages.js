@@ -16,7 +16,6 @@ const pages = [
 
 const AdminPages = () => {
     const { user } = useContext(AuthContext);
-    const { test } = useContext(AdminAuthContext);
     const { pathname } = useLocation();
     if (!user || !user.isAdmin) {
         return;

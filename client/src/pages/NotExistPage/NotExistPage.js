@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 import './NotExistPage.css';
+import { useEffect } from 'react';
 const NotExistPage = () => {
+    useEffect(() => {
+        document.title = '404 Not found';
+    }, []);
+
     return (
         <div>
             <section className="page_404">

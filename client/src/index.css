@@ -70,3 +70,7 @@ code {
 .hover-effect {
     @apply transition ease-in duration-150;
 }
+
+svg {
+    @apply pointer-events-none;
+}

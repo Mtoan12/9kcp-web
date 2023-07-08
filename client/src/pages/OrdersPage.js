@@ -34,6 +34,10 @@ const columns = [
     },
 ];
 const OrdersPage = () => {
+    useEffect(() => {
+        document.title = 'Đơn hàng của bạn';
+    }, []);
+
     const [orders, setOrders] = useState([]);
     const { user } = useContext(AuthContext);
     useEffect(() => {

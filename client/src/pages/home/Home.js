@@ -1,16 +1,12 @@
-import React from 'react';
+import { useEffect } from 'react';
 import Banner from '../../components/banner/Banner';
 import Main from '../../components/main/Main';
 
 const Home = () => {
-    // const { loadUser } = useContext(AuthContext);
-    // useEffect(() => {
-    //     try {
-    //         loadUser();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }, []);
+    useEffect(() => {
+        document.title = 'Trang chủ';
+    }, []);
+
     return (
         <div>
             <Banner></Banner>

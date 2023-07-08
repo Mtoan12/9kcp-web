@@ -1,6 +1,6 @@
 import { Button, Modal, Select, message } from 'antd';
 import UploadImage from './UploadImage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { API_URL } from './../constants/constance';
 import axios from 'axios';
 import { sortByCreateAt } from '../utils/sortByCreate';
@@ -12,6 +12,23 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, p
     const [category, setCategory] = useState('');
     const [price, setPrice] = useState(0);
     const [inStock, setInStock] = useState(0);
+
+    useEffect(() => {
+        if (method === 'put' && productEdit) {
+            const { title, brand, category, inStock, price } = productEdit;
+            setTitle(title);
+            setBrand(brand);
+            setCategory(category);
+            setInStock(inStock);
+            setPrice(price);
+        } else {
+            setTitle('');
+            setBrand('');
+            setCategory('');
+            setInStock(0);
+            setPrice(0);
+        }
+    }, [productEdit, method]);
 
     const handleOk = () => {
         console.log(method);
@@ -41,6 +58,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, p
 
             if (method === 'put') {
                 const { title, brand, category, inStock, price } = productEdit;
+                console.log({ productEdit });
                 setTitle(title);
                 setBrand(brand);
                 setCategory(category);
@@ -61,7 +79,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, p
                 footer={[]}
             >
                 <form onSubmit={handleSubmitForm}>
-                    <div class="grid grid-cols-12 gap-y-4">
+                    <div className="grid grid-cols-12 gap-y-4">
                         <div className="col-span-12">
                             <label htmlFor="image">Hình ảnh: </label>
                             <input

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './HeaderStyles.css';
 import logo from '../../img/logo.webp';
 import { Link, useNavigate } from 'react-router-dom';
@@ -25,15 +25,19 @@ const Header = () => {
         loadCart();
     }, []);
     const onClickLogOutHandler = () => {
-        console.log('log');
         logOutHandler();
+    };
+
+    const handleOnEnter = (e) => {
+        if (e.key === 'Enter') {
+            searchText && navigate(`/products?query=${searchText}`);
+        }
     };
 
     const searchHandle = () => {
         if (inputShowing) {
             searchText && navigate(`/products?query=${searchText}`);
         }
-
         setInfoShowing(!infoShowing);
         setInputShowing(!inputShowing);
     };
@@ -112,6 +116,7 @@ const Header = () => {
                         size="small"
                         className={`${!inputShowing && 'hidden focus'}`}
                         onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={handleOnEnter}
                     />
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

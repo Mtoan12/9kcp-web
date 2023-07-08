@@ -37,7 +37,7 @@ const Delivery = ({ deliveryAddress, setDeliveryAddress }) => {
     console.log(deliveryAddress);
     return (
         <div className="flex items-center gap-1">
-            <span className="font-semibold">Đại chỉ giao hàng:</span>
+            <span className="font-semibold">Địa chỉ giao hàng:</span>
             <span>
                 {deliveryAddress.isSubmit &&
                     `${deliveryAddress.address}, ${deliveryAddress.district}, ${deliveryAddress.province}`}

@@ -8,7 +8,7 @@ import Header from './components/header/Header';
 
 function App() {
     return (
-        <div className="container mx-auto  text-sm md:text-md lg:text-lg">
+        <div className="container mx-auto  text-lg md:text-md lg:text-md">
             <AuthContextProvider>
                 <CartContextProvider>
                     <Header />

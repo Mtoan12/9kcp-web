@@ -1,9 +1,13 @@
 import UserMenu from './UserMenu';
 import Delivery from './Delivery';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const UserInformation = () => {
+    useEffect(() => {
+        document.title = 'Thông tin tài khoản';
+    }, []);
+
     const [deliveryAddress, setDeliveryAddress] = useState({
         isSubmit: false,
         province: '',

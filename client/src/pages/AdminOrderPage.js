@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 const columns = [
     {
         title: 'Id',
@@ -29,6 +31,10 @@ const columns = [
 ];
 
 const AdminOrderPage = () => {
+    useEffect(() => {
+        document.title = 'Quản lý đơn hàng';
+    }, []);
+
     return <div>AdminOrderPage</div>;
 };
 export default AdminOrderPage;

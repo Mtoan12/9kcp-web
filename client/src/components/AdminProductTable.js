@@ -10,13 +10,17 @@ const AdminProductTable = ({ products, setProducts }) => {
     const [product, setProduct] = useState('');
 
     const handleAddClick = () => {
+        setProduct(null);
         setIsShow(true);
         setMethod('post');
     };
 
     const handleEditClick = (e) => {
         setIsShow(true);
-        setProduct(products.find((product) => product._id === e.target.value));
+        const findProduct = products.find((product) => {
+            return product._id === e.target.value;
+        });
+        setProduct(findProduct);
         setMethod('put');
     };
     const handleDeleteClick = async (e) => {
@@ -35,6 +39,7 @@ const AdminProductTable = ({ products, setProducts }) => {
             message.error('Xoá sản phẩm thất bại');
         }
     };
+
     const columns = [
         {
             title: 'Id',

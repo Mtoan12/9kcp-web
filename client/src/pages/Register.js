@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import EyeIcon from '../components/icons/EyeIcon';
 const Register = () => {
+        useEffect(() => {document.title = "Đăng ký tài khoản"}, []);
+
     const [registerForm, setRegisterForm] = useState({
         email: '',
         password: '',

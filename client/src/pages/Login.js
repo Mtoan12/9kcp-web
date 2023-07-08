@@ -1,9 +1,13 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext.js';
 import EyeIcon from '../components/icons/EyeIcon.js';
 
 const Login = () => {
+    useEffect(() => {
+        document.title = 'Đăng nhập tài khoản';
+    }, []);
+
     const [loginForm, setLoginForm] = useState({
         email: '',
         password: '',

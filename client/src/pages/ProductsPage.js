@@ -54,6 +54,10 @@ const ProductsPage = () => {
         '/products': 'Tất cả sản phẩm',
     };
 
+    useEffect(() => {
+        document.title = bannerSrc[pathname];
+    }, [pathname]);
+
     return (
         <div className="px-2 mt-5">
             <h1 className="uppercase flex justify-center font-semibold text-3xl my-10">

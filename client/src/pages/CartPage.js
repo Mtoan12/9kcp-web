@@ -8,6 +8,10 @@ import { formatPrice } from '../utils/formatPrice';
 import Delivery from './../components/Delivery';
 
 const CartPage = () => {
+    useEffect(() => {
+        document.title = 'Giỏ hàng';
+    }, []);
+
     const [deliveryAddress, setDeliveryAddress] = useState({
         isSubmit: false,
         province: '',

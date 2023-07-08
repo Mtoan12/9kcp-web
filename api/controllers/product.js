@@ -1,6 +1,7 @@
 const { KIT, KEYCAP, KEYBOARD } = require('../constance/constance');
 const Products = require('../models/Product');
-
+const fs = require('fs');
+const path = require('path');
 const getProducts = async (req, res, next) => {
     try {
         const products = await Products.find();
@@ -84,10 +85,13 @@ const removeProduct = async (req, res, next) => {
 
     if (req.id) {
         try {
-            await Products.findOneAndDelete({ _id });
+            const product = await Products.findOneAndDelete({ _id });
+            console.log(product);
+            deleteImage(product.imageName);
             res.json({
                 success: true,
                 message: 'Delete product successfully',
+                product,
             });
         } catch (error) {
             next(error);
@@ -178,6 +182,11 @@ const getSearch = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+const deleteImage = (imgName) => {
+    const filePath = path.join(__dirname, '../public/uploads/', imgName);
+    fs.unlinkSync(filePath);
 };
 
 module.exports = {

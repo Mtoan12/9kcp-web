@@ -49,6 +49,7 @@ const ProductDetailPage = () => {
             try {
                 const response = await axios.get(`${API_URL}/product/detail/${id}`);
                 if (response.data.success) {
+                    document.title = response.data.product.title;   
                     dispatch({
                         type: LOAD_SUCCESSFUL,
                         payload: response.data.product,

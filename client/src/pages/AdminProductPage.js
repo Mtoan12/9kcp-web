@@ -6,6 +6,10 @@ import { message } from 'antd';
 import AdminProductTable from '../components/AdminProductTable';
 
 const AdminProductPage = () => {
+    useEffect(() => {
+        document.title = 'Quản lý sản phẩm';
+    }, []);
+
     const [products, setProducts] = useState([]);
     const { pathname } = useLocation();
     const apiPath = pathname === '/admin/products' ? '/' : pathname.slice(6, -1);

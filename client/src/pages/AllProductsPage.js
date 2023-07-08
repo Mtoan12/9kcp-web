@@ -19,6 +19,9 @@ const AllProductsPage = () => {
 
     const useQuery = () => new URLSearchParams(useLocation().search);
     let query = useQuery();
+    useEffect(() => {
+        document.title = 'Tất cả sản phẩm';
+    }, []);
 
     useEffect(() => {
         const getProducts = async () => {
