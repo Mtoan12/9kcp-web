@@ -1,7 +1,8 @@
-import { Table, message } from 'antd';
+import { Select, Table, message } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_URL } from '../constants/constance';
+import { useNavigate } from 'react-router-dom';
 
 const AdminOrderPage = () => {
     useEffect(() => {
@@ -11,6 +12,10 @@ const AdminOrderPage = () => {
     const [columns, setColumns] = useState([]);
     const [data, setData] = useState([]);
     const [orders, setOrders] = useState([]);
+    const [status, setStatus] = useState('');
+
+    const navigate = useNavigate();
+    const onStatusChange = (value, order) => {};
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -26,7 +31,53 @@ const AdminOrderPage = () => {
                                 productName: order.productId?.title,
                                 quantity: order.quantity,
                                 time: order.createAt,
-                                status: order.status,
+                                status: (
+                                    <Select
+                                        showSearch
+                                        placeholder="Chọn danh mục"
+                                        optionFilterProp="children"
+                                        value={order.status}
+                                        onChange={async (value) => {
+                                            try {
+                                                const rs = await axios.put(`${API_URL}/order`, {
+                                                    status: value,
+                                                    userId: order.userId._id,
+                                                    productId: order.productId._id,
+                                                });
+                                                navigate(0);
+                                            } catch (error) {
+                                                message.error('Lỗi không xác định');
+                                            }
+                                        }}
+                                        filterOption={(input, option) =>
+                                            (option?.label ?? '')
+                                                .toLowerCase()
+                                                .includes(input.toLowerCase())
+                                        }
+                                        options={[
+                                            {
+                                                value: 'Đang xử lý',
+                                                label: 'Đang xử lý',
+                                            },
+                                            {
+                                                value: 'Đã xác nhận',
+                                                label: 'Đã xác nhận',
+                                            },
+                                            {
+                                                value: 'Đang giao hàng',
+                                                label: 'Đang giao hàng',
+                                            },
+                                            {
+                                                value: 'Đã giao hàng',
+                                                label: 'Đã giao hàng',
+                                            },
+                                            {
+                                                value: 'Đã hoàn thành',
+                                                label: 'Đã hoàn thành',
+                                            },
+                                        ]}
+                                    />
+                                ),
                             };
                         });
                     console.log({ newOrders });
@@ -83,7 +134,7 @@ const AdminOrderPage = () => {
                 key: 'status',
             },
         ]);
-        setData(orders);
+        setData([...orders]);
     }, [orders]);
 
     console.log({ orders });

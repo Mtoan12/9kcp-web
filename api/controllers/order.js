@@ -103,8 +103,30 @@ const saveOrder = async (req, res, next) => {
     }
 };
 
+const changeOrderStatus = async (req, res, next) => {
+    if (req.user.isAdmin) {
+        try {
+            const { status, userId, productId } = req.body;
+            console.log({ status, userId, productId });
+            const rs = await Orders.findOneAndUpdate(
+                { userId, productId },
+                { status: status },
+                { new: true }
+            );
+
+            res.json({
+                success: true,
+                rs,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+};
+
 module.exports = {
     getOrder,
     saveOrder,
     getAllOrders,
+    changeOrderStatus,
 };

@@ -43,23 +43,23 @@ const OrdersPage = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             const rs = await axios.get(`${API_URL}/order`);
-            const orders = rs.data.orders;
-            const products = rs.data.products;
-            if (orders && products) {
-                const newOrders = [];
-                console.log(products);
-                for (let i = 0; i < Math.min(orders.length, products.length); i++) {
-                    console.log(products[i].title);
-                    newOrders.push({
-                        name: products[i].title,
-                        date: formatTimeStamp(products[i].createAt),
-                        id: orders[i]._id,
-                        quantity: orders[i].quantity,
-                        status: orders[i].status,
-                    });
-                }
+            if (rs.data.success) {
+                const orders = rs.data.orders;
+                const products = rs.data.products;
+                if (orders && products) {
+                    const newOrders = [];
+                    for (let i = 0; i < Math.min(orders.length, products.length); i++) {
+                        newOrders.push({
+                            name: products[i].title,
+                            date: formatTimeStamp(products[i].createAt),
+                            id: orders[i]._id,
+                            quantity: orders[i].quantity,
+                            status: orders[i].status,
+                        });
+                    }
 
-                setOrders(newOrders);
+                    setOrders(newOrders);
+                }
             }
         };
 
@@ -71,6 +71,7 @@ const OrdersPage = () => {
         navigate('/login');
     }
 
+    console.log(orders);
     return (
         <div className="flex flex-col justify-center gap-5">
             <UserMenu />

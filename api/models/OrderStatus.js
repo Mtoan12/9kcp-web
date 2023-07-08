@@ -18,8 +18,8 @@ const OrderSchema = mongoose.Schema({
     status: {
         type: String,
         require: true,
-        default: 'Đang giao hàng',
-        enum: ['Đang giao hàng', 'Đã xác nhận', 'Đang giao hàng', 'Đã giao hàng', 'Đã hoàn thành'],
+        default: 'Đang xử lý',
+        enum: ['Đang xử lý', 'Đã xác nhận', 'Đang giao hàng', 'Đã giao hàng', 'Đã hoàn thành'],
     },
     createAt: {
         type: Date,

@@ -4,7 +4,7 @@ import { formatPrice } from '../utils/formatPrice';
 import { InputNumber } from 'antd';
 
 const CartProduct = ({
-    item: { _id, imgName, title: productName, price },
+    item: { _id, imageName, title: productName, price },
     quantity,
     onDeleteBtnClick,
     onQuantityChange,
@@ -18,7 +18,7 @@ const CartProduct = ({
             <div className="flex flex-col md:flex-row items-center gap-6 col-span-6">
                 <div className="rounded-lg overflow-hidden">
                     <img
-                        src={`${API_UPLOADS}/${imgName || `${_id}.webp`}`}
+                        src={`${API_UPLOADS}/${imageName || `${_id}.webp`}`}
                         className="max-h-[200px] max-w-[200px] cursor-pointer hover:opacity-50 hover-effect "
                         alt={productName}
                         onClick={redirectToProductDetail}
