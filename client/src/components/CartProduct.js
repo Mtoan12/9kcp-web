@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { API_UPLOADS } from '../constants/constance';
-import { formatPrice } from '../utils/formatPrice';
+import { API_UPLOADS } from 'constants/constance';
+import { formatPrice } from 'utils/formatPrice';
 import { InputNumber } from 'antd';
 
 const CartProduct = ({

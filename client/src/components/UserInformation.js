@@ -1,7 +1,7 @@
 import UserMenu from './UserMenu';
 import Delivery from './Delivery';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from 'context/AuthContext';
 
 const UserInformation = () => {
     useEffect(() => {

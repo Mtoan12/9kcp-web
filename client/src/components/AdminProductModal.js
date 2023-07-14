@@ -1,10 +1,9 @@
-import { Button, Modal, Select, message } from 'antd';
-import UploadImage from './UploadImage';
+import { Modal, Select, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
-import { API_UPLOADS, API_URL } from './../constants/constance';
 import axios from 'axios';
-import { sortByCreateAt } from '../utils/sortByCreate';
 import { useNavigate } from 'react-router-dom';
+import { API_UPLOADS, API_URL } from 'constants/constance';
+import { sortByCreateAt } from 'utils/sortByCreate';
 
 const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, productEdit }) => {
     const [image, setImage] = useState('');

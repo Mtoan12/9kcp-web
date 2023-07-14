@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './HeaderStyles.css';
-import logo from '../../img/logo.webp';
+import logo from 'img/logo.webp';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import Navbar from '../nav/Navbar';
-import { CartContext } from '../../context/CartContext';
 import { Input } from 'antd';
-import useLoadUser from '../../hooks/useLoadUser';
-import AccountNav from '../AccountNav';
-import { UserNav } from '../UserNav';
+import useLoadUser from 'hooks/useLoadUser';
+import { AuthContext } from 'context/AuthContext';
+import { CartContext } from 'context/CartContext';
+import { UserNav } from 'components/UserNav';
+import AccountNav from 'components/AccountNav';
+import Navbar from 'components/nav/Navbar';
+
 const Header = () => {
     useLoadUser();
     const [inputShowing, setInputShowing] = useState(false);
@@ -42,7 +43,7 @@ const Header = () => {
         setInputShowing(!inputShowing);
     };
     return (
-        <header>
+        <header className="container">
             <div className="grid grid-cols-12 px-2 border-b-[1px]">
                 <div className="flex justify-start lg:justify-center items-center col-span-4">
                     <svg

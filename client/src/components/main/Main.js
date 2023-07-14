@@ -1,11 +1,12 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import './MainStyles.css';
-import HomeProducts from './../HomeProducts';
-import reducer from '../../reducers/productReducer';
-import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from '../../constants/constance';
 import axios from 'axios';
-import Loading from '../Loading';
-import Error from '../Error';
+import reducer from 'reducers/productReducer';
+import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from 'constants/constance';
+import Loading from 'components/Loading';
+import Error from 'components/Error';
+import HomeProducts from 'components/HomeProducts';
+
 const Main = () => {
     const [newProducts, setNewProducts] = useState([]);
     const [newKeyboards, setNewKeyboards] = useState([]);
@@ -62,9 +63,13 @@ const Main = () => {
             ) : (
                 <>
                     <HomeProducts header="Sản phẩm mới" products={newProducts} link="/products" />
-                    <HomeProducts header="Bàn phim cơ" products={newKeyboards} link="/keyboard" />
-                    <HomeProducts header="Keycap" products={newKeycaps} link="/keycap" />
-                    <HomeProducts header="Kit" products={newKits} link="/kit" />
+                    <HomeProducts
+                        header="Bộ sưu tập Bàn phim cơ"
+                        products={newKeyboards}
+                        link="/keyboard"
+                    />
+                    <HomeProducts header="Bộ sưu tập Keycap" products={newKeycaps} link="/keycap" />
+                    <HomeProducts header="Bộ sưu tập Kit" products={newKits} link="/kit" />
                 </>
             )}
         </div>

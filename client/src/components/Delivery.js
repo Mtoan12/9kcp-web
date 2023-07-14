@@ -1,9 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DeliveryModal } from './DeliveryModal';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from 'context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL } from '../constants/constance';
+import { API_URL } from 'constants/constance';
 
 const Delivery = ({ deliveryAddress, setDeliveryAddress }) => {
     const [isShow, setIsShow] = useState(false);

@@ -6,46 +6,27 @@ import Loading from '../components/Loading';
 import Product from '../components/product/Product';
 import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from '../constants/constance';
 import reducer from '../reducers/productReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from 'redux/slices/products';
 
 const AllProductsPage = () => {
     const [searchText, setSearchText] = useState(null);
-    const [productsState, dispatch] = useReducer(reducer, {
-        isLoading: true,
-        error: '',
-        products: null,
-    });
 
-    const { isLoading, error, products } = productsState;
+    const isLoading = useSelector((state) => state.products.isLoading);
+    const products = useSelector((state) => state.products.products);
+    const error = useSelector((state) => state.products.error);
+    const dispatch = useDispatch();
 
-    const useQuery = () => new URLSearchParams(useLocation().search);
-    let query = useQuery();
     useEffect(() => {
         document.title = 'Tất cả sản phẩm';
     }, []);
 
     useEffect(() => {
-        const getProducts = async () => {
-            try {
-                setSearchText(query.get('query'));
-                const url = searchText
-                    ? `${API_URL}/product/search?query=${searchText}`
-                    : `${API_URL}/product/`;
-                const response = await axios.get(url);
+        dispatch(fetchProduct());
+    }, []);
 
-                if (response.data.success) {
-                    dispatch({ type: LOAD_SUCCESSFUL, payload: response.data.products });
-                }
-            } catch (error) {
-                if (error.response.data) {
-                    dispatch({ type: LOAD_FAILURE, payload: error.response.data.message });
-                } else {
-                    dispatch({ type: LOAD_FAILURE, payload: 'Lỗi không xác định' });
-                }
-            }
-        };
-
-        getProducts();
-    }, [searchText, products]);
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    let query = useQuery();
 
     return (
         <div className="px-2 mt-5">

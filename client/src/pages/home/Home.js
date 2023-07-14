@@ -1,6 +1,6 @@
+import Banner from 'components/banner/Banner';
+import Main from 'components/main/Main';
 import { useEffect } from 'react';
-import Banner from '../../components/banner/Banner';
-import Main from '../../components/main/Main';
 
 const Home = () => {
     useEffect(() => {
@@ -9,8 +9,8 @@ const Home = () => {
 
     return (
         <div>
-            <Banner></Banner>
-            <Main></Main>
+            <Banner />
+            <Main />
         </div>
     );
 };

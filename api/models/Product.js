@@ -30,6 +30,10 @@ const productSchema = mongoose.Schema({
         enum: [KEYBOARD, KEYCAP, KIT],
         default: KEYBOARD,
     },
+    description: {
+        type: String,
+        default: 'Chưa có mô tả',
+    },
     createAt: {
         type: Date,
         default: Date.now(),

@@ -1,7 +1,7 @@
 import { Button, Input, Modal, Select, message } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { API_URL } from '../constants/constance';
+import { API_URL } from 'constants/constance';
 
 export const DeliveryModal = ({ isShow, setIsShow, deliveryAddress, setDeliveryAddress }) => {
     const area = window;

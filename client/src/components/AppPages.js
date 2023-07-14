@@ -1,16 +1,14 @@
-import Home from '../pages/home/Home';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import ProductsPage from '../pages/ProductsPage';
-import AllProductsPage from '../pages/AllProductsPage';
-import ProductDetailPage from '../pages/ProductDetailPage';
-import CartPage from '../pages/CartPage';
-import Header from './header/Header';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import NotExistPage from '../pages/NotExistPage/NotExistPage';
-import OrdersPage from '../pages/OrdersPage';
+import Home from 'pages/home/Home';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import ProductsPage from 'pages/ProductsPage';
+import AllProductsPage from 'pages/AllProductsPage';
+import ProductDetailPage from 'pages/ProductDetailPage';
+import CartPage from 'pages/CartPage';
+import { Route, Routes } from 'react-router-dom';
+import OrdersPage from 'pages/OrdersPage';
 import UserInformation from './UserInformation';
-import AboutPage from '../pages/AboutPage';
+import AboutPage from 'pages/AboutPage';
 
 const pages = [
     {

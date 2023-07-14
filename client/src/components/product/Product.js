@@ -1,8 +1,8 @@
 import React from 'react';
 import './ProductStyle.css';
-import { API_UPLOADS } from '../../constants/constance';
 import { Link } from 'react-router-dom';
-import { formatPrice } from '../../utils/formatPrice';
+import { API_UPLOADS } from 'constants/constance';
+import { formatPrice } from 'utils/formatPrice';
 
 const Product = ({ id, title, category, price, imageName }) => {
     return (

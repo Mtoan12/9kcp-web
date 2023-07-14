@@ -9,42 +9,23 @@ import Error from '../components/Error';
 import keyboardBanner from '../img/keyboard-banner.webp';
 import kitBanner from '../img/kit-banner.webp';
 import keycapBanner from '../img/keycap-banner.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from 'redux/slices/products';
 
 const ProductsPage = () => {
     const { pathname } = useLocation();
 
-    const [productState, dispatch] = useReducer(reducer, {
-        isLoading: true,
-        error: '',
-        products: null,
-    });
+    const isLoading = useSelector((state) => state.products.isLoading);
+    const products = useSelector((state) => state.products.products);
+    const error = useSelector((state) => state.products.error);
+    const dispatch = useDispatch();
 
-    const { isLoading, error, products } = productState;
     useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/product${pathname}`);
-                if (response.data.success) {
-                    dispatch({
-                        type: LOAD_SUCCESSFUL,
-                        payload: response.data.products,
-                    });
-                }
-            } catch (error) {
-                if (error.response.data) {
-                    dispatch({
-                        type: LOAD_FAILURE,
-                        payload: error.response.data.message,
-                    });
-                }
-                dispatch({
-                    type: LOAD_FAILURE,
-                    payload: 'Lỗi không xác định',
-                });
-            }
-        };
+        document.title = bannerSrc[pathname];
+    }, [pathname]);
 
-        fetchProduct();
+    useEffect(() => {
+        dispatch(fetchProduct(pathname));
     }, [pathname]);
 
     const bannerSrc = {
@@ -53,10 +34,6 @@ const ProductsPage = () => {
         '/keycap': 'Bộ sưu tập Keycap',
         '/products': 'Tất cả sản phẩm',
     };
-
-    useEffect(() => {
-        document.title = bannerSrc[pathname];
-    }, [pathname]);
 
     return (
         <div className="px-2 mt-5">

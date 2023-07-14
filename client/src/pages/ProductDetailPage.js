@@ -8,10 +8,10 @@ import { CartContext } from '../context/CartContext';
 import { formatPrice } from '../utils/formatPrice';
 import Loading from './../components/Loading';
 import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
+import HomeProducts from './../components/HomeProducts';
 
 const reducer = (state, action) => {
     const { type, payload } = action;
-
     switch (type) {
         case LOAD_SUCCESSFUL:
             return {
@@ -99,6 +99,7 @@ const ProductDetailPage = () => {
                                 review,
                                 imageName = `${item._id}.webp`,
                                 inStock,
+                                description = 'Chưa có mô tả',
                             } = item;
                             return (
                                 <div key={_id}>
@@ -203,8 +204,9 @@ const ProductDetailPage = () => {
                                         </div>
                                     </div>
                                     <div className="mt-3">
-                                        <Description />
+                                        <Description description={description} />
                                     </div>
+                                    <HomeProducts header={'Sản phẩm liên quan'} />
                                 </div>
                             );
                         })}

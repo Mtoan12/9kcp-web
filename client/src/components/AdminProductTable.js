@@ -2,7 +2,7 @@ import { Button, Space, Table, message } from 'antd';
 import AdminProductModal from './AdminProductModal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../constants/constance';
+import { API_URL } from 'constants/constance';
 
 const AdminProductTable = ({ products, setProducts }) => {
     const [isShow, setIsShow] = useState(false);
