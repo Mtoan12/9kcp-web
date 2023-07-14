@@ -21,7 +21,7 @@ const productsSlice = createSlice({
     },
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchProduct.pending, (state, action) => {
+        builder.addCase(fetchProduct.pending, (state) => {
             state.isLoading = true;
         });
         builder.addCase(fetchProduct.fulfilled, (state, action) => {
@@ -30,7 +30,7 @@ const productsSlice = createSlice({
         });
         builder.addCase(fetchProduct.rejected, (state, action) => {
             state.isLoading = false;
-            state.error = action.payload;
+            state.error = action.payload.message;
         });
     },
 });

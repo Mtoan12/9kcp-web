@@ -9,74 +9,50 @@ import { formatPrice } from '../utils/formatPrice';
 import Loading from './../components/Loading';
 import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
 import HomeProducts from './../components/HomeProducts';
-
-const reducer = (state, action) => {
-    const { type, payload } = action;
-    switch (type) {
-        case LOAD_SUCCESSFUL:
-            return {
-                ...state,
-                isLoading: false,
-                product: payload,
-            };
-        case LOAD_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                error: payload,
-            };
-        default:
-            return state;
-    }
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { changeQuantity, fetchProduct } from 'redux/slices/productDetail';
+import { fetchProducts } from 'redux/slices/productsSuggestion';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
-    const [quantity, setQuantity] = useState('1');
-    const [productState, dispatch] = useReducer(reducer, {
-        isLoading: true,
-        error: '',
-        product: null,
-    });
-
-    const { isLoading, error, product } = productState;
 
     const { addToCart, loadCart } = useContext(CartContext);
     const navigate = useNavigate();
 
+    const isLoading = useSelector((state) => state.productDetail.isLoading);
+    const error = useSelector((state) => state.productDetail.error);
+    const product = useSelector((state) => state.productDetail.product);
+    const quantity = useSelector((state) => state.productDetail.quantity);
+    const dispatch = useDispatch();
+
+    const keyboardsSuggesstion = useSelector((state) => state.productsSuggestion.keyboards);
+    const keycapsSuggesstion = useSelector((state) => state.productsSuggestion.keycaps);
+    const kitsSuggesstion = useSelector((state) => state.productsSuggestion.kits);
+
     useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/product/detail/${id}`);
-                if (response.data.success) {
-                    document.title = response.data.product.title;
-                    dispatch({
-                        type: LOAD_SUCCESSFUL,
-                        payload: response.data.product,
-                    });
-                }
-            } catch (error) {
-                let errMessage = 'Lỗi không xác định';
-                if (error.response.data) {
-                    errMessage = error.response.data.message;
-                }
+        dispatch(fetchProduct(id));
+        if (product) {
+            document.title = product.title;
 
-                dispatch({
-                    type: LOAD_FAILURE,
-                    payload: errMessage,
-                });
-                navigate('/not-found');
-            }
-        };
-
-        fetchProduct();
+            dispatch(fetchProducts());
+        } else {
+            document.title = 'Không tìm thấy';
+        }
     }, [id]);
 
     useEffect(() => loadCart(), []);
 
-    // const addToCart = async () => {
-    //     const newCart = await axios.post(`${API_URL}/cart`);
-    // };
+    const suggestProducts = {
+        'BÀN PHÍM CƠ': keyboardsSuggesstion,
+        KEYCAP: keycapsSuggesstion,
+        KIT: kitsSuggesstion,
+    };
+
+    const link = {
+        'BÀN PHÍM CƠ': '/keyboard',
+        KEYCAP: '/keycap',
+        KIT: '/kit',
+    };
     return (
         <div className="px-2 mt-10">
             {isLoading ? (
@@ -95,6 +71,7 @@ const ProductDetailPage = () => {
                                 _id,
                                 title,
                                 brand,
+                                category,
                                 price,
                                 review,
                                 imageName = `${item._id}.webp`,
@@ -116,11 +93,15 @@ const ProductDetailPage = () => {
                                             <div>
                                                 Thương hiệu:
                                                 <span className="text-detail font-medium">
-                                                    {' '}
                                                     {brand}
                                                 </span>
                                             </div>
-                                            <span>{review}</span>
+                                            <div>
+                                                Danh mục:
+                                                <span className="text-detail font-medium">
+                                                    {category}
+                                                </span>
+                                            </div>
                                             <span>{formatPrice(price)}</span>
                                             <div>
                                                 Tình trạng:
@@ -137,7 +118,9 @@ const ProductDetailPage = () => {
                                                     defaultValue={1}
                                                     max={inStock}
                                                     size="middle"
-                                                    onChange={(value) => setQuantity(value)}
+                                                    onChange={(value) =>
+                                                        dispatch(changeQuantity(value))
+                                                    }
                                                 />
                                             </div>
                                             <button
@@ -203,10 +186,16 @@ const ProductDetailPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mt-3">
+                                    <div className="my-10">
                                         <Description description={description} />
                                     </div>
-                                    <HomeProducts header={'Sản phẩm liên quan'} />
+                                    {product && (
+                                        <HomeProducts
+                                            header={'Sản phẩm liên quan'}
+                                            link={link[product.category]}
+                                            products={suggestProducts[product.category]}
+                                        />
+                                    )}
                                 </div>
                             );
                         })}

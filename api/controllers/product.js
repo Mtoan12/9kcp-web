@@ -2,6 +2,7 @@ const { KIT, KEYCAP, KEYBOARD } = require('../constance/constance');
 const Products = require('../models/Product');
 const fs = require('fs');
 const path = require('path');
+
 const getProducts = async (req, res, next) => {
     try {
         const products = await Products.find();

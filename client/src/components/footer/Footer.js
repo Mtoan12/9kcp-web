@@ -3,24 +3,28 @@ import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 const Footer = () => {
     return (
-        <footer className="bg-secondary w-screen py-10 mt-14 px-20">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-                <div>
+        <footer className="bg-secondary w-screen py-5 mt-14 px-20">
+            <div className="grid grid-cols-12 gap-2 place-items-center items-center justify-between">
+                <div className="col-span-12 lg:col-span-4">
                     <Link to="/">
-                        <img src={logo} alt="logo" />
+                        <img className="max-w-[70%]" src={logo} alt="logo" />
                     </Link>
                 </div>
-                <div className="flex flex-col gap-5">
+
+                <span className="col-span-12 lg:col-span-4">
+                    &#169; 2023 Kicap. All rights reserved.
+                </span>
+
+                <div className="w-[70%] flex flex-col gap-5 col-span-12 lg:col-span-4">
                     <div className="flex items-center relative">
                         <input
-                            className="px-5 py-3 rounded-lg w-full "
+                            className="px-5 py-3 rounded-lg w-full flex-grow"
                             placeholder="Bạn cần hỗ trợ"
                         />
                         <button className="bg-black text-white px-5 py-3 rounded-lg absolute right-0">
                             Gửi
                         </button>
                     </div>
-                    <span className="text-lg">&#169; 2023 Kicap. All rights reserved.</span>
                 </div>
             </div>
         </footer>

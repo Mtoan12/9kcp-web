@@ -6,50 +6,22 @@ import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from 'constants/constance';
 import Loading from 'components/Loading';
 import Error from 'components/Error';
 import HomeProducts from 'components/HomeProducts';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from 'redux/slices/productsSuggestion';
 
 const Main = () => {
-    const [newProducts, setNewProducts] = useState([]);
-    const [newKeyboards, setNewKeyboards] = useState([]);
-    const [newKits, setNewKits] = useState([]);
-    const [newKeycaps, setNewKeycaps] = useState([]);
-
-    const [productsState, dispatch] = useReducer(reducer, {
-        isLoading: true,
-        error: '',
-        products: null,
-    });
-
-    const { isLoading, error } = productsState;
+    const isLoading = useSelector((state) => state.productsSuggestion.isLoading);
+    const error = useSelector((state) => state.productsSuggestion.error);
+    const products = useSelector((state) => state.productsSuggestion.products);
+    const keyboards = useSelector((state) => state.productsSuggestion.keyboards);
+    const kits = useSelector((state) => state.productsSuggestion.kits);
+    const keycaps = useSelector((state) => state.productsSuggestion.keycaps);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/product`);
-
-                if (response.data.success) {
-                    const products = response.data.products;
-                    dispatch({ type: LOAD_SUCCESSFUL, payload: products });
-                    setNewProducts(products.slice(products.length - 4));
-                    const newKeyboards = products.filter(
-                        (product) => product.category === 'BÀN PHÍM CƠ'
-                    );
-                    const newKeycaps = products.filter((product) => product.category === 'KEYCAP');
-                    const newKits = products.filter((product) => product.category === 'KIT');
-                    setNewKeyboards(newKeyboards.slice(newKeyboards.length - 4));
-                    setNewKeycaps(newKeycaps.slice(newKeycaps.length - 4));
-                    setNewKits(newKits.slice(newKits.length - 4));
-                }
-            } catch (error) {
-                if (error.response.data) {
-                    dispatch({ type: LOAD_FAILURE, payload: error.response.data.message });
-                } else {
-                    dispatch({ type: LOAD_FAILURE, payload: 'Lỗi không xác định' });
-                }
-            }
-        };
-
-        getProducts();
+        dispatch(fetchProducts());
     }, []);
+
     return (
         <div className="px-2 mt-5">
             {isLoading ? (
@@ -62,14 +34,14 @@ const Main = () => {
                 </h2>
             ) : (
                 <>
-                    <HomeProducts header="Sản phẩm mới" products={newProducts} link="/products" />
+                    <HomeProducts header="Sản phẩm mới" products={products} link="/products" />
                     <HomeProducts
                         header="Bộ sưu tập Bàn phim cơ"
-                        products={newKeyboards}
+                        products={keyboards}
                         link="/keyboard"
                     />
-                    <HomeProducts header="Bộ sưu tập Keycap" products={newKeycaps} link="/keycap" />
-                    <HomeProducts header="Bộ sưu tập Kit" products={newKits} link="/kit" />
+                    <HomeProducts header="Bộ sưu tập Keycap" products={keycaps} link="/keycap" />
+                    <HomeProducts header="Bộ sưu tập Kit" products={kits} link="/kit" />
                 </>
             )}
         </div>

@@ -2,9 +2,6 @@ import { Link } from 'react-router-dom';
 import Product from './product/Product';
 
 const HomeProducts = ({ header, products, link }) => {
-    // if (header !== 'Sản phẩm mới') {
-    //     header = 'Bộ sưu tập ' + header;
-    // }
     return (
         <div className="mt-20 flex flex-col justify-center">
             <h2 className="uppercase text-center text-lg lg:text-2xl mb-10">{header}</h2>
