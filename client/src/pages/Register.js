@@ -1,6 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { loadUser } from 'redux/slices/auth';
 import EyeIcon from '../components/icons/EyeIcon';
 const Register = () => {
     useEffect(() => {
@@ -15,9 +18,12 @@ const Register = () => {
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
     const [message, setMessage] = useState('');
     const timeOutRef = useRef(null);
-    const { registerHandler } = useContext(AuthContext);
+
     const navigate = useNavigate();
     const { email, password, name } = registerForm;
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
 
     const onChangeRegisterFormHandle = (e) => {
         setRegisterForm({
@@ -28,6 +34,29 @@ const Register = () => {
     const togglePasswordShowing = () => {
         setIsPasswordShowing(!isPasswordShowing);
     };
+
+    const registerHandler = async (user) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/register`, user);
+            if (response.data.success) {
+                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+
+                dispatch(loadUser());
+
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) {
+                return error.response.data;
+            } else {
+                return {
+                    success: false,
+                    message: error.message,
+                };
+            }
+        }
+    };
+
     const onClickRegisterHandle = async (e) => {
         try {
             const response = await registerHandler(registerForm);
@@ -52,6 +81,10 @@ const Register = () => {
             setMessage('');
         }, 3000);
     }, [message]);
+
+    if (isAuthenticated) {
+        return navigate('/');
+    }
     return (
         <>
             <h2 className="text-center mt-7 text-3xl uppercase ">Đăng ký tài khoản</h2>

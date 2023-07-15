@@ -2,26 +2,25 @@ import { Input } from 'antd';
 import AccountNav from 'components/AccountNav';
 import { UserNav } from 'components/UserNav';
 import Navbar from 'components/nav/Navbar';
-import { AuthContext } from 'context/AuthContext';
 import { CartContext } from 'context/CartContext';
-import useLoadUser from 'hooks/useLoadUser';
 import logo from 'img/logo.webp';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { logOut } from 'redux/slices/auth';
 import './HeaderStyles.css';
 
 const Header = () => {
     const inputRef = useRef(null);
-    useLoadUser();
     const [inputShowing, setInputShowing] = useState(false);
     const [infoShowing, setInfoShowing] = useState(true);
     const [searchText, setSearchText] = useState('');
-    const {
-        logOutHandler,
-        authState: { isAuthenticated, user },
-    } = useContext(AuthContext);
     const { loadCart, productsCartQuantity } = useContext(CartContext);
     const navigate = useNavigate();
+
+    const user = useSelector((state) => state.auth.user);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         loadCart();
@@ -35,7 +34,7 @@ const Header = () => {
     }, [inputShowing]);
 
     const onClickLogOutHandler = () => {
-        logOutHandler();
+        dispatch(logOut())
     };
 
     const handleOnEnter = (e) => {

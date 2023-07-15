@@ -5,8 +5,12 @@ const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 const { API_URL } = require('constants/constance');
 
 export const fetchProduct = createAsyncThunk('productDetail/fetchProduct', async (id, thunkAPI) => {
-    const res = await axios.get(`${API_URL}/product/detail/${id}`);
-    return res.data;
+    try {
+        const res = await axios.get(`${API_URL}/product/detail/${id}`);
+        return res.data;
+    } catch (error) {
+        return error.response.data;
+    }
 });
 
 const productDetailSlice = createSlice({
@@ -32,7 +36,8 @@ const productDetailSlice = createSlice({
         });
         builder.addCase(fetchProduct.rejected, (state, action) => {
             state.isLoading = false;
-            state.error = action.payload.message;
+            console.log(action.payload);
+            state.error = action.payload || 'Lỗi không xác định';
         });
     },
 });

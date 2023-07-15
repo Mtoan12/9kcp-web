@@ -1,10 +1,8 @@
-import { useContext } from 'react';
-import { AdminAuthContext } from '../context/AdminAuthContext';
-import { AuthContext } from '../context/AuthContext';
+import { useSelector } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import AdminProductPage from './AdminProductPage';
 import AdminMenu from '../components/AdminMenu';
 import AdminOrderPage from './AdminOrderPage';
+import AdminProductPage from './AdminProductPage';
 
 const pages = [
     { path: '/admin/products', element: AdminProductPage },
@@ -15,7 +13,7 @@ const pages = [
 ];
 
 const AdminPages = () => {
-    const { user } = useContext(AuthContext);
+    const user = useSelector((state) => state.auth.user);
     const { pathname } = useLocation();
     if (!user || !user.isAdmin) {
         return;

@@ -22,7 +22,6 @@ const getProduct = async (req, res, next) => {
     const id = req.params.id;
     try {
         const product = await Products.findById(id);
-        console.log({ id, product });
         if (!product) {
             return res.status(404).json({
                 success: false,

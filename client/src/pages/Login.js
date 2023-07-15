@@ -1,6 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance.js';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext.js';
+import { loadUser } from 'redux/slices/auth.js';
 import EyeIcon from '../components/icons/EyeIcon.js';
 
 const Login = () => {
@@ -15,13 +18,12 @@ const Login = () => {
     const [isPasswordShowing, setIsPasswordShowing] = useState(false);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    const {
-        loginHandler,
-        authState: { isAuthenticated },
-    } = useContext(AuthContext);
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
 
     if (isAuthenticated) {
-        navigate('/');
+        return navigate('/');
     }
     const { email, password } = loginForm;
     const onChangeLoginFormHandle = (e) => {
@@ -32,6 +34,27 @@ const Login = () => {
     };
     const togglePasswordShowing = () => {
         setIsPasswordShowing(!isPasswordShowing);
+    };
+
+    const loginHandler = async (user) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/login`, user);
+            if (response.data.success) {
+                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+
+                dispatch(loadUser());
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) {
+                return error.response.data;
+            } else {
+                return {
+                    success: false,
+                    message: error.message,
+                };
+            }
+        }
     };
     const handleClickLoginBtn = async () => {
         try {

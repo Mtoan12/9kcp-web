@@ -1,11 +1,11 @@
 import { Table } from 'antd';
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { API_URL } from '../constants/constance';
-import UserMenu from './../components/UserMenu';
-import { AuthContext } from '../context/AuthContext';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../constants/constance';
 import formatTimeStamp from '../utils/formatTimeStamp';
+import UserMenu from './../components/UserMenu';
 const columns = [
     {
         title: 'Mã đơn hàng',
@@ -39,7 +39,7 @@ const OrdersPage = () => {
     }, []);
 
     const [orders, setOrders] = useState([]);
-    const { user } = useContext(AuthContext);
+    const user = useSelector((state) => state.auth.user);
     useEffect(() => {
         const fetchOrders = async () => {
             const rs = await axios.get(`${API_URL}/order`);

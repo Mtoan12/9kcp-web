@@ -10,7 +10,7 @@ import OrdersPage from 'pages/OrdersPage';
 import UserInformation from './UserInformation';
 import AboutPage from 'pages/AboutPage';
 import NotExistPage from 'pages/NotExistPage/NotExistPage';
-import SearchProducts from 'pages/SearchProducts';
+import SearchProductsPage from 'pages/SearchProductsPage';
 
 const pages = [
     {
@@ -63,7 +63,7 @@ const pages = [
     },
     {
         path: '/search',
-        element: SearchProducts,
+        element: SearchProductsPage,
     },
 ];
 

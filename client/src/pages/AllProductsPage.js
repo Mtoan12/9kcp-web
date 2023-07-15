@@ -17,7 +17,7 @@ const AllProductsPage = () => {
 
     useEffect(() => {
         dispatch(fetchProduct());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="px-2 mt-5">

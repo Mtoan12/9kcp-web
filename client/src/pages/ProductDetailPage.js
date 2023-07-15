@@ -1,18 +1,17 @@
-import { InputNumber } from 'antd';
-import axios from 'axios';
-import { useContext, useEffect, useReducer, useState } from 'react';
+import ProductDetailInfo from 'components/ProductDetailInfo';
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { changeQuantity, fetchProduct } from 'redux/slices/productDetail';
+import { fetchProducts } from 'redux/slices/productsSuggestion';
 import Description from '../components/Description';
 import Error from '../components/Error';
 import { CartContext } from '../context/CartContext';
-import { formatPrice } from '../utils/formatPrice';
-import Loading from './../components/Loading';
-import { API_UPLOADS, API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from './../constants/constance';
 import HomeProducts from './../components/HomeProducts';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeQuantity, fetchProduct } from 'redux/slices/productDetail';
-import { fetchProducts } from 'redux/slices/productsSuggestion';
-import ProductDetailInfo from 'components/ProductDetailInfo';
+import Loading from './../components/Loading';
+import { API_UPLOADS } from './../constants/constance';
+import Comments from 'components/Comments';
+import { fetchComments } from 'redux/slices/comment';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
@@ -24,19 +23,31 @@ const ProductDetailPage = () => {
     const error = useSelector((state) => state.productDetail.error);
     const product = useSelector((state) => state.productDetail.product);
     const quantity = useSelector((state) => state.productDetail.quantity);
-    const dispatch = useDispatch();
 
     const keyboardsSuggesstion = useSelector((state) => state.productsSuggestion.keyboards);
     const keycapsSuggesstion = useSelector((state) => state.productsSuggestion.keycaps);
     const kitsSuggesstion = useSelector((state) => state.productsSuggestion.kits);
 
+    const isCommentsLoading = useSelector((state) => state.comments.isLoading);
+    const commentsError = useSelector((state) => state.comments.error);
+    const comments = useSelector((state) => state.comments.comments);
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(fetchProduct(id));
+    }, [dispatch, id]);
+
+    useEffect(() => {
         if (product) {
             document.title = product.title;
             dispatch(fetchProducts());
         }
-    }, [id]);
+    }, [dispatch, product]);
+
+    useEffect(() => {
+        dispatch(fetchComments(id));
+    }, [id, dispatch]);
 
     useEffect(() => loadCart(), []);
 
@@ -100,6 +111,14 @@ const ProductDetailPage = () => {
                                     </div>
                                     <div className="my-10">
                                         <Description description={description} />
+                                    </div>
+                                    <div>
+                                        <Comments
+                                            product={product}
+                                            isLoading={isCommentsLoading}
+                                            error={commentsError}
+                                            comments={comments}
+                                        />
                                     </div>
                                     {product && (
                                         <HomeProducts

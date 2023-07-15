@@ -4,9 +4,9 @@ import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Product from '../components/product/Product';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchProducts } from 'redux/search';
+import { searchProducts } from 'redux/slices/search';
 
-const SearchProducts = () => {
+const SearchProductsPage = () => {
     const isLoading = useSelector((state) => state.search.isLoading);
     const products = useSelector((state) => state.search.products);
     const error = useSelector((state) => state.search.error);
@@ -17,8 +17,13 @@ const SearchProducts = () => {
 
     useEffect(() => {
         dispatch(searchProducts(query));
-        document.title = 'Kết quả tìm kiếm';
-    }, [searchParams]);
+    }, [dispatch, query]);
+
+    useEffect(() => {
+        if (products) {
+            document.title = `Có ${products.length} kết quả phù hợp`;
+        }
+    }, [products]);
 
     return (
         <div className="px-2 mt-5">
@@ -63,4 +68,4 @@ const SearchProducts = () => {
         </div>
     );
 };
-export default SearchProducts;
+export default SearchProductsPage;

@@ -1,8 +1,8 @@
 import { message } from 'antd';
 import { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CartProduct from '../components/CartProduct';
-import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import { formatPrice } from '../utils/formatPrice';
 import Delivery from './../components/Delivery';
@@ -28,7 +28,7 @@ const CartPage = () => {
         changeProductQuantity,
         paymentHandle,
     } = useContext(CartContext);
-    const { user } = useContext(AuthContext);
+    const user = useSelector((state) => state.auth.user);
     useEffect(() => {
         loadCart();
     }, []);

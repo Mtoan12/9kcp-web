@@ -1,7 +1,7 @@
-import UserMenu from './UserMenu';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Delivery from './Delivery';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from 'context/AuthContext';
+import UserMenu from './UserMenu';
 
 const UserInformation = () => {
     useEffect(() => {
@@ -14,13 +14,15 @@ const UserInformation = () => {
         district: '',
         address: '',
     });
-    const { user } = useContext(AuthContext);
+
+    const user = useSelector((state) => state.auth.user);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     return (
         <div className="flex flex-col justify-center gap-5">
             <UserMenu />
             <span className="uppercase">Thông tin tài khoản</span>
-            {user && (
+            {isAuthenticated && (
                 <div className="flex flex-col">
                     <p>
                         <span className="font-semibold"> Họ tên:</span> {user.name}

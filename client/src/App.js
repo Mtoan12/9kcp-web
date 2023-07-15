@@ -1,13 +1,20 @@
 import './App.css';
 import AuthContextProvider from './context/AuthContext';
 import CartContextProvider from './context/CartContext';
-import AdminAuthContextProvider from './context/AdminAuthContext';
 import AppPages from './components/AppPages';
 import AdminPages from './pages/AdminPages';
 import Header from './components/header/Header';
 import Footer from 'components/footer/Footer';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { loadUser } from 'redux/slices/auth';
 
 function App() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadUser());
+    }, [dispatch]);
+
     return (
         <div className="text-lg md:text-md lg:text-sm">
             <AuthContextProvider>
@@ -16,9 +23,7 @@ function App() {
                         <Header />
                         <div className="container flex-grow">
                             <AppPages />
-                            <AdminAuthContextProvider>
-                                <AdminPages />
-                            </AdminAuthContextProvider>
+                            <AdminPages />
                         </div>
                         <Footer />
                     </div>

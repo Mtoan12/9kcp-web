@@ -1,17 +1,18 @@
-import { useContext, useEffect, useState } from 'react';
-import { DeliveryModal } from './DeliveryModal';
-import { AuthContext } from 'context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { DeliveryModal } from './DeliveryModal';
 
 const Delivery = ({ deliveryAddress, setDeliveryAddress }) => {
     const [isShow, setIsShow] = useState(false);
-    const { user } = useContext(AuthContext);
+    const user = useSelector((state) => state.auth.user);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) {
+        if (!isAuthenticated) {
             return navigate('/login');
         }
 

@@ -70,7 +70,7 @@ const login = async (req, res, next) => {
         if (!checkPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'Sai mật khẩu',
+                message: 'Sai email hoặc mật khẩu',
             });
         }
 
