@@ -1,23 +1,24 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct } from 'redux/slices/products';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Product from '../components/product/Product';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchProducts } from 'redux/search';
 
-const AllProductsPage = () => {
-    const isLoading = useSelector((state) => state.products.isLoading);
-    const products = useSelector((state) => state.products.products);
-    const error = useSelector((state) => state.products.error);
+const SearchProducts = () => {
+    const isLoading = useSelector((state) => state.search.isLoading);
+    const products = useSelector((state) => state.search.products);
+    const error = useSelector((state) => state.search.error);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        document.title = 'Tất cả sản phẩm';
-    }, []);
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('query');
 
     useEffect(() => {
-        dispatch(fetchProduct());
-    }, []);
+        dispatch(searchProducts(query));
+        document.title = 'Kết quả tìm kiếm';
+    }, [searchParams]);
 
     return (
         <div className="px-2 mt-5">
@@ -31,6 +32,11 @@ const AllProductsPage = () => {
                 </h2>
             ) : (
                 <div>
+                    <span className="uppercase flex justify-center font-semibold text-3xl my-10">
+                        {products
+                            ? `Có ${products.length} kết quả tìm kiếm phù hợp`
+                            : 'Tất cả sản phẩm'}
+                    </span>
                     <div className="container mx-auto grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
                         {products &&
                             products.map((product) => {
@@ -57,4 +63,4 @@ const AllProductsPage = () => {
         </div>
     );
 };
-export default AllProductsPage;
+export default SearchProducts;

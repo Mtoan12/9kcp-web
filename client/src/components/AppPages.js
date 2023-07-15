@@ -9,6 +9,8 @@ import { Route, Routes } from 'react-router-dom';
 import OrdersPage from 'pages/OrdersPage';
 import UserInformation from './UserInformation';
 import AboutPage from 'pages/AboutPage';
+import NotExistPage from 'pages/NotExistPage/NotExistPage';
+import SearchProducts from 'pages/SearchProducts';
 
 const pages = [
     {
@@ -59,19 +61,15 @@ const pages = [
         path: '/about',
         element: AboutPage,
     },
+    {
+        path: '/search',
+        element: SearchProducts,
+    },
 ];
 
 const AppPages = () => {
-    // const paths = pages.reduce((pathsArr, page) => {
-    //     return [...pathsArr, page.path];
-    // }, []);
-
-    // const location = useLocation();
-    // const haveHeader =
-    //     paths.includes(location.pathname) || location.pathname.startsWith('/product/');
     return (
         <>
-            {/* {haveHeader && <Header />} */}
             <Routes>
                 {pages &&
                     pages.map((page) => {

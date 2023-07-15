@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import './HeaderStyles.css';
-import logo from 'img/logo.webp';
-import { Link, useNavigate } from 'react-router-dom';
 import { Input } from 'antd';
-import useLoadUser from 'hooks/useLoadUser';
+import AccountNav from 'components/AccountNav';
+import { UserNav } from 'components/UserNav';
+import Navbar from 'components/nav/Navbar';
 import { AuthContext } from 'context/AuthContext';
 import { CartContext } from 'context/CartContext';
-import { UserNav } from 'components/UserNav';
-import AccountNav from 'components/AccountNav';
-import Navbar from 'components/nav/Navbar';
+import useLoadUser from 'hooks/useLoadUser';
+import logo from 'img/logo.webp';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './HeaderStyles.css';
 
 const Header = () => {
+    const inputRef = useRef(null);
     useLoadUser();
     const [inputShowing, setInputShowing] = useState(false);
     const [infoShowing, setInfoShowing] = useState(true);
@@ -25,19 +26,27 @@ const Header = () => {
     useEffect(() => {
         loadCart();
     }, []);
+
+    useEffect(() => {
+        if (inputShowing) {
+            inputRef.current.focus();
+            inputRef.current.select();
+        }
+    }, [inputShowing]);
+
     const onClickLogOutHandler = () => {
         logOutHandler();
     };
 
     const handleOnEnter = (e) => {
         if (e.key === 'Enter') {
-            searchText && navigate(`/products?query=${searchText}`);
+            searchText && navigate(`/search?query=${searchText}`);
         }
     };
 
     const searchHandle = () => {
         if (inputShowing) {
-            searchText && navigate(`/products?query=${searchText}`);
+            searchText && navigate(`/search?query=${searchText}`);
         }
         setInfoShowing(!infoShowing);
         setInputShowing(!inputShowing);
@@ -114,6 +123,7 @@ const Header = () => {
                         </div>
                     </Link>
                     <Input
+                        ref={inputRef}
                         size="small"
                         className={`${!inputShowing && 'hidden focus'}`}
                         onChange={(e) => setSearchText(e.target.value)}
@@ -125,7 +135,7 @@ const Header = () => {
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-6 h-6 cursor-pointer hover:opacity-50 hover-effect"
+                        className="w-6 h-6 cursor-pointer hover:opacity-50 hover-effect pointer-events-auto"
                         onClick={searchHandle}
                     >
                         <path

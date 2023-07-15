@@ -6,7 +6,8 @@ const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 export const fetchProduct = createAsyncThunk(
     'products/fetchProducts',
     async (pathname = '/', thunkAPI) => {
-        const res = await axios.get(`${API_URL}/product${pathname}`);
+        const url = `${API_URL}/product${pathname}`;
+        const res = await axios.get(url);
 
         return res.data;
     }
