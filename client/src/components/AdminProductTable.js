@@ -2,7 +2,7 @@ import { Button, Space, Table, message } from 'antd';
 import AdminProductModal from './AdminProductModal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from 'constants/constance';
+import { API_UPLOADS, API_URL } from 'constants/constance';
 import { useDispatch } from 'react-redux';
 import { removeProduct } from 'redux/slices/adminProductsSlice';
 
@@ -46,6 +46,25 @@ const AdminProductTable = ({ products }) => {
 
     useEffect(() => {
         setColumns([
+            {
+                title: 'Ảnh',
+                dataIndex: 'image',
+                key: 'image',
+                render: (_, record) => (
+                    <div className="w-[100%] max-w-[64px]">
+                        <img
+                            src={`${API_UPLOADS}/${
+                                record.image ? record.image : record.id + '.webp'
+                            }`}
+                            alt={record.id}
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src = `${API_UPLOADS}/default-image-for-error.jpg`;
+                            }}
+                        />
+                    </div>
+                ),
+            },
             {
                 title: 'Id',
                 dataIndex: 'id',
@@ -142,6 +161,7 @@ const AdminProductTable = ({ products }) => {
         setData(
             products.map((product) => {
                 return {
+                    image: product?.imageName,
                     key: product?._id,
                     id: product?._id,
                     title: product?.title,
