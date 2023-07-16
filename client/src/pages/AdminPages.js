@@ -23,14 +23,14 @@ const AdminPages = () => {
     // const haveHeader =
     //     paths.includes(location.pathname) || location.pathname.startsWith('/product/');
     return (
-        <div className="flex gap-5">
+        <div className="w-screen self-start flex gap-5">
             {/* {haveHeader && <Header />} */}
             {paths.includes(pathname) && (
                 <div>
                     <AdminMenu />
                 </div>
             )}
-            <div>
+            <div className="flex-grow">
                 <Routes>
                     {pages &&
                         pages.map((page) => {

@@ -34,7 +34,7 @@ const Header = () => {
     }, [inputShowing]);
 
     const onClickLogOutHandler = () => {
-        dispatch(logOut())
+        dispatch(logOut());
     };
 
     const handleOnEnter = (e) => {
@@ -87,8 +87,12 @@ const Header = () => {
                 </Link>
                 <div className="col-span-4 flex justify-end lg:justify-center items-center gap-4">
                     <div className={`hidden lg:block ${!infoShowing && 'lg:hidden'}`}>
-                        {isAuthenticated ? (
-                            <UserNav user={user} onClickLogOutHandler={onClickLogOutHandler} />
+                        {user ? (
+                            <UserNav
+                                user={user}
+                                isAuthenticated={isAuthenticated}
+                                onClickLogOutHandler={onClickLogOutHandler}
+                            />
                         ) : (
                             <AccountNav />
                         )}

@@ -1,5 +1,4 @@
 import './App.css';
-import AuthContextProvider from './context/AuthContext';
 import CartContextProvider from './context/CartContext';
 import AppPages from './components/AppPages';
 import AdminPages from './pages/AdminPages';
@@ -17,18 +16,16 @@ function App() {
 
     return (
         <div className="text-lg md:text-md lg:text-sm">
-            <AuthContextProvider>
-                <CartContextProvider>
-                    <div className="flex flex-col justify-center items-center min-h-screen">
-                        <Header />
-                        <div className="container flex-grow">
-                            <AppPages />
-                            <AdminPages />
-                        </div>
-                        <Footer />
+            <CartContextProvider>
+                <div className="flex flex-col justify-center items-center min-h-screen">
+                    <Header />
+                    <div className="container flex-grow">
+                        <AppPages />
+                        <AdminPages />
                     </div>
-                </CartContextProvider>
-            </AuthContextProvider>
+                    <Footer />
+                </div>
+            </CartContextProvider>
         </div>
     );
 }

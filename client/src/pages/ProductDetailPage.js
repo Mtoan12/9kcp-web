@@ -35,6 +35,7 @@ const ProductDetailPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log({ ok: 'fetch lai' });
         dispatch(fetchProduct(id));
     }, [dispatch, id]);
 

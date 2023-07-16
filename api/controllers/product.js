@@ -2,6 +2,8 @@ const { KIT, KEYCAP, KEYBOARD } = require('../constance/constance');
 const Products = require('../models/Product');
 const fs = require('fs');
 const path = require('path');
+const isObjectIdValid = require('../utils/isObjectIdValid');
+const { default: mongoose } = require('mongoose');
 
 const getProducts = async (req, res, next) => {
     try {
@@ -17,19 +19,54 @@ const getProducts = async (req, res, next) => {
         next(error);
     }
 };
+const getFilteredProducts = async (req, res, next) => {
+    const filter = req.body.filter;
+
+    console.log(filter);
+    try {
+        let regex = new RegExp(filter, 'i');
+        const products = await Products.find({
+            $or: [
+                { title: regex },
+                { brand: regex },
+                { category: regex },
+                { inStock: isNaN(filter) ? -1 : Number(filter) },
+                { description: regex },
+                { price: isNaN(filter) ? -1 : Number(filter) },
+            ],
+        });
+
+        res.json({
+            success: true,
+            message: 'Get products successfully',
+            products,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 const getProduct = async (req, res, next) => {
     const id = req.params.id;
+
+    if (!isObjectIdValid(id)) {
+        return res.status(404).json({
+            success: false,
+            message: 'Không tìm thấy sản phẩm',
+        });
+    }
+
     try {
         const product = await Products.findById(id);
+
         if (!product) {
             return res.status(404).json({
                 success: false,
-                message: 'Product not found',
+                message: 'Không tìm thấy sản phẩm',
             });
         }
 
-        res.json({
+        return res.json({
             success: true,
             message: 'Found product',
             product,
@@ -53,9 +90,7 @@ const addProduct = async (req, res, next) => {
                 imageName: req.file.filename,
             });
 
-            // console.log({ title, brand, price, inStock, category });
             await newProduct.save();
-            // console.log(newProduct, { image: req.file });
 
             res.json({
                 success: true,
@@ -71,8 +106,15 @@ const addProduct = async (req, res, next) => {
 const editProduct = async (req, res, next) => {
     if (req.user.isAdmin) {
         const _id = req.params.id;
+
+        if (!isObjectIdValid(_id)) {
+            return res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy sản phẩm',
+            });
+        }
+
         const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
-        console.log({ title, brand, price, inStock, category });
         try {
             const newImageName = req?.file?.filename;
             const oldProduct = await Products.findById(_id);
@@ -103,10 +145,16 @@ const editProduct = async (req, res, next) => {
 const removeProduct = async (req, res, next) => {
     const _id = req.params.id;
 
+    if (!isObjectIdValid(_id)) {
+        return res.status(404).json({
+            success: false,
+            message: 'Không tìm thấy sản phẩm',
+        });
+    }
+
     if (req.user.isAdmin) {
         try {
             const product = await Products.findOneAndDelete({ _id });
-            console.log(product);
             deleteImage(product.imageName);
             res.json({
                 success: true,
@@ -223,4 +271,5 @@ module.exports = {
     getAllKeyboard,
     getProduct,
     getSearch,
+    getFilteredProducts,
 };

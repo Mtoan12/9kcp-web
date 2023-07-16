@@ -1,10 +1,8 @@
 import { Table } from 'antd';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../constants/constance';
-import formatTimeStamp from '../utils/formatTimeStamp';
+import { fetchOrders, loadUserOrdersTable } from 'redux/slices/order';
 import UserMenu from './../components/UserMenu';
 const columns = [
     {
@@ -28,43 +26,33 @@ const columns = [
         key: 'quantity',
     },
     {
+        title: 'Địa chỉ giao hàng',
+        dataIndex: 'address',
+        key: 'address',
+    },
+    {
         title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
     },
 ];
 const OrdersPage = () => {
+    const user = useSelector((state) => state.auth.user);
+    const orders = useSelector((state) => state.order.orders);
+    const tableData = useSelector((state) => state.order.tableData);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         document.title = 'Đơn hàng của bạn';
     }, []);
 
-    const [orders, setOrders] = useState([]);
-    const user = useSelector((state) => state.auth.user);
     useEffect(() => {
-        const fetchOrders = async () => {
-            const rs = await axios.get(`${API_URL}/order`);
-            if (rs.data.success) {
-                const orders = rs.data.orders;
-                const products = rs.data.products;
-                if (orders && products) {
-                    const newOrders = [];
-                    for (let i = 0; i < Math.min(orders.length, products.length); i++) {
-                        newOrders.push({
-                            name: products[i].title,
-                            date: formatTimeStamp(products[i].createAt),
-                            id: orders[i]._id,
-                            quantity: orders[i].quantity,
-                            status: orders[i].status,
-                        });
-                    }
+        dispatch(fetchOrders());
+    }, [dispatch]);
 
-                    setOrders(newOrders);
-                }
-            }
-        };
-
-        fetchOrders();
-    }, []);
+    useEffect(() => {
+        dispatch(loadUserOrdersTable());
+    }, [dispatch, orders]);
 
     const navigate = useNavigate();
     if (!user) {
@@ -76,7 +64,7 @@ const OrdersPage = () => {
         <div className="flex flex-col justify-center gap-5">
             <UserMenu />
             <span className="uppercase">Đơn hàng của bạn</span>
-            <Table columns={columns} dataSource={orders} />
+            <Table columns={columns} dataSource={tableData} />
         </div>
     );
 };

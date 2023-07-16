@@ -10,11 +10,13 @@ const {
     getAllKeyboard,
     getProduct,
     getSearch,
+    getFilteredProducts,
 } = require('../controllers/product');
 const upload = require('../middleware/upload');
 const verifyToken = require('../middleware/verifyToken');
 
 router.get('/', getProducts);
+router.post('/filter', getFilteredProducts);
 router.get('/search', getSearch);
 
 router.post('/add-product', verifyToken, upload.single('image'), addProduct);

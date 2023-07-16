@@ -8,12 +8,8 @@ export const loadUser = createAsyncThunk('auth/loadUser', async () => {
     const token = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
     setAuth(token);
 
-    try {
-        const res = await axios.get(`${API_URL}/auth`);
-        return res.data;
-    } catch (error) {
-        return error.message;
-    }
+    const res = await axios.get(`${API_URL}/auth`);
+    return res.data;
 });
 
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
@@ -53,6 +49,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loadUser.pending, (state) => {
+            state.error = '';
             state.isLoading = true;
         });
         builder.addCase(loadUser.fulfilled, (state, action) => {
@@ -62,6 +59,8 @@ const authSlice = createSlice({
         });
         builder.addCase(loadUser.rejected, (state, action) => {
             state.isLoading = false;
+            state.isAuthenticated = false;
+
             state.error = action.payload;
         });
     },

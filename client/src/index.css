@@ -74,3 +74,14 @@ code {
 svg {
     @apply pointer-events-none;
 }
+
+.error-input {
+    border: 1px solid theme('colors.error');
+    transition: all 0.45s ease;
+}
+
+.error-message {
+    transition: all 0.45s ease;
+    @apply text-error font-medium;
+}
+

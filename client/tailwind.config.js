@@ -7,6 +7,7 @@ module.exports = {
         colors: {
             detail: '#ff6c28',
             secondary: '#f0f0f0',
+            error: '#fc8181',
         },
     },
     plugins: [require('flowbite/plugin')],

@@ -5,6 +5,9 @@ import productDetailReducer from './slices/productDetail';
 import searchReducer from './slices/search';
 import commentsReducer from './slices/comment';
 import authReducer from './slices/auth';
+import ordersReducer from './slices/order';
+import addressReducer from './slices/address';
+import adminProductsReducer from './slices/adminProductsSlice';
 
 const rootReducer = {
     products: productsReducer,
@@ -13,6 +16,9 @@ const rootReducer = {
     search: searchReducer,
     comments: commentsReducer,
     auth: authReducer,
+    order: ordersReducer,
+    address: addressReducer,
+    adminProducts: adminProductsReducer,
 };
 
 const store = configureStore({

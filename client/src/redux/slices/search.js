@@ -5,7 +5,6 @@ import { API_URL } from 'constants/constance';
 export const searchProducts = createAsyncThunk(
     'search/searchProducts',
     async (searchText, thunkAPI) => {
-        console.log(searchText);
         const res = await axios.get(`${API_URL}/product/search?query=${searchText}`);
 
         return res.data;
@@ -21,6 +20,7 @@ const searchSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(searchProducts.pending, (state) => {
+            state.error = '';
             state.isLoading = true;
         });
         builder.addCase(searchProducts.fulfilled, (state, action) => {

@@ -1,7 +1,15 @@
 const Comments = require('../models/Comment');
+const isObjectIdValid = require('../utils/isObjectIdValid');
 
 const getCommentsByProductId = async (req, res, next) => {
     const productId = req.params.productId;
+
+    if (!isObjectIdValid(productId)) {
+        return res.status(404).json({
+            success: false,
+            message: 'Không tìm thấy sản phẩm',
+        });
+    }
 
     try {
         const comments = await Comments.find({ product: productId })

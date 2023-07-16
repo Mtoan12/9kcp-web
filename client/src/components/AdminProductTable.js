@@ -3,13 +3,17 @@ import AdminProductModal from './AdminProductModal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
+import { useDispatch } from 'react-redux';
+import { removeProduct } from 'redux/slices/adminProductsSlice';
 
-const AdminProductTable = ({ products, setProducts }) => {
+const AdminProductTable = ({ products }) => {
     const [isShow, setIsShow] = useState(false);
     const [method, setMethod] = useState('');
     const [product, setProduct] = useState('');
     const [columns, setColumns] = useState([]);
     const [data, setData] = useState([]);
+
+    const dispatch = useDispatch();
 
     const handleAddClick = () => {
         setProduct(null);
@@ -31,9 +35,7 @@ const AdminProductTable = ({ products, setProducts }) => {
             const rs = await axios.delete(`${API_URL}/product/detail/${productId}`);
 
             if (rs.data.success) {
-                const index = products.findIndex((product) => product._id === productId);
-                products.splice(index, 1);
-                setProducts([...products]);
+                dispatch(removeProduct(productId));
                 message.success('Xóa thành công');
             }
         } catch (error) {
@@ -160,7 +162,6 @@ const AdminProductTable = ({ products, setProducts }) => {
                 setIsShow={setIsShow}
                 method={method}
                 products={products}
-                setProducts={setProducts}
                 productEdit={product}
             />
         </div>

@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { DeliveryModal } from './DeliveryModal';
+import { setAddress } from 'redux/slices/address';
 
 const Delivery = ({ deliveryAddress, setDeliveryAddress }) => {
     const [isShow, setIsShow] = useState(false);
     const user = useSelector((state) => state.auth.user);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     useEffect(() => {
         if (!isAuthenticated) {
             return navigate('/login');
@@ -35,7 +36,9 @@ const Delivery = ({ deliveryAddress, setDeliveryAddress }) => {
         fetchAddress();
     }, [user, navigate]);
 
-    console.log(deliveryAddress);
+    useEffect(() => {
+        dispatch(setAddress(deliveryAddress));
+    }, [dispatch, deliveryAddress]);
     return (
         <div className="flex items-center gap-1">
             <span className="font-semibold">Địa chỉ giao hàng:</span>

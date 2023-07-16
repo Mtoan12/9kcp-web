@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_URL } from '../constants/constance';
 import { useNavigate } from 'react-router-dom';
+import formatTimeStamp from 'utils/formatTimeStamp';
 
 const AdminOrderPage = () => {
     useEffect(() => {
@@ -13,9 +14,23 @@ const AdminOrderPage = () => {
     const [data, setData] = useState([]);
     const [orders, setOrders] = useState([]);
     const [status, setStatus] = useState('');
+    const [deleteBtnShow, setDeleteBtnShow] = useState(false);
 
     const navigate = useNavigate();
     const onStatusChange = (value, order) => {};
+    const handleDeleteOrder = async (e, orderId) => {
+        try {
+            const res = await axios.delete(`${API_URL}/order/${orderId}`);
+            if (res.data.success) {
+                message.success('Xóa đơn hàng thành công');
+                navigate(0);
+            }
+        } catch (error) {
+            console.log(error);
+            message.error('Xóa đơn hàng thất bại');
+        }
+    };
+
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -24,63 +39,81 @@ const AdminOrderPage = () => {
                     const newOrders = rs.data.orders
                         .filter((order) => order.productId)
                         .map((order) => {
+                            setDeleteBtnShow(
+                                order.status === 'Đã hoàn thành' || order.status === 'Hủy đơn hàng'
+                            );
                             return {
                                 // userId: order.userId._id,
                                 userName: order.userId.name,
                                 // productId: order.productId?._id,
                                 productName: order.productId?.title,
                                 quantity: order.quantity,
-                                time: order.createAt,
+                                address: order.address,
+                                time: formatTimeStamp(order.createAt),
                                 status: (
-                                    <Select
-                                        showSearch
-                                        placeholder="Chọn danh mục"
-                                        optionFilterProp="children"
-                                        value={order.status}
-                                        onChange={async (value) => {
-                                            try {
-                                                const rs = await axios.put(`${API_URL}/order`, {
-                                                    status: value,
-                                                    userId: order.userId._id,
-                                                    productId: order.productId._id,
-                                                });
-                                                navigate(0);
-                                            } catch (error) {
-                                                message.error('Lỗi không xác định');
+                                    <div className="flex items-center">
+                                        <Select
+                                            showSearch
+                                            placeholder="Chọn danh mục"
+                                            optionFilterProp="children"
+                                            value={order.status}
+                                            onChange={async (value) => {
+                                                try {
+                                                    const rs = await axios.put(`${API_URL}/order`, {
+                                                        status: value,
+                                                        userId: order.userId._id,
+                                                        productId: order.productId._id,
+                                                    });
+
+                                                    navigate(0);
+                                                } catch (error) {
+                                                    message.error('Lỗi không xác định');
+                                                }
+                                            }}
+                                            filterOption={(input, option) =>
+                                                (option?.label ?? '')
+                                                    .toLowerCase()
+                                                    .includes(input.toLowerCase())
                                             }
-                                        }}
-                                        filterOption={(input, option) =>
-                                            (option?.label ?? '')
-                                                .toLowerCase()
-                                                .includes(input.toLowerCase())
-                                        }
-                                        options={[
-                                            {
-                                                value: 'Đang xử lý',
-                                                label: 'Đang xử lý',
-                                            },
-                                            {
-                                                value: 'Đã xác nhận',
-                                                label: 'Đã xác nhận',
-                                            },
-                                            {
-                                                value: 'Đang giao hàng',
-                                                label: 'Đang giao hàng',
-                                            },
-                                            {
-                                                value: 'Đã giao hàng',
-                                                label: 'Đã giao hàng',
-                                            },
-                                            {
-                                                value: 'Đã hoàn thành',
-                                                label: 'Đã hoàn thành',
-                                            },
-                                        ]}
-                                    />
+                                            options={[
+                                                {
+                                                    value: 'Đang xử lý',
+                                                    label: 'Đang xử lý',
+                                                },
+                                                {
+                                                    value: 'Đã xác nhận',
+                                                    label: 'Đã xác nhận',
+                                                },
+                                                {
+                                                    value: 'Đang giao hàng',
+                                                    label: 'Đang giao hàng',
+                                                },
+                                                {
+                                                    value: 'Đã giao hàng',
+                                                    label: 'Đã giao hàng',
+                                                },
+                                                {
+                                                    value: 'Đã hoàn thành',
+                                                    label: 'Đã hoàn thành',
+                                                },
+                                                {
+                                                    value: 'Hủy đơn hàng',
+                                                    label: 'Hủy dơn hàng',
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                ),
+                                action: (
+                                    <button
+                                        className="px-5 py-2 text-white text-md font-semibold rounded-lg bg-red-500"
+                                        onClick={(e) => handleDeleteOrder(e, order._id)}
+                                    >
+                                        Xóa
+                                    </button>
                                 ),
                             };
                         });
-                    console.log({ newOrders });
                     setOrders([...newOrders]);
                 }
             } catch (error) {
@@ -93,21 +126,11 @@ const AdminOrderPage = () => {
 
     useEffect(() => {
         setColumns([
-            // {
-            //     title: 'Mã khách hàng',
-            //     dataIndex: 'userId',
-            //     key: 'userId',
-            // },
             {
                 title: 'Họ tên',
                 dataIndex: 'userName',
                 key: 'userName',
             },
-            // {
-            //     title: 'Mã sản phẩm',
-            //     dataIndex: 'productId',
-            //     key: 'productId',
-            // },
             {
                 title: 'Tên sản phẩm',
                 dataIndex: 'productName',
@@ -118,11 +141,11 @@ const AdminOrderPage = () => {
                 dataIndex: 'quantity',
                 key: 'quantity',
             },
-            // {
-            //     title: 'Địa chỉ giao hàng',
-            //     dataIndex: 'address',
-            //     key: 'address',
-            // },
+            {
+                title: 'Địa chỉ giao hàng',
+                dataIndex: 'address',
+                key: 'address',
+            },
             {
                 title: 'Thời gian',
                 dataIndex: 'time',
@@ -132,6 +155,11 @@ const AdminOrderPage = () => {
                 title: 'Trạng thái giao hàng',
                 dataIndex: 'status',
                 key: 'status',
+            },
+            {
+                title: 'Action',
+                dataIndex: 'action',
+                key: 'action',
             },
         ]);
         setData([...orders]);

@@ -9,7 +9,9 @@ export const fetchProduct = createAsyncThunk('productDetail/fetchProduct', async
         const res = await axios.get(`${API_URL}/product/detail/${id}`);
         return res.data;
     } catch (error) {
-        return error.response.data;
+        if (error.response.data) {
+            return error.response.data;
+        }
     }
 });
 
@@ -29,15 +31,19 @@ const productDetailSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchProduct.pending, (state) => {
             state.isLoading = true;
+            state.error = '';
         });
         builder.addCase(fetchProduct.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.product = action.payload.product;
+            if (action.payload.success) {
+                state.product = action.payload.product;
+            } else {
+                state.error = action.payload.message;
+            }
         });
         builder.addCase(fetchProduct.rejected, (state, action) => {
             state.isLoading = false;
-            console.log(action.payload);
-            state.error = action.payload || 'Lỗi không xác định';
+            state.error = 'Lỗi không xác đinh';
         });
     },
 });

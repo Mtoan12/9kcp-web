@@ -4,8 +4,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_UPLOADS, API_URL } from 'constants/constance';
 import { sortByCreateAt } from 'utils/sortByCreate';
+import { useDispatch } from 'react-redux';
+import { addProduct, updateProduct } from 'redux/slices/adminProductsSlice';
 
-const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, productEdit }) => {
+const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit }) => {
     const [image, setImage] = useState('');
     const [title, setTitle] = useState('');
     const [brand, setBrand] = useState('');
@@ -13,6 +15,8 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, p
     const [price, setPrice] = useState(0);
     const [inStock, setInStock] = useState(0);
     const [show, setShow] = useState(true);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (method === 'put' && productEdit) {
@@ -55,7 +59,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, p
 
                 if (rs.data.success) {
                     message.success('Thêm thành công');
-                    setProducts(sortByCreateAt([...products, rs.data.newProduct]));
+                    dispatch(addProduct(rs.data.newProduct));
                 }
             }
 
@@ -70,14 +74,11 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, setProducts, p
 
                 if (rs.data.success) {
                     message.success('Cập nhât thành công');
-                    setProducts(sortByCreateAt([...products, rs.data.newProduct]));
+                    dispatch(updateProduct(rs.data.product));
                 }
             }
-
-            navigate(0);
         } catch (error) {
             console.log(error);
-            message.error('Tạo thất bại');
         }
     };
 

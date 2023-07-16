@@ -22,6 +22,7 @@ const productsSuggestionSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.pending, (state) => {
+            state.error = '';
             state.isLoading = true;
         });
         builder.addCase(fetchProducts.fulfilled, (state, action) => {

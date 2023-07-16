@@ -19,7 +19,18 @@ const OrderSchema = mongoose.Schema({
         type: String,
         require: true,
         default: 'Đang xử lý',
-        enum: ['Đang xử lý', 'Đã xác nhận', 'Đang giao hàng', 'Đã giao hàng', 'Đã hoàn thành'],
+        enum: [
+            'Đang xử lý',
+            'Đã xác nhận',
+            'Đang giao hàng',
+            'Đã giao hàng',
+            'Đã hoàn thành',
+            'Hủy đơn hàng',
+        ],
+    },
+    address: {
+        type: String,
+        require: true,
     },
     createAt: {
         type: Date,

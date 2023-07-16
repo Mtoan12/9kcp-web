@@ -4,33 +4,47 @@ import { useLocation } from 'react-router-dom';
 import { API_URL } from '../constants/constance';
 import { message } from 'antd';
 import AdminProductTable from '../components/AdminProductTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAdminProducts } from 'redux/slices/adminProductsSlice';
 
 const AdminProductPage = () => {
     useEffect(() => {
         document.title = 'Quản lý sản phẩm';
     }, []);
 
-    const [products, setProducts] = useState([]);
+    const [filter, setFilter] = useState('');
+
     const { pathname } = useLocation();
+    const products = useSelector((state) => state.adminProducts.products);
+    const dispatch = useDispatch();
     const apiPath = pathname === '/admin/products' ? '/' : pathname.slice(6, -1);
+
     useEffect(() => {
-        const fetchApi = async () => {
-            try {
-                const rs = await axios.get(`${API_URL + '/product' + apiPath}`);
-                if (rs.data.success) {
-                    setProducts([...rs.data.products]);
-                }
-            } catch (error) {
-                message.error('Lỗi không xác định');
-            }
+        dispatch(fetchAdminProducts(filter));
+    }, [dispatch, filter]);
+
+    useEffect(() => {
+        const filtersObj = {
+            '/keyboard': 'BÀN PHÍM CƠ',
+            '/kit': 'KIT',
+            '/keycap': 'KEYCAP',
         };
+        dispatch(fetchAdminProducts({ filter: filtersObj[pathname] }));
+    }, [dispatch, apiPath, pathname]);
 
-        fetchApi();
-    }, [apiPath]);
-
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
     return (
-        <div>
-            <AdminProductTable products={products} setProducts={setProducts} />
+        <div className="">
+            <input
+                type="text"
+                placeholder="Filter"
+                className="my-3"
+                value={filter}
+                onChange={handleFilterChange}
+            />
+            <AdminProductTable products={products} />
         </div>
     );
 };

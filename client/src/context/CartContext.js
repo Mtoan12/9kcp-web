@@ -2,6 +2,8 @@ import { message } from 'antd';
 import axios from 'axios';
 import { createContext, useState } from 'react';
 import { API_URL, LOCAL_STORAGE_CART } from '../constants/constance';
+import { useSelector } from 'react-redux';
+import formatAddress from 'utils/formatAddress';
 
 export const CartContext = createContext();
 
@@ -9,6 +11,8 @@ const CartContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [productsCartQuantity, setProductsCartQuantity] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
+
+    const address = useSelector((state) => state.address.address);
 
     const findItemIndexById = (id) => {
         return cartItems ? cartItems.findIndex((cartItem) => cartItem.item._id === id) : -1;
@@ -85,9 +89,11 @@ const CartContextProvider = ({ children }) => {
         try {
             for (const cart of cartItems) {
                 const { item, quantity } = cart;
+
                 await axios.post(`${API_URL}/order`, {
                     productId: item._id,
                     quantity,
+                    address: formatAddress(address),
                 });
             }
             message.success('Thanh toán thành công');

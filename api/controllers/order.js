@@ -2,7 +2,7 @@ const Users = require('../models/User');
 const Products = require('../models/Product');
 const Orders = require('../models/OrderStatus');
 const Deliveries = require('../models/Delivery');
-const { default: mongoose } = require('mongoose');
+const { default: mongoose, isValidObjectId } = require('mongoose');
 
 const getAllOrders = async (req, res, next) => {
     if (req.user.isAdmin) {
@@ -38,7 +38,6 @@ const getOrder = async (req, res, next) => {
             res.json({
                 success: true,
                 orders: allUserOrders,
-                products,
                 message: 'Get orders successfully',
             });
         } catch (error) {
@@ -62,9 +61,8 @@ const checkProductQuantity = (product, quantity) => {
 const saveOrder = async (req, res, next) => {
     if (req.id) {
         const userId = req.id;
-        const { productId, quantity } = req.body;
+        const { productId, quantity, address } = req.body;
 
-        console.log({ productId, quantity });
         const product = await Products.findById(productId);
         if (!product) {
             return res.json({
@@ -83,6 +81,7 @@ const saveOrder = async (req, res, next) => {
                 userId,
                 productId,
                 quantity,
+                address,
             });
 
             const saveNewOrder = newOrder.save();
@@ -124,9 +123,47 @@ const changeOrderStatus = async (req, res, next) => {
     }
 };
 
+const removeOrder = async (req, res, next) => {
+    if (req.user.isAdmin) {
+        try {
+            const orderId = req.params.orderId;
+
+            if (!isValidObjectId(orderId)) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Không tìm thấy',
+                });
+            }
+
+            const orderDelete = await Orders.findOneAndDelete({ _id: orderId });
+            if (!orderDelete) {
+                return res.json({
+                    success: false,
+                    message: 'Xóa thất bại',
+                    orderDelete,
+                });
+            }
+
+            return res.json({
+                success: true,
+                message: 'Xóa thành công',
+                orderDelete,
+            });
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        return res.status(403).json({
+            success: false,
+            message: 'Bạn không có quyền làm điều này',
+        });
+    }
+};
+
 module.exports = {
     getOrder,
     saveOrder,
     getAllOrders,
     changeOrderStatus,
+    removeOrder,
 };
