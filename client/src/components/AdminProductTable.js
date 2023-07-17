@@ -31,16 +31,20 @@ const AdminProductTable = ({ products }) => {
     };
     const handleDeleteClick = async (e) => {
         const productId = e.target.value;
-        try {
-            const rs = await axios.delete(`${API_URL}/product/detail/${productId}`);
+        const findProduct = products.find((product) => {
+            return product._id === productId;
+        });
+        if (window.confirm(`Bạn có chắc muốn xóa sản phẩm: ${findProduct.title}`)) {
+            try {
+                const rs = await axios.delete(`${API_URL}/product/detail/${productId}`);
 
-            if (rs.data.success) {
-                dispatch(removeProduct(productId));
-                message.success('Xóa thành công');
+                if (rs.data.success) {
+                    dispatch(removeProduct(productId));
+                }
+            } catch (error) {
+                console.log(error);
+                message.error('Xoá sản phẩm thất bại');
             }
-        } catch (error) {
-            console.log(error);
-            message.error('Xoá sản phẩm thất bại');
         }
     };
 

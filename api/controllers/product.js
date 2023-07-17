@@ -78,7 +78,7 @@ const getProduct = async (req, res, next) => {
 
 const addProduct = async (req, res, next) => {
     if (req.user.isAdmin) {
-        const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
+        const { title, brand, price, inStock, category, description } = JSON.parse(req.body.info);
 
         try {
             const newProduct = new Products({
@@ -87,6 +87,7 @@ const addProduct = async (req, res, next) => {
                 price,
                 inStock,
                 category,
+                description,
                 imageName: req.file.filename,
             });
 
@@ -114,7 +115,7 @@ const editProduct = async (req, res, next) => {
             });
         }
 
-        const { title, brand, price, inStock, category } = JSON.parse(req.body.info);
+        const { title, brand, price, inStock, category, description } = JSON.parse(req.body.info);
         try {
             const newImageName = req?.file?.filename;
             const oldProduct = await Products.findById(_id);
@@ -128,7 +129,7 @@ const editProduct = async (req, res, next) => {
             //const imageName = newImageName? newImageName : oldProduct.imageName && deleteImage(oldProduct.imageName);
             const product = await Products.findOneAndUpdate(
                 { _id },
-                { title, brand, price, inStock, category, imageName },
+                { title, brand, price, inStock, category, imageName, description },
                 { new: true }
             );
             res.json({

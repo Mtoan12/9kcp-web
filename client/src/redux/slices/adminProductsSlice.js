@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
 
@@ -32,6 +33,7 @@ const adminProductsSlice = createSlice({
             const newProducts = [...state.products];
             newProducts.splice(index, 1);
             state.products = newProducts;
+            message.success('Xóa thành công');
         },
         addProduct: (state, action) => {
             const newProduct = [...state.products, action.payload];

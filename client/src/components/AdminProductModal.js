@@ -14,6 +14,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
     const [category, setCategory] = useState('');
     const [price, setPrice] = useState(0);
     const [inStock, setInStock] = useState(0);
+    const [description, setDescription] = useState(0);
     const [show, setShow] = useState(true);
 
     const dispatch = useDispatch();
@@ -43,15 +44,16 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
         setIsShow(false);
     };
 
-    const navigate = useNavigate();
-
     const handleSubmitForm = async (e) => {
         try {
             e.preventDefault();
             const formData = new FormData();
             console.log(image);
             formData.append('image', image);
-            formData.append('info', JSON.stringify({ title, brand, price, inStock, category }));
+            formData.append(
+                'info',
+                JSON.stringify({ title, brand, price, inStock, category, description })
+            );
             if (method === 'post') {
                 const rs = await axios.post(`${API_URL}/product/add-product`, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
@@ -187,6 +189,17 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
                                 name="inStock"
                                 value={inStock}
                                 onChange={(e) => setInStock(e.target.value)}
+                            />
+                        </div>
+                        <div className="col-span-12">
+                            <label htmlFor="inStock">Mô tả: </label>
+                            <textarea
+                                type="text"
+                                className="w-full"
+                                name="description"
+                                rows={3}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>
                     </div>
