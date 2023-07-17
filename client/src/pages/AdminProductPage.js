@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { API_URL } from '../constants/constance';
 import { message } from 'antd';
@@ -13,6 +13,7 @@ const AdminProductPage = () => {
     }, []);
 
     const [filter, setFilter] = useState('');
+    const [filterTerm, setFilterTerm] = useState('');
 
     const { pathname } = useLocation();
     const products = useSelector((state) => state.adminProducts.products);
@@ -20,8 +21,8 @@ const AdminProductPage = () => {
     const apiPath = pathname === '/admin/products' ? '/' : pathname.slice(6, -1);
 
     useEffect(() => {
-        dispatch(fetchAdminProducts(filter));
-    }, [dispatch, filter]);
+        dispatch(fetchAdminProducts(filterTerm));
+    }, [dispatch, filterTerm]);
 
     useEffect(() => {
         const filtersObj = {
@@ -29,11 +30,20 @@ const AdminProductPage = () => {
             '/kit': 'KIT',
             '/keycap': 'KEYCAP',
         };
-        dispatch(fetchAdminProducts({ filter: filtersObj[pathname] }));
+        dispatch(fetchAdminProducts(filtersObj[pathname]));
     }, [dispatch, apiPath, pathname]);
 
+    const timeRef = useRef(null);
     const handleFilterChange = (e) => {
-        setFilter(e.target.value);
+        const value = e.target.value;
+        if (timeRef.current) {
+            clearTimeout(timeRef.current);
+        }
+
+        timeRef.current = setTimeout(() => {
+            setFilterTerm(value);
+        }, 300);
+        setFilter(value);
     };
     return (
         <div className="">
