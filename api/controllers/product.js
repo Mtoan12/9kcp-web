@@ -20,19 +20,29 @@ const getProducts = async (req, res, next) => {
     }
 };
 const getFilteredProducts = async (req, res, next) => {
-    const filter = req.body.filter;
+    const { searchText, category } = req.query;
 
-    console.log(filter);
     try {
-        let regex = new RegExp(filter, 'i');
+        if (category) {
+            const products = await Products.find({
+                category,
+            });
+
+            return res.json({
+                success: true,
+                message: 'Get products successfully',
+                products,
+            });
+        }
+        let regex = new RegExp(searchText, 'i');
         const products = await Products.find({
             $or: [
                 { title: regex },
                 { brand: regex },
                 { category: regex },
-                { inStock: isNaN(filter) ? -1 : Number(filter) },
+                { inStock: isNaN(searchText) ? -1 : Number(searchText) },
                 { description: regex },
-                { price: isNaN(filter) ? -1 : Number(filter) },
+                { price: isNaN(searchText) ? -1 : Number(searchText) },
             ],
         });
 

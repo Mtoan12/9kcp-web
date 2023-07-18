@@ -21,19 +21,22 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
 
     useEffect(() => {
         if (method === 'put' && productEdit) {
-            const { _id, title, brand, category, inStock, price, imageName } = productEdit;
+            const { _id, title, brand, category, inStock, price, imageName, description } =
+                productEdit;
             setTitle(title);
             setBrand(brand);
             setCategory(category);
             setInStock(inStock);
             setPrice(price);
             setImage(imageName || `${_id}.webp`);
+            setDescription(description);
         } else {
             setTitle('');
             setBrand('');
             setCategory('');
             setInStock(0);
             setPrice(0);
+            setDescription('');
         }
     }, [productEdit]);
 

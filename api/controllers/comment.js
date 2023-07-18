@@ -56,7 +56,33 @@ const addNewComment = async (req, res, next) => {
             res.status(201).json({
                 success: true,
                 comments,
-                message: 'Create new comments successfully',
+                message: 'Create new comment successfully',
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+};
+
+const editComment = async (req, res, next) => {
+    const productId = req.params.productId;
+    const { content } = req.body;
+
+    if (req.user) {
+        try {
+            if (!content) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Chưa có nội dung đánh giá',
+                });
+            }
+
+            const comments = await Comments.findOneAndUpdate({ product: productId }, { new: true });
+
+            res.status(201).json({
+                success: true,
+                comments,
+                message: 'Edit comment successfully',
             });
         } catch (error) {
             next(error);

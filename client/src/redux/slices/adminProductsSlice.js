@@ -2,15 +2,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
+import queryString from 'query-string';
 
 export const fetchAdminProducts = createAsyncThunk(
     'adminProducts/fetchAdminProducts',
     async (filter = '', thunkAPI) => {
         try {
-            const res = await axios.post(`${API_URL}/product/filter`, {
-                filter,
-            });
-
+            const res = await axios.get(
+                `${API_URL}/product/filter?${queryString.stringify(filter)}`
+            );
             return res.data;
         } catch (error) {
             if (error.response.data) {
