@@ -17,6 +17,28 @@ const commentsSlice = createSlice({
         error: '',
         comments: [],
     },
+    reducers: {
+        addNewComment: (state, action) => {
+            const newComment = [...state.comments, action.payload];
+            state.comments = newComment;
+        },
+        editComment: (state, action) => {
+            const findIndex = state.comments.findIndex(
+                (comment) => comment._id === action.payload._id
+            );
+            const newComment = [...state.comments];
+            newComment.splice(findIndex, 1, action.payload);
+            state.comments = newComment;
+        },
+        deleteComment: (state, action) => {
+            const findIndex = state.comments.findIndex(
+                (comment) => comment._id === action.payload._id
+            );
+            const newComment = [...state.comments];
+            newComment.splice(findIndex, 1);
+            state.comments = newComment;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchComments.pending, (state) => {
             state.error = '';
@@ -33,5 +55,6 @@ const commentsSlice = createSlice({
     },
 });
 
-const { reducer: commentsReducer } = commentsSlice;
+const { reducer: commentsReducer, actions } = commentsSlice;
+export const { addNewComment, editComment, deleteComment } = actions;
 export default commentsReducer;

@@ -9,9 +9,13 @@ import Error from '../components/Error';
 import { CartContext } from '../context/CartContext';
 import HomeProducts from './../components/HomeProducts';
 import Loading from './../components/Loading';
-import { API_UPLOADS } from './../constants/constance';
+import { API_UPLOADS, API_URL } from './../constants/constance';
 import Comments from 'components/Comments';
-import { fetchComments } from 'redux/slices/comment';
+import { addNewComment, fetchComments } from 'redux/slices/comment';
+import { useFormik } from 'formik';
+import { commentSchema } from 'schemas/basic';
+import axios from 'axios';
+import { message } from 'antd';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
@@ -68,6 +72,26 @@ const ProductDetailPage = () => {
         dispatch(changeQuantity(value));
     };
 
+    const addComment = async (comment) => {
+        try {
+            const res = await axios.post(`${API_URL}/comment/${product._id}`, {
+                content: comment,
+            });
+
+            if (res.data.success) {
+                dispatch(addNewComment(comment));
+                navigate(0);
+                message.success('Cảm ơn đánh giá của bạn');
+            }
+        } catch (error) {
+            if (error.response.data) {
+                message.error(error.response.data.message);
+            } else {
+                message.error('Lỗi không sác định');
+            }
+        }
+    };
+
     return (
         <div className="px-2 mt-10">
             {isLoading ? (
@@ -119,6 +143,7 @@ const ProductDetailPage = () => {
                                             isLoading={isCommentsLoading}
                                             error={commentsError}
                                             comments={comments}
+                                            addNewCommentClick={addComment}
                                         />
                                     </div>
                                     {product && (

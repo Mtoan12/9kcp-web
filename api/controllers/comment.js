@@ -45,17 +45,17 @@ const addNewComment = async (req, res, next) => {
                     message: 'Chưa có nội dung đánh giá',
                 });
             }
-            const comments = new Comments({
+            const comment = new Comments({
                 user: req.user._id,
                 product: productId,
                 content,
             });
 
-            await comments.save();
+            await comment.save();
 
             res.status(201).json({
                 success: true,
-                comments,
+                comment,
                 message: 'Create new comment successfully',
             });
         } catch (error) {
@@ -65,11 +65,20 @@ const addNewComment = async (req, res, next) => {
 };
 
 const editComment = async (req, res, next) => {
-    const productId = req.params.productId;
+    const commentId = req.params.commentId;
     const { content } = req.body;
 
     if (req.user) {
         try {
+            const findComment = await Comments.findById(commentId).populate('user').exec();
+
+            if (findComment.user._id !== req.user._id) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Không thể thực hiện điều này',
+                });
+            }
+
             if (!content) {
                 return res.status(400).json({
                     success: false,
@@ -77,11 +86,46 @@ const editComment = async (req, res, next) => {
                 });
             }
 
-            const comments = await Comments.findOneAndUpdate({ product: productId }, { new: true });
+            const comments = await Comments.findOneAndUpdate({ _id: commentId }, { new: true });
 
-            res.status(201).json({
+            res.json({
                 success: true,
                 comments,
+                message: 'Edit comment successfully',
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+};
+
+const deleteComment = async (req, res, next) => {
+    const commentId = req.params.commentId;
+    const { content } = req.body;
+
+    if (req.user.isAdmin) {
+        try {
+            const findComment = await Comments.findById(commentId).populate('user').exec();
+
+            if (findComment.user._id !== req.user._id) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Không thể thực hiện điều này',
+                });
+            }
+
+            if (!content) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Chưa có nội dung đánh giá',
+                });
+            }
+
+            const comment = await Comments.findOneAndDelete({ product: productId });
+
+            res.json({
+                success: true,
+                comment,
                 message: 'Edit comment successfully',
             });
         } catch (error) {
@@ -93,4 +137,6 @@ const editComment = async (req, res, next) => {
 module.exports = {
     getCommentsByProductId,
     addNewComment,
+    editComment,
+    deleteComment,
 };

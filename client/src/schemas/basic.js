@@ -12,3 +12,7 @@ export const loginSchema = Yup.object({
     email: Yup.string().email('Email không hợp lệ').required('Vui lòng không bỏ trống'),
     password: Yup.string().required('Vui lòng không bỏ trống'),
 });
+
+export const commentSchema = Yup.object({
+    comment: Yup.string().required('Vui lòng không bỏ trống'),
+});

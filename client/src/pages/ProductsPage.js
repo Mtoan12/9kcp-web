@@ -1,16 +1,10 @@
-import { useEffect, useReducer } from 'react';
-import { API_URL, LOAD_FAILURE, LOAD_SUCCESSFUL } from '../constants/constance';
-import reducer from '../reducers/productReducer';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import Product from '../components/product/Product';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
-import keyboardBanner from '../img/keyboard-banner.webp';
-import kitBanner from '../img/kit-banner.webp';
-import keycapBanner from '../img/keycap-banner.png';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { fetchProduct } from 'redux/slices/products';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
+import Product from '../components/product/Product';
 
 const ProductsPage = () => {
     const { pathname } = useLocation();
