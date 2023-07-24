@@ -42,7 +42,7 @@ const Register = () => {
                     password: values.password,
                 });
                 if (response.success) {
-                    navigate('/');
+                    navigate(-1);
 
                     return response;
                 } else {
@@ -68,10 +68,9 @@ const Register = () => {
         try {
             const response = await axios.post(`${API_URL}/auth/register`, user);
             if (response.data.success) {
-                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+                // localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
 
                 dispatch(loadUser());
-
                 return response.data;
             }
         } catch (error) {

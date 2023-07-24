@@ -2,6 +2,11 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const {
+    signAccessToken,
+    signRefreshToken,
+    updateUserRefreshToken,
+} = require('../services/user.service');
 
 const register = async (req, res, next) => {
     const { email, password, name } = req.body;
@@ -31,14 +36,22 @@ const register = async (req, res, next) => {
 
         await newUser.save();
 
-        const accessToken = jwt.sign(
-            { userId: newUser._id, email },
-            process.env.ACCESS_TOKEN_SECRET
-        );
+        const accessToken = signAccessToken(user._id, email);
+        const refreshToken = signRefreshToken(user._id, email);
+        await updateUserRefreshToken(newUser, refreshToken);
+
+        res.cookie('access_token', accessToken, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 1000,
+        });
+        res.cookie('refresh_token', refreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
         res.status(201).json({
             success: true,
             message: 'Tạo tài khoản thành công',
-            accessToken,
         });
     } catch (error) {
         next(error);
@@ -74,12 +87,42 @@ const login = async (req, res, next) => {
             });
         }
 
-        const accessToken = jwt.sign({ userId: user._id, email }, process.env.ACCESS_TOKEN_SECRET);
+        const accessToken = signAccessToken(user._id, email);
+        const refreshToken = signRefreshToken(user._id, email);
+        console.log((accessToken, refreshToken));
+        await updateUserRefreshToken(user, refreshToken);
+
+        res.cookie('access_token', accessToken, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 1000,
+        });
+        res.cookie('refresh_token', refreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
 
         return res.status(200).json({
             success: true,
             message: 'Đăng nhập thành công',
-            accessToken,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+const logout = (req, res, next) => {
+    try {
+        res.cookie('access_token', 'none', {
+            expires: new Date(Date.now() + 5 * 1000),
+            httpOnly: true,
+        });
+        res.cookie('refresh_token', 'none', {
+            expires: new Date(Date.now() + 5 * 1000),
+            httpOnly: true,
+        });
+
+        res.json({
+            success: true,
+            message: 'Đăng xuất thành công',
         });
     } catch (error) {
         next(error);
@@ -109,8 +152,51 @@ const loadUser = async (req, res) => {
     }
 };
 
+const refreshToken = async (req, res, next) => {
+    try {
+        const refreshToken = req.cookies['refresh_token'];
+
+        if (refreshToken) {
+            const user = await User.findOne({ refreshToken });
+            if (!user) {
+                return res.json({
+                    success: false,
+                    message: 'Không tìm thấy Refresh Token',
+                });
+            }
+
+            const accessToken = signAccessToken(user._id, user.email);
+            const refreshToken = signRefreshToken(user._id, user.email);
+            await updateUserRefreshToken(user, refreshToken);
+
+            res.cookie('access_token', accessToken, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 1000,
+            });
+            res.cookie('refresh_token', refreshToken, {
+                httpOnly: true,
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            });
+
+            res.json({
+                success: true,
+                message: 'Làm mới Access token',
+            });
+        } else {
+            res.json({
+                success: false,
+                message: 'Không tìm thấy Refresh Token',
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     register,
     login,
+    logout,
     loadUser,
+    refreshToken,
 };

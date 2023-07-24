@@ -4,10 +4,39 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import store from './redux/store';
+import axios from 'axios';
+import refreshToken from 'utils/refreshToken';
+import { loadUser } from 'redux/slices/auth';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+//axios config
+axios.defaults.withCredentials = true;
+axios.interceptors.request.use(
+    function (config) {
+        // Do something before request is sent
+        return config;
+    },
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    }
+);
+axios.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    async function (error) {
+        if (error.response && error.response.status === 401) {
+            try {
+                await refreshToken();
+            } catch (error) {}
+        }
+        return Promise.reject(error);
+    }
+);
+
 root.render(
     <React.StrictMode>
         <Provider store={store}>

@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from 'redux/slices/auth';
 import './HeaderStyles.css';
+import axios from 'axios';
+import { API_URL } from 'constants/constance';
 
 const Header = () => {
     const inputRef = useRef(null);
@@ -33,7 +35,8 @@ const Header = () => {
         }
     }, [inputShowing]);
 
-    const onClickLogOutHandler = () => {
+    const onClickLogOutHandler = async () => {
+        await axios.get(`${API_URL}/auth/logout`)
         dispatch(logOut());
     };
 

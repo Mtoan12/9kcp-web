@@ -53,9 +53,13 @@ const Login = () => {
     const loginHandler = async (user) => {
         try {
             const response = await axios.post(`${API_URL}/auth/login`, user);
-            if (response.data.success) {
-                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+            // if (response.data.success) {
+            //     localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
 
+            //     dispatch(loadUser());
+            //     return response.data;
+            // }
+            if (response.data.success) {
                 dispatch(loadUser());
                 return response.data;
             }
@@ -75,7 +79,7 @@ const Login = () => {
         try {
             const response = await loginHandler({ email: values.email, password: values.password });
             if (response.success) {
-                navigate('/');
+                navigate(-1);
             } else {
                 setMessage(response.message);
             }

@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDb = require('./config/db.js');
+const cookieParser = require('cookie-parser');
+
 const authRoute = require('./routes/auth.js');
 const productRoute = require('./routes/product.js');
 const cartRoute = require('./routes/cart.js');
@@ -13,7 +15,15 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+
+// cors
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true, // Cho phép gửi cookie cùng với yêu cầu
+};
+app.use(cors(corsOptions));
+
+app.use(cookieParser());
 
 connectDb();
 

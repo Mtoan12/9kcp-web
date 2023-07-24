@@ -1,11 +1,8 @@
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const User = require('../models/User');
 
 const verifyToken = async (req, res, next) => {
-    const authHeader = req.header('Authorization');
-
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = req.cookies['access_token'];
     if (token) {
         const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const { userId } = decode;
@@ -22,6 +19,12 @@ const verifyToken = async (req, res, next) => {
                 });
             }
         } catch (error) {
+            if (error.name === 'TokenExpiredError') {
+                res.status(401).json({
+                    success: false,
+                    message: 'Token hết hạn',
+                });
+            }
             next(error);
         }
     } else {

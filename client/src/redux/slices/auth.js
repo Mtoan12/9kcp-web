@@ -5,8 +5,8 @@ import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance';
 import { setAuth } from 'utils/setAuth';
 
 export const loadUser = createAsyncThunk('auth/loadUser', async () => {
-    const token = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
-    setAuth(token);
+    // const token = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
+    // setAuth(token);
 
     const res = await axios.get(`${API_URL}/auth`);
     return res.data;
@@ -39,8 +39,6 @@ const authSlice = createSlice({
     },
     reducers: {
         logOut: (state, action) => {
-            localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
-            setAuth(null);
             message.success('Đã đăng xuất tài khoản');
 
             state.isAuthenticated = false;
