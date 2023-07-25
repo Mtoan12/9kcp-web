@@ -20,7 +20,7 @@ const Navbar = ({ show, setShow }) => {
                 className={`fixed top-0 z-10 ${
                     !show
                         ? 'translate-y-[-150%]'
-                        : 'translate-y-[0] flex flex-col gap-3 px-5 py-5 bg-white w-screen '
+                        : 'translate-y-[0] flex flex-col gap-3 px-5 py-5 bg-white w-screen overflow-x-scroll'
                 } lg:static lg:flex lg:flex-row lg:w-full lg:p-0 lg:translate-y-0 lg:justify-around lg:items-center lg:my-4`}
             >
                 <Link

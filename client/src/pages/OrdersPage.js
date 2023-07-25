@@ -55,16 +55,17 @@ const OrdersPage = () => {
     }, [dispatch, orders]);
 
     const navigate = useNavigate();
-    if (!user) {
-        navigate('/login');
-    }
 
     return (
-        <div className="flex flex-col justify-center gap-5">
-            <UserMenu />
-            <span className="uppercase">Đơn hàng của bạn</span>
-            <Table columns={columns} dataSource={tableData} scroll={{ x: 'max-content' }} />
-        </div>
+        <>
+            {user && (
+                <div className="flex flex-col justify-center gap-5">
+                    <UserMenu />
+                    <span className="uppercase">Đơn hàng của bạn</span>
+                    <Table columns={columns} dataSource={tableData} scroll={{ x: 'max-content' }} />
+                </div>
+            )}
+        </>
     );
 };
 export default OrdersPage;
