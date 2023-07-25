@@ -1,7 +1,11 @@
+import { message } from 'antd';
+import axios from 'axios';
+import Comments from 'components/Comments';
 import ProductDetailInfo from 'components/ProductDetailInfo';
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { addNewComment, fetchComments } from 'redux/slices/comment';
 import { changeQuantity, fetchProduct } from 'redux/slices/productDetail';
 import { fetchProducts } from 'redux/slices/productsSuggestion';
 import Description from '../components/Description';
@@ -10,12 +14,6 @@ import { CartContext } from '../context/CartContext';
 import HomeProducts from './../components/HomeProducts';
 import Loading from './../components/Loading';
 import { API_UPLOADS, API_URL } from './../constants/constance';
-import Comments from 'components/Comments';
-import { addNewComment, fetchComments } from 'redux/slices/comment';
-import { useFormik } from 'formik';
-import { commentSchema } from 'schemas/basic';
-import axios from 'axios';
-import { message } from 'antd';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
@@ -39,7 +37,6 @@ const ProductDetailPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log({ ok: 'fetch lai' });
         dispatch(fetchProduct(id));
     }, [dispatch, id]);
 

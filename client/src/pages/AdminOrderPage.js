@@ -1,9 +1,9 @@
 import { Select, Table, message } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { API_URL } from '../constants/constance';
 import { useNavigate } from 'react-router-dom';
 import formatTimeStamp from 'utils/formatTimeStamp';
+import { API_URL } from '../constants/constance';
 
 const AdminOrderPage = () => {
     useEffect(() => {
@@ -165,7 +165,6 @@ const AdminOrderPage = () => {
         setData([...orders]);
     }, [orders]);
 
-    console.log({ orders });
     return (
         <div className="flex">
             <Table columns={columns} dataSource={data} />

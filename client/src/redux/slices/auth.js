@@ -4,14 +4,9 @@ import axios from 'axios';
 import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance';
 
 export const loadUser = createAsyncThunk('auth/loadUser', async () => {
-    // const res = await axios.get(`${API_URL}/auth`);
-    // console.log({ res });
-    // return res.data;
     try {
         const response = await axios.get(`${API_URL}/auth`);
         if (response.data.success) {
-            console.log({ res: response.data });
-
             return response.data;
         }
     } catch (error) {

@@ -20,7 +20,6 @@ const Delivery = ({ deliveryAddress, setDeliveryAddress }) => {
         const fetchAddress = async () => {
             try {
                 const rs = await axios.get(`${API_URL}/delivery`);
-                // console.log(rs.data.delivery);
                 rs.data &&
                     rs.data.delivery &&
                     setDeliveryAddress({

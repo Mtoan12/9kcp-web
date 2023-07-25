@@ -42,7 +42,6 @@ const adminProductsSlice = createSlice({
         updateProduct: (state, action) => {
             const newProducts = [...state.products];
             const index = newProducts.findIndex((product) => product._id === action.payload._id);
-            console.log(index);
             newProducts.splice(index, 1, action.payload);
             state.products = newProducts;
         },

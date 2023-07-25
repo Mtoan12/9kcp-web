@@ -26,7 +26,6 @@ export const DeliveryModal = ({ isShow, setIsShow, deliveryAddress, setDeliveryA
                 district,
                 address,
             };
-            console.log(data);
             const rs = deliveryAddress.isSubmit
                 ? await axios.put(`${API_URL}/delivery`, data)
                 : await axios.post(`${API_URL}/delivery`, data);

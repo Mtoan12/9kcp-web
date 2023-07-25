@@ -43,7 +43,6 @@ const CartContextProvider = ({ children }) => {
         setCartItems(newCartItems);
         writeToLocalStorage(newCartItems);
         loadCart();
-        console.log(newCartItems);
         message.success(`Đã thêm sản phẩm "${item.title}" vào giỏ hàng`);
     };
 
@@ -73,7 +72,6 @@ const CartContextProvider = ({ children }) => {
 
         const newCartItems = [...cartItems];
         newCartItems.splice(findIndex, 1, modifyItem);
-        // console.log({ findIndex, modifyItem, newCartItems });
         setCartItems(newCartItems);
         writeToLocalStorage(newCartItems);
         loadCart();
