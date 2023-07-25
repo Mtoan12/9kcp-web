@@ -2,14 +2,25 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import axios from 'axios';
 import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance';
-import { setAuth } from 'utils/setAuth';
 
 export const loadUser = createAsyncThunk('auth/loadUser', async () => {
-    // const token = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME);
-    // setAuth(token);
+    // const res = await axios.get(`${API_URL}/auth`);
+    // console.log({ res });
+    // return res.data;
+    try {
+        const response = await axios.get(`${API_URL}/auth`);
+        if (response.data.success) {
+            console.log({ res: response.data });
 
-    const res = await axios.get(`${API_URL}/auth`);
-    return res.data;
+            return response.data;
+        }
+    } catch (error) {
+        if (error.response.data) {
+            return error.response.data;
+        } else {
+            return error.message;
+        }
+    }
 });
 
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
@@ -52,8 +63,13 @@ const authSlice = createSlice({
         });
         builder.addCase(loadUser.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.user = action.payload.user;
-            state.isAuthenticated = true;
+            if (action.payload.success) {
+                state.user = action.payload.user;
+                state.isAuthenticated = true;
+            } else {
+                state.error = action.payload.message;
+                console.log({ error: action.payload });
+            }
         });
         builder.addCase(loadUser.rejected, (state, action) => {
             state.isLoading = false;

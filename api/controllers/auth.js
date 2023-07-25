@@ -165,15 +165,15 @@ const refreshToken = async (req, res, next) => {
                 });
             }
 
-            const accessToken = signAccessToken(user._id, user.email);
-            const refreshToken = signRefreshToken(user._id, user.email);
-            await updateUserRefreshToken(user, refreshToken);
+            const newAccessToken = signAccessToken(user._id, user.email);
+            const newRefreshToken = signRefreshToken(user._id, user.email);
+            await updateUserRefreshToken(user, newRefreshToken);
 
-            res.cookie('access_token', accessToken, {
+            res.cookie('access_token', newAccessToken, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 1000,
             });
-            res.cookie('refresh_token', refreshToken, {
+            res.cookie('refresh_token', newRefreshToken, {
                 httpOnly: true,
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             });

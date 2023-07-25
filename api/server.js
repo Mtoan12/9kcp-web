@@ -35,10 +35,11 @@ app.use('/api/delivery', deliveryRoute);
 app.use('/api/comment', commentRoute);
 
 app.use((err, req, res, next) => {
-    console.error(err.message);
-    res.status(500).json({
+    console.error(err);
+
+    res.status(err.code || 500).json({
         success: false,
-        message: 'Something broke!',
+        message: err.message || 'Something broke!',
     });
 });
 

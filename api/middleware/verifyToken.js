@@ -28,6 +28,12 @@ const verifyToken = async (req, res, next) => {
             next(error);
         }
     } else {
+        if (req.cookies['refresh_token']) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token hết hạn',
+            });
+        }
         res.status(400).json({
             success: false,
             message: 'Token is missing',
