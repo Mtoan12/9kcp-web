@@ -17,10 +17,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // cors
+const allowedOrigins = ['https://kicap.vercel.app'];
+
 const corsOptions = {
-    origin: 'http://localhost:3000',
-    credentials: true, // Cho phép gửi cookie cùng với yêu cầu
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
 };
+
+app.use(cors(corsOptions));
+
 app.use(cors(corsOptions));
 
 app.use(cookieParser());
