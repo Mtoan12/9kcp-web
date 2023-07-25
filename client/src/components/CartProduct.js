@@ -14,8 +14,8 @@ const CartProduct = ({
         navigate(`/product/${_id}`);
     };
     return (
-        <div className="grid grid-cols-12 mb-4">
-            <div className="flex flex-col md:flex-row items-center gap-6 col-span-6">
+        <div className="grid grid-cols-12 mb-4 border-b border-gray-300 py-3">
+            <div className="flex flex-col md:flex-row items-center gap-6 col-span-12 lg:col-span-6">
                 <div className="rounded-lg overflow-hidden">
                     <img
                         src={`${API_UPLOADS}/${imageName || `${_id}.webp`}`}
@@ -49,10 +49,10 @@ const CartProduct = ({
                     </button>
                 </div>
             </div>
-            <div className="flex justify-center items-center col-span-4">
+            <div className="flex justify-center items-center col-span-6">
                 <span className="">{formatPrice(price)}</span>
             </div>
-            <div className="col-span-2 flex justify-center items-center">
+            <div className="col-span-6 flex justify-center items-center">
                 <InputNumber
                     defaultValue={quantity}
                     min={1}

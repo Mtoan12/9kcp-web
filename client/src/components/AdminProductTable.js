@@ -192,7 +192,7 @@ const AdminProductTable = ({ products }) => {
 
     return (
         <div className="flex">
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} scroll={{ x: 'max-content' }} />
             <AdminProductModal
                 isShow={isShow}
                 setIsShow={setIsShow}

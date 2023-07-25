@@ -59,12 +59,11 @@ const OrdersPage = () => {
         navigate('/login');
     }
 
-    console.log(orders);
     return (
         <div className="flex flex-col justify-center gap-5">
             <UserMenu />
             <span className="uppercase">Đơn hàng của bạn</span>
-            <Table columns={columns} dataSource={tableData} />
+            <Table columns={columns} dataSource={tableData} scroll={{ x: 'max-content' }} />
         </div>
     );
 };

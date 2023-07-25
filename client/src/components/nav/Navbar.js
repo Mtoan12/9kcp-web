@@ -64,7 +64,7 @@ const Navbar = ({ show, setShow }) => {
                         <div className="flex flex-col gap-3">
                             {user.isAdmin && (
                                 <Link
-                                    to="/admin"
+                                    to="/admin/products"
                                     className="py-3 md:py-5 lg:py-0 lg:border-0 border-b border-b-gray-300 home hover:opacity-50  hover-effect"
                                 >
                                     Quản lý
