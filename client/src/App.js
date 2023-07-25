@@ -21,7 +21,7 @@ function App() {
             <CartContextProvider>
                 <div className="flex flex-col justify-center items-center min-h-screen">
                     <Header />
-                    <div className="container flex-grow">
+                    <div className="container flex-grow  px-3">
                         <AppPages />
                         <AdminPages />
                     </div>

@@ -1,5 +1,5 @@
 import { Dropdown } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export const UserNav = ({ user, isAuthenticated, onClickLogOutHandler }) => {
     const items = [
         {

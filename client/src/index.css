@@ -85,3 +85,6 @@ svg {
     @apply text-error font-medium;
 }
 
+nav {
+    transition: all 0.25s ease;
+}

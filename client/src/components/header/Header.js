@@ -6,7 +6,7 @@ import { CartContext } from 'context/CartContext';
 import logo from 'img/logo.webp';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logOut } from 'redux/slices/auth';
 import './HeaderStyles.css';
 import axios from 'axios';
@@ -17,12 +17,19 @@ const Header = () => {
     const [inputShowing, setInputShowing] = useState(false);
     const [infoShowing, setInfoShowing] = useState(true);
     const [searchText, setSearchText] = useState('');
+    const [navShowing, setNavShowing] = useState(false);
     const { loadCart, productsCartQuantity } = useContext(CartContext);
+
+    const location = useLocation();
     const navigate = useNavigate();
 
     const user = useSelector((state) => state.auth.user);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setNavShowing(false);
+    }, [location]);
 
     useEffect(() => {
         loadCart();
@@ -36,7 +43,7 @@ const Header = () => {
     }, [inputShowing]);
 
     const onClickLogOutHandler = async () => {
-        await axios.get(`${API_URL}/auth/logout`)
+        await axios.get(`${API_URL}/auth/logout`);
         dispatch(logOut());
     };
 
@@ -63,7 +70,8 @@ const Header = () => {
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="lg:hidden w-6 "
+                        className="lg:hidden w-6 pointer-events-auto"
+                        onClick={() => setNavShowing(!navShowing)}
                     >
                         <path
                             strokeLinecap="round"
@@ -152,7 +160,7 @@ const Header = () => {
                     </svg>
                 </div>
             </div>
-            <Navbar />
+            <Navbar show={navShowing} setShow={setNavShowing} />
         </header>
     );
 };

@@ -3,11 +3,11 @@ import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 const Footer = () => {
     return (
-        <footer className="bg-secondary w-screen py-5 mt-14 px-20">
+        <footer className="bg-secondary w-screen py-5 mt-14 lg:px-20">
             <div className="grid grid-cols-12 gap-2 place-items-center items-center justify-between">
                 <div className="col-span-12 lg:col-span-4">
                     <Link to="/">
-                        <img className="max-w-[70%]" src={logo} alt="logo" />
+                        <img className="max-w-[70%] mx-auto" src={logo} alt="logo" />
                     </Link>
                 </div>
 
