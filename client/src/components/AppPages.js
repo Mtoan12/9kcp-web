@@ -11,6 +11,7 @@ import UserInformation from './UserInformation';
 import AboutPage from 'pages/AboutPage';
 import NotExistPage from 'pages/NotExistPage/NotExistPage';
 import SearchProductsPage from 'pages/SearchProductsPage';
+import LoadingPage from './LoadingPage';
 
 const pages = [
     {

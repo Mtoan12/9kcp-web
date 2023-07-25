@@ -7,6 +7,7 @@ import Footer from 'components/footer/Footer';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loadUser } from 'redux/slices/auth';
+import LoadingPage from 'components/LoadingPage';
 
 function App() {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function App() {
 
     return (
         <div className="text-lg md:text-md lg:text-sm">
+            <LoadingPage />
             <CartContextProvider>
                 <div className="flex flex-col justify-center items-center min-h-screen">
                     <Header />
