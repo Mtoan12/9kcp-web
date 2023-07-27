@@ -1,7 +1,7 @@
-// export const API_URL = 'http://localhost:5000/api';
-export const API_URL = 'https://kicap-api.vercel.app/api';
-// export const API_UPLOADS = 'http://localhost:5000/uploads';
-export const API_UPLOADS = 'https://kicap-api.vercel.app/uploads';
+export const API_URL = 'http://localhost:5000/api';
+// export const API_URL = 'https://kicap-api.vercel.app/api';
+export const API_UPLOADS = 'http://localhost:5000/uploads';
+// export const API_UPLOADS = 'https://kicap-api.vercel.app/uploads';
 export const LOCAL_STORAGE_ACCESS_TOKEN_NAME = 'accessToken';
 export const SET_AUTH = 'SET_AUTH';
 export const LOG_OUT = 'LOG_OUT';

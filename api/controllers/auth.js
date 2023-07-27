@@ -45,14 +45,14 @@ const register = async (req, res, next) => {
             maxAge: 60 * 60 * 1000,
             secure: true,
             sameSite: 'none',
-            domain: 'https://kicap.vercel.app',
+            // domain: 'https://kicap.vercel.app',
         });
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
             secure: true,
             sameSite: 'none',
-            domain: 'https://kicap.vercel.app',
+            // domain: 'https://kicap.vercel.app',
         });
 
         res.status(201).json({
@@ -103,14 +103,14 @@ const login = async (req, res, next) => {
             maxAge: 60 * 60 * 1000,
             secure: true,
             sameSite: 'none',
-            domain: 'https://kicap.vercel.app',
+            // domain: 'https://kicap.vercel.app',
         });
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
             secure: true,
             sameSite: 'none',
-            domain: 'https://kicap.vercel.app',
+            // domain: 'https://kicap.vercel.app',
         });
 
         return res.status(200).json({
@@ -128,14 +128,14 @@ const logout = (req, res, next) => {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            domain: 'https://kicap.vercel.app',
+            // domain: 'https://kicap.vercel.app',
         });
         res.cookie('refresh_token', 'none', {
             expires: new Date(Date.now() + 5 * 1000),
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            domain: 'https://kicap.vercel.app',
+            // domain: 'https://kicap.vercel.app',
         });
 
         res.json({
@@ -192,14 +192,14 @@ const refreshToken = async (req, res, next) => {
                 maxAge: 60 * 60 * 1000,
                 secure: true,
                 sameSite: 'none',
-                domain: 'https://kicap.vercel.app',
+                // domain: 'https://kicap.vercel.app',
             });
             res.cookie('refresh_token', newRefreshToken, {
                 httpOnly: true,
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 secure: true,
                 sameSite: 'none',
-                domain: 'https://kicap.vercel.app',
+                // domain: 'https://kicap.vercel.app',
             });
 
             res.json({

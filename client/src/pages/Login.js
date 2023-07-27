@@ -120,7 +120,7 @@ const Login = () => {
                             <input
                                 type={isPasswordShowing ? 'text' : 'password'}
                                 className={`w-full py-3 mt-3 bg-gray-100 ps-3 outline-none ${
-                                    errors.password && 'error-input'
+                                    errors.password && touched.password && 'error-input'
                                 }`}
                                 placeholder="Nhập Mật khẩu"
                                 value={values.password}

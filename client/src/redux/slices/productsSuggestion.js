@@ -5,7 +5,7 @@ import randomSuggestProducts from 'utils/randomSuggestProducts';
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const fetchProducts = createAsyncThunk('productsSuggestion/fetchProducts', async () => {
-    const res = await axios(`${API_URL}/product`);
+    const res = await axios.get(`${API_URL}/product`);
 
     return res.data;
 });

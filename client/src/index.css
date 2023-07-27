@@ -75,14 +75,26 @@ svg {
     @apply pointer-events-none;
 }
 
+input[type='text'],
+input[type='password'],
+input[type='number'],
+input[type='email'],
+textarea {
+    @apply border border-gray-600 px-3 py-2 rounded-sm;
+}
+
+input.search-input {
+    @apply border-0 outline-0;
+}
+
 .error-input {
-    border: 1px solid theme('colors.error');
+    border: 1px solid theme('colors.red.500');
     transition: all 0.45s ease;
 }
 
 .error-message {
     transition: all 0.45s ease;
-    @apply text-error font-medium;
+    @apply text-red-500 font-medium;
 }
 
 nav {

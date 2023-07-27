@@ -1,4 +1,3 @@
-import { Input } from 'antd';
 import AccountNav from 'components/AccountNav';
 import { UserNav } from 'components/UserNav';
 import Navbar from 'components/nav/Navbar';
@@ -11,18 +10,16 @@ import { logOut } from 'redux/slices/auth';
 import './HeaderStyles.css';
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
+import SearchTextField from './../SearchTextField';
 
 const Header = () => {
-    const inputRef = useRef(null);
     const [inputShowing, setInputShowing] = useState(false);
-    const [infoShowing, setInfoShowing] = useState(true);
-    const [searchText, setSearchText] = useState('');
     const [navShowing, setNavShowing] = useState(false);
     const { loadCart, productsCartQuantity } = useContext(CartContext);
+    const [searchText, setSearchText] = useState('');
 
     const location = useLocation();
     const navigate = useNavigate();
-
     const user = useSelector((state) => state.auth.user);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const dispatch = useDispatch();
@@ -32,135 +29,134 @@ const Header = () => {
     }, [location]);
 
     useEffect(() => {
-        loadCart();
-    }, []);
+        setSearchText('');
+        setInputShowing(false);
+    }, [location]);
 
     useEffect(() => {
-        if (inputShowing) {
-            inputRef.current.focus();
-            inputRef.current.select();
-        }
-    }, [inputShowing]);
+        loadCart();
+    }, []);
 
     const onClickLogOutHandler = async () => {
         await axios.get(`${API_URL}/auth/logout`);
         dispatch(logOut());
     };
 
-    const handleOnEnter = (e) => {
+    const handleOnSearchEnter = (e) => {
         if (e.key === 'Enter') {
             searchText && navigate(`/search?query=${searchText}`);
         }
     };
 
-    const searchHandle = () => {
-        if (inputShowing) {
-            searchText && navigate(`/search?query=${searchText}`);
-        }
-        setInfoShowing(!infoShowing);
-        setInputShowing(!inputShowing);
+    const handleSearchOnChange = (e) => {
+        setSearchText(e.target.value);
     };
-    return (
-        <header className="container">
-            <div className="grid grid-cols-12 px-2 border-b-[1px]">
-                <div className="flex justify-start lg:justify-center items-center col-span-4">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="lg:hidden w-6 pointer-events-auto"
-                        onClick={() => setNavShowing(!navShowing)}
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                        />
-                    </svg>
-                    <span className=" hidden lg:flex">
-                        HOTLINE TƯ VẤN:
-                        <a
-                            className="phone-number hover:opacity-50 hover-effect"
-                            href="tel:0982843420"
-                        >
-                            0982843420
-                        </a>
-                    </span>
-                </div>
-                <Link to="/" className="col-span-4 flex justify-center items-center">
-                    <img
-                        className={`logo ${!infoShowing && 'hidden lg:inline-block '}`}
-                        src={logo}
-                        alt="logo"
-                    />
-                </Link>
-                <div className="col-span-4 flex justify-end lg:justify-center items-center gap-4">
-                    <div className={`hidden lg:block ${!infoShowing && 'lg:hidden'}`}>
-                        {user ? (
-                            <UserNav
-                                user={user}
-                                isAuthenticated={isAuthenticated}
-                                onClickLogOutHandler={onClickLogOutHandler}
-                            />
-                        ) : (
-                            <AccountNav />
-                        )}
-                    </div>
 
-                    <Link
-                        to="/cart"
-                        className={`flex gap-1 items-center hover:opacity-50  hover-effect ${
-                            !infoShowing && 'hidden'
-                        }`}
-                    >
-                        <span className="header-cart hidden lg:block">Giỏ hàng</span>
-                        <div className="relative">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-6 h-6"
+    const handleSearchBtnClick = () => {
+        setInputShowing(true);
+    };
+
+    const handleSearch = () => {
+        searchText && navigate(`/search?query=${searchText}`);
+    };
+
+    return (
+        <header>
+            <SearchTextField
+                show={inputShowing}
+                setShow={setInputShowing}
+                searchText={searchText}
+                onEnterDown={handleOnSearchEnter}
+                onSearchTextChange={handleSearchOnChange}
+                handleSearch={handleSearch}
+            />
+            <div className="container mx-auto">
+                <div className="grid grid-cols-12 px-2 border-b-[1px] min-h-[100px]">
+                    <div className="flex justify-start lg:justify-center items-center col-span-4">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="lg:hidden w-6 pointer-events-auto"
+                            onClick={() => setNavShowing(!navShowing)}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                            />
+                        </svg>
+                        <span className=" hidden lg:flex">
+                            HOTLINE TƯ VẤN:
+                            <a
+                                className="phone-number hover:opacity-50 hover-effect"
+                                href="tel:0982843420"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                                />
-                            </svg>
-                            <span className="absolute top-[-12px] right-[-10px] rounded-full bg-black text-white flex items-center justify-center w-[20px] h-[20px]">
-                                {productsCartQuantity}
-                            </span>
-                        </div>
+                                0982843420
+                            </a>
+                        </span>
+                    </div>
+                    <Link to="/" className="col-span-4 flex justify-center items-center">
+                        <img className={`logo`} src={logo} alt="logo" />
                     </Link>
-                    <Input
-                        ref={inputRef}
-                        size="small"
-                        className={`${!inputShowing && 'hidden focus'}`}
-                        onChange={(e) => setSearchText(e.target.value)}
-                        onKeyDown={handleOnEnter}
-                    />
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6 cursor-pointer hover:opacity-50 hover-effect pointer-events-auto"
-                        onClick={searchHandle}
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                        />
-                    </svg>
+                    <div className="col-span-4 flex justify-end lg:justify-center items-center gap-4">
+                        <div className={`hidden lg:block`}>
+                            {user ? (
+                                <UserNav
+                                    user={user}
+                                    isAuthenticated={isAuthenticated}
+                                    onClickLogOutHandler={onClickLogOutHandler}
+                                />
+                            ) : (
+                                <AccountNav />
+                            )}
+                        </div>
+                        <Link
+                            to="/cart"
+                            className={`flex gap-1 items-center hover:opacity-50  hover-effect`}
+                        >
+                            <span className="header-cart hidden lg:block">Giỏ hàng</span>
+                            <div className="relative">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                                    />
+                                </svg>
+                                <span className="absolute top-[-12px] right-[-10px] rounded-full bg-black text-white flex items-center justify-center w-[20px] h-[20px]">
+                                    {productsCartQuantity}
+                                </span>
+                            </div>
+                        </Link>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6 cursor-pointer hover:opacity-50 hover-effect pointer-events-auto"
+                            onClick={handleSearchBtnClick}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                            />
+                        </svg>
+                    </div>
                 </div>
+                <Navbar show={navShowing} setShow={setNavShowing} />
             </div>
-            <Navbar show={navShowing} setShow={setNavShowing} />
         </header>
     );
 };

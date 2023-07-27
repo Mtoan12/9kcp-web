@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // cors
-const allowedOrigins = ['https://kicap.vercel.app'];
+const allowedOrigins = ['https://kicap.vercel.app', 'http://localhost:3000'];
 
 const corsOptions = {
     origin: function (origin, callback) {

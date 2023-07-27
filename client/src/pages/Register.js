@@ -99,7 +99,7 @@ const Register = () => {
                         </label>
                         <input
                             type="name"
-                            className={`'w-full py-3 mt-3 border border-gray-700 bg-gray-100 ps-3 outline-none' ${
+                            className={`'w-full py-3 mt-3 border-input bg-gray-100 ps-3 outline-none' ${
                                 errors.name && touched.name && 'error-input'
                             }`}
                             placeholder="Nhập Họ và Tên"
