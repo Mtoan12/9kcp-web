@@ -1,3 +1,4 @@
+import productApi from 'api/productApi';
 import axios from 'axios';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
@@ -6,11 +7,14 @@ const { API_URL } = require('constants/constance');
 
 export const fetchProduct = createAsyncThunk('productDetail/fetchProduct', async (id, thunkAPI) => {
     try {
-        const res = await axios.get(`${API_URL}/product/detail/${id}`);
-        return res.data;
+        const res = await productApi.getProductById(id);
+
+        if (res.success) {
+            return res;
+        }
     } catch (error) {
-        if (error.response.data) {
-            return error.response.data;
+        if (error.response) {
+            return thunkAPI.rejectWithValue(error.response.data);
         }
     }
 });

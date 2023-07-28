@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { fetchProduct } from 'redux/slices/products';
+import { fetchProducts } from 'redux/slices/products';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Product from '../components/product/Product';
@@ -19,7 +19,7 @@ const ProductsPage = () => {
     }, [pathname]);
 
     useEffect(() => {
-        dispatch(fetchProduct(pathname));
+        dispatch(fetchProducts(pathname));
     }, [pathname]);
 
     const bannerSrc = {

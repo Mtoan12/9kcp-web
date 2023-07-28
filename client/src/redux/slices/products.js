@@ -1,15 +1,28 @@
-import axios from 'axios';
-import { API_URL } from 'constants/constance';
+import productApi from 'api/productApi';
+import { parsePathnameToCategory } from 'constants/constance';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
-export const fetchProduct = createAsyncThunk(
+export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
-    async (pathname = '/', thunkAPI) => {
-        const url = `${API_URL}/product${pathname}`;
-        const res = await axios.get(url);
+    async (pathname, thunkAPI) => {
+        let rs;
+        try {
+            if (pathname) {
+                const category = parsePathnameToCategory[pathname];
+                rs = await productApi.getProductsByCategory(category);
+            } else {
+                rs = await productApi.getAllProducts();
+            }
 
-        return res.data;
+            if (rs.success) {
+                return rs;
+            }
+        } catch (error) {
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.response.data);
+            }
+        }
     }
 );
 
@@ -22,15 +35,15 @@ const productsSlice = createSlice({
     },
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchProduct.pending, (state) => {
+        builder.addCase(fetchProducts.pending, (state) => {
             state.error = '';
             state.isLoading = true;
         });
-        builder.addCase(fetchProduct.fulfilled, (state, action) => {
+        builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.isLoading = false;
             state.products = action.payload.products;
         });
-        builder.addCase(fetchProduct.rejected, (state, action) => {
+        builder.addCase(fetchProducts.rejected, (state, action) => {
             state.isLoading = false;
 
             state.error = action.payload.message || 'Lỗi không xác định';

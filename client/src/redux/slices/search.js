@@ -14,7 +14,7 @@ export const searchProducts = createAsyncThunk(
                 return thunkAPI.rejectWithValue(error.response.data);
             } else {
                 console.error(error);
-                return thunkAPI.rejectWithValue('Lỗi không xác định');
+                return thunkAPI.rejectWithValue({ message: 'Lỗi không xác định' });
             }
         }
     }

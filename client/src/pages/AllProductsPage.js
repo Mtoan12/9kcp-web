@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct } from 'redux/slices/products';
+import { fetchProducts } from 'redux/slices/products';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Product from '../components/product/Product';
@@ -16,7 +16,7 @@ const AllProductsPage = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(fetchProduct());
+        dispatch(fetchProducts());
     }, [dispatch]);
 
     return (
@@ -30,8 +30,11 @@ const AllProductsPage = () => {
                     <Error error={error} />
                 </h2>
             ) : (
-                <div>
-                    <div className="container mx-auto grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
+                <div className="container uppercase">
+                    <h1 className="font-semibold text-3xl my-10 flex justify-center items-center">
+                        Tất cả sản phẩm
+                    </h1>
+                    <div className="mx-auto grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
                         {products &&
                             products.map((product) => {
                                 if (!product.imageName) {

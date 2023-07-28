@@ -8,3 +8,8 @@ export const LOG_OUT = 'LOG_OUT';
 export const LOAD_SUCCESSFUL = 'LOAD_SUCCESSFUL';
 export const LOAD_FAILURE = 'LOAD_FAILURE';
 export const LOCAL_STORAGE_CART = 'cart';
+export const parsePathnameToCategory = {
+    '/keycap': 'KEYCAP',
+    '/kit': 'KIT',
+    '/keyboard': 'BÀN PHÍM CƠ',
+};

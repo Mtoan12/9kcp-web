@@ -1,14 +1,27 @@
-import axios from 'axios';
-import { API_URL } from './../../constants/constance';
+import productApi from 'api/productApi';
 import randomSuggestProducts from 'utils/randomSuggestProducts';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
-export const fetchProducts = createAsyncThunk('productsSuggestion/fetchProducts', async () => {
-    const res = await axios.get(`${API_URL}/product`);
+export const fetchProducts = createAsyncThunk(
+    'productsSuggestion/fetchProducts',
+    async (_, thunkAPI) => {
+        try {
+            const res = await productApi.getAllProducts();
 
-    return res.data;
-});
+            if (res.success) {
+                return res;
+            }
+        } catch (error) {
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.response.data);
+            } else {
+                console.error(error);
+                return thunkAPI.rejectWithValue({ message: 'Lỗi không xác định' });
+            }
+        }
+    }
+);
 
 const productsSuggestionSlice = createSlice({
     name: 'productsSuggestion',
