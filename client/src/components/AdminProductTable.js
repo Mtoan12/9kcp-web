@@ -1,10 +1,10 @@
 import { Button, Space, Table, message } from 'antd';
-import AdminProductModal from './AdminProductModal';
+import productApi from 'api/productApi';
+import { API_UPLOADS } from 'constants/constance';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { API_UPLOADS, API_URL } from 'constants/constance';
 import { useDispatch } from 'react-redux';
 import { removeProduct } from 'redux/slices/adminProductsSlice';
+import AdminProductModal from './AdminProductModal';
 
 const AdminProductTable = ({ products }) => {
     const [isShow, setIsShow] = useState(false);
@@ -21,34 +21,33 @@ const AdminProductTable = ({ products }) => {
         setMethod('post');
     };
 
-    const handleEditClick = (e) => {
-        setIsShow(true);
-        const findProduct = products.find((product) => {
-            return product._id === e.target.value;
-        });
-        setProduct({ ...findProduct });
-        setMethod('put');
-    };
-    const handleDeleteClick = async (e) => {
-        const productId = e.target.value;
-        const findProduct = products.find((product) => {
-            return product._id === productId;
-        });
-        if (window.confirm(`Bạn có chắc muốn xóa sản phẩm: ${findProduct.title}`)) {
-            try {
-                const rs = await axios.delete(`${API_URL}/product/detail/${productId}`);
-
-                if (rs.data.success) {
-                    dispatch(removeProduct(productId));
-                }
-            } catch (error) {
-                console.log(error);
-                message.error('Xoá sản phẩm thất bại');
-            }
-        }
-    };
-
     useEffect(() => {
+        const handleEditClick = (e) => {
+            setIsShow(true);
+            const findProduct = products.find((product) => {
+                return product._id === e.target.value;
+            });
+            console.log({ findProduct });
+            setProduct({ ...findProduct });
+            setMethod('put');
+        };
+        const handleDeleteClick = async (e) => {
+            const productId = e.target.value;
+            const findProduct = products.find((product) => {
+                return product._id === productId;
+            });
+            if (window.confirm(`Bạn có chắc muốn xóa sản phẩm: ${findProduct.title}`)) {
+                try {
+                    await productApi.removeProduct(productId);
+
+                    dispatch(removeProduct(productId));
+                    message.success('Xóa thành công');
+                } catch (error) {
+                    console.log(error);
+                    message.error('Xoá sản phẩm thất bại');
+                }
+            }
+        };
         setColumns([
             {
                 title: 'Ảnh',
@@ -188,11 +187,11 @@ const AdminProductTable = ({ products }) => {
                 };
             })
         );
-    }, [products]);
+    }, [dispatch, products]);
 
     return (
         <div className="flex">
-            <Table columns={columns} dataSource={data} scroll={{ x: 'max-content' }} />
+            <Table columns={columns} dataSource={data} sticky />
             <AdminProductModal
                 isShow={isShow}
                 setIsShow={setIsShow}

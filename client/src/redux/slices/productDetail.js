@@ -1,20 +1,17 @@
 import productApi from 'api/productApi';
-import axios from 'axios';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
-
-const { API_URL } = require('constants/constance');
 
 export const fetchProduct = createAsyncThunk('productDetail/fetchProduct', async (id, thunkAPI) => {
     try {
         const res = await productApi.getProductById(id);
 
-        if (res.success) {
-            return res;
-        }
+        return res;
     } catch (error) {
         if (error.response) {
             return thunkAPI.rejectWithValue(error.response.data);
+        } else {
+            console.error(error);
         }
     }
 });
@@ -39,15 +36,12 @@ const productDetailSlice = createSlice({
         });
         builder.addCase(fetchProduct.fulfilled, (state, action) => {
             state.isLoading = false;
-            if (action.payload.success) {
-                state.product = action.payload.product;
-            } else {
-                state.error = action.payload.message;
-            }
+            state.product = action.payload.product;
         });
         builder.addCase(fetchProduct.rejected, (state, action) => {
             state.isLoading = false;
-            state.error = 'Lỗi không xác đinh';
+            console.log(action.payload);
+            state.error = action.payload.message || 'Lỗi không xác đinh';
         });
     },
 });

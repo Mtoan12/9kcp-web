@@ -1,9 +1,7 @@
 import { Modal, Select, message } from 'antd';
+import productApi from 'api/productApi';
+import { API_UPLOADS } from 'constants/constance';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { API_UPLOADS, API_URL } from 'constants/constance';
-import { sortByCreateAt } from 'utils/sortByCreate';
 import { useDispatch } from 'react-redux';
 import { addProduct, updateProduct } from 'redux/slices/adminProductsSlice';
 
@@ -15,9 +13,10 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
     const [price, setPrice] = useState(0);
     const [inStock, setInStock] = useState(0);
     const [description, setDescription] = useState(0);
-    const [show, setShow] = useState(true);
+    const [showNewImage, setShowNewImage] = useState(false);
 
     const dispatch = useDispatch();
+    const imageRef = useRef();
 
     useEffect(() => {
         if (method === 'put' && productEdit) {
@@ -36,9 +35,12 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
             setCategory('');
             setInStock(0);
             setPrice(0);
+            setImage('');
             setDescription('');
         }
-    }, [productEdit]);
+
+        setShowNewImage(false);
+    }, [method, productEdit]);
 
     const handleOk = () => {
         setIsShow(false);
@@ -51,47 +53,39 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
         try {
             e.preventDefault();
             const formData = new FormData();
-            console.log(image);
             formData.append('image', image);
             formData.append(
                 'info',
                 JSON.stringify({ title, brand, price, inStock, category, description })
             );
             if (method === 'post') {
-                const rs = await axios.post(`${API_URL}/product/add-product`, formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
+                const rs = await productApi.addProduct(formData);
 
-                if (rs.data.success) {
+                if (rs.success) {
+                    console.log({ rs });
+                    dispatch(addProduct(rs.newProduct));
                     message.success('Thêm thành công');
-                    dispatch(addProduct(rs.data.newProduct));
                 }
             }
 
             if (method === 'put') {
-                const rs = await axios.put(
-                    `${API_URL}/product/detail/${productEdit?._id}`,
-                    formData,
-                    {
-                        headers: { 'Content-Type': 'multipart/form-data' },
-                    }
-                );
+                const rs = await productApi.editProduct(productEdit._id, formData);
 
-                if (rs.data.success) {
+                if (rs.success) {
+                    console.log({ rs });
+                    dispatch(updateProduct(rs.product));
                     message.success('Cập nhât thành công');
-                    dispatch(updateProduct(rs.data.product));
                 }
             }
         } catch (error) {
             console.log(error);
+            message.error('Thất bại');
         }
     };
 
-    const imageRef = useRef();
-
     const handleFileChange = (e) => {
+        setShowNewImage(true);
         setImage(e.target.files[0]);
-        setShow(false);
         const files = e.target.files;
         if (FileReader && files && files.length) {
             const fr = new FileReader();
@@ -100,7 +94,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
             };
             fr.readAsDataURL(files[0]);
         }
-        imageRef.current.classList.remove('hidden');
+        // imageRef.current.classList.remove('hidden');
     };
     return (
         <div>
@@ -116,11 +110,16 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
                             <label htmlFor="image">Hình ảnh: </label>
                             <div>
                                 <img
-                                    className={`w-full ${!show && 'hidden'}`}
+                                    className={`w-full ${showNewImage ? 'hidden' : undefined}`}
                                     src={`${API_UPLOADS}/${image}`}
                                     alt=""
                                 />
-                                <img ref={imageRef} className="w-full hidden" src={''} alt="" />
+                                <img
+                                    ref={imageRef}
+                                    className={`w-full ${!showNewImage ? 'hidden' : undefined}`}
+                                    src={''}
+                                    alt=""
+                                />
                             </div>
                             <input
                                 type="file"

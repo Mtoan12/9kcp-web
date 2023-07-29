@@ -1,11 +1,8 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { API_URL } from '../constants/constance';
-import { message } from 'antd';
-import AdminProductTable from '../components/AdminProductTable';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchAdminProducts } from 'redux/slices/adminProductsSlice';
+import AdminProductTable from '../components/AdminProductTable';
 
 const AdminProductPage = () => {
     useEffect(() => {

@@ -68,15 +68,13 @@ const pages = [
 
 const AppPages = () => {
     return (
-        <>
-            <Routes>
-                {pages &&
-                    pages.map((page) => {
-                        const Component = page.element;
-                        return <Route key={page.path} path={page.path} element={<Component />} />;
-                    })}
-            </Routes>
-        </>
+        <Routes>
+            {pages &&
+                pages.map((page) => {
+                    const Component = page.element;
+                    return <Route key={page.path} path={page.path} element={<Component />} />;
+                })}
+        </Routes>
     );
 };
 export default AppPages;

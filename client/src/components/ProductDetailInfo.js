@@ -9,17 +9,17 @@ const ProductDetailInfo = ({ product, quantity, handleChangeQuantity, handleAddT
                 <h2 className="text-2xl font-semibold">{title}</h2>
                 <div>
                     Thương hiệu:
-                    <span className="text-detail font-medium">{brand}</span>
+                    <span className="text-orange-600 font-medium"> {brand}</span>
                 </div>
                 <div>
                     Danh mục:
-                    <span className="text-detail font-medium">{category}</span>
+                    <span className="text-orange-600 font-medium"> {category}</span>
                 </div>
-                <span>{formatPrice(price)}</span>
+                <span className="text-xl"> {formatPrice(price)}</span>
                 <div>
                     Tình trạng:
-                    <span className="text-detail font-medium">
-                        {inStock === 0 ? 'Hết hàng' : `${inStock} sản phẩm có sẵn`}
+                    <span className="text-orange-600 font-medium">
+                        {inStock === 0 ? ' Hết hàng' : ` ${inStock} sản phẩm có sẵn`}
                     </span>
                 </div>
                 <div className="flex items-center gap-2">

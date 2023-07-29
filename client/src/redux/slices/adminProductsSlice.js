@@ -1,20 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { message } from 'antd';
-import axios from 'axios';
-import { API_URL } from 'constants/constance';
-import queryString from 'query-string';
+import productApi from 'api/productApi';
 
 export const fetchAdminProducts = createAsyncThunk(
     'adminProducts/fetchAdminProducts',
     async (filter = '', thunkAPI) => {
         try {
-            const res = await axios.get(
-                `${API_URL}/product/filter?${queryString.stringify(filter)}`
-            );
-            return res.data;
+            const res = await productApi.filterProducts(filter);
+
+            return res;
         } catch (error) {
-            if (error.response.data) {
-                return error.response.data;
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.response.data);
+            } else {
+                console.error(error);
             }
         }
     }
@@ -33,7 +31,6 @@ const adminProductsSlice = createSlice({
             const newProducts = [...state.products];
             newProducts.splice(index, 1);
             state.products = newProducts;
-            message.success('Xóa thành công');
         },
         addProduct: (state, action) => {
             const newProduct = [...state.products, action.payload];
@@ -52,16 +49,13 @@ const adminProductsSlice = createSlice({
             state.error = '';
         });
         builder.addCase(fetchAdminProducts.fulfilled, (state, action) => {
-            state.isLoading = true;
-            if (action.payload.success) {
-                state.products = action.payload.products;
-            } else {
-                state.error = action.payload.message;
-            }
+            state.isLoading = false;
+            console.log(action.payload);
+            state.products = action.payload.products;
         });
         builder.addCase(fetchAdminProducts.rejected, (state, action) => {
-            state.isLoading = true;
-            state.error = 'Lỗi không xác định';
+            state.isLoading = false;
+            state.error = action.payload.message || 'Lỗi không xác định';
         });
     },
 });

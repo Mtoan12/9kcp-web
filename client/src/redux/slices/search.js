@@ -5,10 +5,8 @@ export const searchProducts = createAsyncThunk(
     async (searchText, thunkAPI) => {
         try {
             const rs = await productApi.searchProduct(searchText);
-            console.log({ rs });
-            if (rs.success) {
-                return rs.products;
-            }
+
+            return rs.products;
         } catch (error) {
             if (error.response) {
                 return thunkAPI.rejectWithValue(error.response.data);

@@ -15,12 +15,12 @@ export const fetchProducts = createAsyncThunk(
                 rs = await productApi.getAllProducts();
             }
 
-            if (rs.success) {
-                return rs;
-            }
+            return rs;
         } catch (error) {
             if (error.response) {
                 return thunkAPI.rejectWithValue(error.response.data);
+            } else {
+                console.error(error);
             }
         }
     }
