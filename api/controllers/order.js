@@ -20,6 +20,11 @@ const getAllOrders = async (req, res, next) => {
         } catch (error) {
             next(error);
         }
+    } else {
+        res.status(403).json({
+            success: false,
+            message: 'Không được phép làm điều này',
+        });
     }
 };
 
@@ -120,6 +125,11 @@ const changeOrderStatus = async (req, res, next) => {
         } catch (error) {
             next(error);
         }
+    } else {
+        res.status(403).json({
+            success: false,
+            message: 'Không được phép làm điều này',
+        });
     }
 };
 

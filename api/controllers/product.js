@@ -88,6 +88,13 @@ const getProduct = async (req, res, next) => {
 
 const addProduct = async (req, res, next) => {
     if (req.user.isAdmin) {
+        if (!req.body.info) {
+            return res.status(400).json({
+                success: false,
+                message: 'Nội dung không hợp lệ',
+            });
+        }
+
         const { title, brand, price, inStock, category, description } = JSON.parse(req.body.info);
 
         try {
@@ -111,6 +118,11 @@ const addProduct = async (req, res, next) => {
         } catch (error) {
             next(error);
         }
+    } else {
+        res.status(403).json({
+            success: false,
+            message: 'Không được phép làm điều này',
+        });
     }
 };
 
@@ -150,6 +162,11 @@ const editProduct = async (req, res, next) => {
         } catch (error) {
             next(error);
         }
+    } else {
+        res.status(403).json({
+            success: false,
+            message: 'Không được phép làm điều này',
+        });
     }
 };
 
@@ -176,9 +193,9 @@ const removeProduct = async (req, res, next) => {
             next(error);
         }
     } else {
-        res.json({
+        res.status(403).json({
             success: false,
-            message: 'Can not delete',
+            message: 'Không được phép làm điều này',
         });
     }
 };

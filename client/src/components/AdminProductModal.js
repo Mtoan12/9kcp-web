@@ -49,37 +49,54 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
         setIsShow(false);
     };
 
-    const handleSubmitForm = async (e) => {
+    const postNewProduct = async (formData) => {
         try {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('image', image);
-            formData.append(
-                'info',
-                JSON.stringify({ title, brand, price, inStock, category, description })
-            );
-            if (method === 'post') {
-                const rs = await productApi.addProduct(formData);
+            const rs = await productApi.addProduct(formData);
 
-                if (rs.success) {
-                    console.log({ rs });
-                    dispatch(addProduct(rs.newProduct));
-                    message.success('Thêm thành công');
-                }
-            }
-
-            if (method === 'put') {
-                const rs = await productApi.editProduct(productEdit._id, formData);
-
-                if (rs.success) {
-                    console.log({ rs });
-                    dispatch(updateProduct(rs.product));
-                    message.success('Cập nhât thành công');
-                }
+            if (rs.success) {
+                console.log({ rs });
+                dispatch(addProduct(rs.newProduct));
+                message.success('Thêm thành công');
             }
         } catch (error) {
-            console.log(error);
-            message.error('Thất bại');
+            console.error(error);
+            message.error('Thêm sản phẩm không thành công');
+        }
+    };
+
+    const putProduct = async (formData) => {
+        try {
+            const rs = await productApi.editProduct(productEdit._id, formData);
+
+            if (rs.success) {
+                console.log({ rs });
+                dispatch(updateProduct(rs.product));
+                message.success('Cập nhât thành công');
+            }
+        } catch (error) {
+            console.error(error);
+            message.error('Chỉnh sửa sản phẩm không thành công');
+        }
+    };
+
+    const productDataFormStrategy = {
+        post: postNewProduct,
+        put: putProduct,
+    };
+
+    const handleSubmitForm = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append(
+            'info',
+            JSON.stringify({ title, brand, price, inStock, category, description })
+        );
+
+        try {
+            await productDataFormStrategy[method](formData);
+        } catch (error) {
+            console.error(error);
         }
     };
 

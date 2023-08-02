@@ -131,6 +131,11 @@ const deleteComment = async (req, res, next) => {
         } catch (error) {
             next(error);
         }
+    } else {
+        res.status(403).json({
+            success: false,
+            message: 'Không được phép làm điều này',
+        });
     }
 };
 

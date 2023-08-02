@@ -50,7 +50,6 @@ const adminProductsSlice = createSlice({
         });
         builder.addCase(fetchAdminProducts.fulfilled, (state, action) => {
             state.isLoading = false;
-            console.log(action.payload);
             state.products = action.payload.products;
         });
         builder.addCase(fetchAdminProducts.rejected, (state, action) => {
