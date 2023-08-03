@@ -2,7 +2,7 @@ const { KIT, KEYCAP, KEYBOARD } = require('../constance/constance');
 const Products = require('../models/Product');
 const fs = require('fs');
 const path = require('path');
-const isObjectIdValid = require('../utils/isObjectIdValid');
+const { isObjectIdValid } = require('../utils/validateData.js');
 const { default: mongoose } = require('mongoose');
 
 const getProducts = async (req, res, next) => {

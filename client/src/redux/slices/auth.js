@@ -3,7 +3,7 @@ import { message } from 'antd';
 import axios from 'axios';
 import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance';
 
-export const loadUser = createAsyncThunk('auth/loadUser', async () => {
+export const loadUser = createAsyncThunk('auth/loadUser', async () => { 
     try {
         const response = await axios.get(`${API_URL}/auth`);
         if (response.data.success) {

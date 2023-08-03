@@ -1,5 +1,5 @@
 const Comments = require('../models/Comment');
-const isObjectIdValid = require('../utils/isObjectIdValid');
+const { isObjectIdValid } = require('../utils/validateData.js');
 
 const getCommentsByProductId = async (req, res, next) => {
     const productId = req.params.productId;

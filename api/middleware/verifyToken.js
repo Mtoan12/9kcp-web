@@ -7,7 +7,7 @@ const verifyToken = async (req, res, next) => {
         const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const { userId } = decode;
         try {
-            const user = await User.findById(userId);
+            const user = await User.findById(userId).select('-password');
             if (user) {
                 req.id = userId;
                 req.user = user;

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { API_URL } from 'constants/constance';
+// import { loadUser } from 'redux/slices/auth';
+// import store from 'redux/store';
 import refreshToken from 'utils/refreshToken';
 
 const instance = axios.create({
@@ -25,7 +27,11 @@ instance.interceptors.response.use(
     async (error) => {
         if (error.response && error.response.status === 401) {
             try {
-                await refreshToken();
+                const rs = await refreshToken();
+                if (rs.success) {
+                    // load lại trạng thái user với accessToken mơi
+                    // store.dispatch(loadUser());
+                }
             } catch (error) {
                 console.error(`Response error: ${error}`);
                 return Promise.reject(error);

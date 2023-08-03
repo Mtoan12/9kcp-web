@@ -3,7 +3,11 @@ import { API_URL } from 'constants/constance';
 
 const refreshToken = async () => {
     try {
-        await axios.get(`${API_URL}/auth/refresh-token`);
+        const rs = await axios.get(`${API_URL}/auth/refresh-token`);
+
+        if (rs.data.success) {
+            return rs.data;
+        }
     } catch (error) {
         throw error;
     }

@@ -7,6 +7,7 @@ const {
     signRefreshToken,
     updateUserRefreshToken,
 } = require('../services/user.service');
+const { isValidEmail, isValidPassword } = require('../utils/validateData');
 
 const register = async (req, res, next) => {
     const { email, password, name } = req.body;
@@ -18,10 +19,17 @@ const register = async (req, res, next) => {
         });
     }
 
-    const checkExisted = await User.findOne({ email: email });
+    if (!isValidEmail(email) || !isValidPassword) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email hoặc mật khẩu không phù hợp',
+        });
+    }
+
+    const checkExisted = await User.exists({ email: email });
 
     if (checkExisted) {
-        return res.status(400).json({
+        return res.status(409).json({
             success: false,
             message: 'Email đã tồn tại',
         });
@@ -36,29 +44,23 @@ const register = async (req, res, next) => {
 
         await newUser.save();
 
-        const accessToken = signAccessToken(user._id, email);
-        const refreshToken = signRefreshToken(user._id, email);
-        await updateUserRefreshToken(newUser, refreshToken);
+        const accessToken = signAccessToken(newUser._id, email);
+        const refreshToken = signRefreshToken(newUser._id, email);
 
-        res.cookie('access_token', accessToken, {
-            httpOnly: true,
-            maxAge: 60 * 60 * 1000,
-            secure: true,
-            sameSite: 'none',
-            // domain: 'https://kicap.vercel.app',
-        });
-        res.cookie('refresh_token', refreshToken, {
-            httpOnly: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            secure: true,
-            sameSite: 'none',
-            // domain: 'https://kicap.vercel.app',
-        });
+        try {
+            await updateUserRefreshToken(newUser, refreshToken);
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Lỗi khi cập nhật refresh token',
+            });
+        }
 
-        res.status(201).json({
-            success: true,
-            message: 'Tạo tài khoản thành công',
-        });
+        req.accessToken = accessToken;
+        req.refreshToken = refreshToken;
+        req.actionType = 'register';
+
+        next();
     } catch (error) {
         next(error);
     }
@@ -74,13 +76,20 @@ const login = async (req, res, next) => {
         });
     }
 
+    if (!isValidEmail(email) || !isValidPassword) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email hoặc mật khẩu không phù hợp',
+        });
+    }
+
     try {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: false,
-                message: 'Email không tồn tại',
+                message: 'Sai email hoặc mật khẩu',
             });
         }
 
@@ -95,28 +104,21 @@ const login = async (req, res, next) => {
 
         const accessToken = signAccessToken(user._id, email);
         const refreshToken = signRefreshToken(user._id, email);
-        console.log((accessToken, refreshToken));
-        await updateUserRefreshToken(user, refreshToken);
 
-        res.cookie('access_token', accessToken, {
-            httpOnly: true,
-            maxAge: 60 * 60 * 1000,
-            secure: true,
-            sameSite: 'none',
-            // domain: 'https://kicap.vercel.app',
-        });
-        res.cookie('refresh_token', refreshToken, {
-            httpOnly: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            secure: true,
-            sameSite: 'none',
-            // domain: 'https://kicap.vercel.app',
-        });
+        try {
+            await updateUserRefreshToken(user, refreshToken);
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Lỗi khi cập nhật refresh token',
+            });
+        }
 
-        return res.status(200).json({
-            success: true,
-            message: 'Đăng nhập thành công',
-        });
+        req.accessToken = accessToken;
+        req.refreshToken = refreshToken;
+        req.actionType = 'login';
+
+        next();
     } catch (error) {
         next(error);
     }
@@ -147,37 +149,30 @@ const logout = (req, res, next) => {
     }
 };
 
-const loadUser = async (req, res) => {
-    const userId = req.id;
-    if (userId) {
-        try {
-            const user = await User.findById(userId).select('-password');
-            if (user) {
-                res.json({
-                    success: true,
-                    message: 'Found user',
-                    user,
-                });
-            } else {
-                res.status(400).json({
-                    success: false,
-                    message: 'User not found',
-                });
-            }
-        } catch (error) {
-            next(error);
-        }
+const loadUser = (req, res) => {
+    const { user } = req;
+    if (user) {
+        res.json({
+            success: true,
+            message: 'Found user',
+            user,
+        });
+    } else {
+        res.status(400).json({
+            success: false,
+            message: 'User not provided',
+        });
     }
 };
 
 const refreshToken = async (req, res, next) => {
     try {
         const refreshToken = req.cookies['refresh_token'];
-
         if (refreshToken) {
             const user = await User.findOne({ refreshToken });
+
             if (!user) {
-                return res.json({
+                return res.status(400).json({
                     success: false,
                     message: 'Không tìm thấy Refresh Token',
                 });
@@ -185,29 +180,23 @@ const refreshToken = async (req, res, next) => {
 
             const newAccessToken = signAccessToken(user._id, user.email);
             const newRefreshToken = signRefreshToken(user._id, user.email);
-            await updateUserRefreshToken(user, newRefreshToken);
 
-            res.cookie('access_token', newAccessToken, {
-                httpOnly: true,
-                maxAge: 60 * 60 * 1000,
-                secure: true,
-                sameSite: 'none',
-                // domain: 'https://kicap.vercel.app',
-            });
-            res.cookie('refresh_token', newRefreshToken, {
-                httpOnly: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-                secure: true,
-                sameSite: 'none',
-                // domain: 'https://kicap.vercel.app',
-            });
+            try {
+                await updateUserRefreshToken(user, refreshToken);
+            } catch (error) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Lỗi khi cập nhật refresh token',
+                });
+            }
 
-            res.json({
-                success: true,
-                message: 'Làm mới Access token',
-            });
+            req.accessToken = newAccessToken;
+            req.refreshToken = newRefreshToken;
+            req.actionType = 'refreshToken';
+
+            next();
         } else {
-            res.json({
+            res.status(404).json({
                 success: false,
                 message: 'Không tìm thấy Refresh Token',
             });
