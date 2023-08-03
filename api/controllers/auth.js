@@ -182,7 +182,7 @@ const refreshToken = async (req, res, next) => {
             const newRefreshToken = signRefreshToken(user._id, user.email);
 
             try {
-                await updateUserRefreshToken(user, refreshToken);
+                await updateUserRefreshToken(user, newRefreshToken);
             } catch (error) {
                 return res.status(500).json({
                     success: false,
