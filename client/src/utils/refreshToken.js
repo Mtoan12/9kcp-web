@@ -8,7 +8,6 @@ const refreshToken = async () => {
         const rs = await axios.get(`${API_URL}/auth/refresh-token`);
 
         if (rs.data.success) {
-            
             store.dispatch(loadUser());
         }
     } catch (error) {
