@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
 
     res.status(err.code || 500).json({
         success: false,
-        message: err.message || 'Something broke!',
+        message: err.message || 'Lỗi không xác đinh',
     });
 });
 

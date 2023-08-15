@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance.js';
+import authApi from 'api/authApi.js';
 import { useFormik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,16 +51,11 @@ const Login = () => {
 
     const loginHandler = async (user) => {
         try {
-            const response = await axios.post(`${API_URL}/auth/login`, user);
-            // if (response.data.success) {
-            //     localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
+            const response = await authApi.login(user);
 
-            //     dispatch(loadUser());
-            //     return response.data;
-            // }
-            if (response.data.success) {
+            if (response.success) {
                 dispatch(loadUser());
-                return response.data;
+                return response;
             }
         } catch (error) {
             if (error.response.data) {

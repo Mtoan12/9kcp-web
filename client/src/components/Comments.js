@@ -1,12 +1,16 @@
-import { message } from 'antd';
-import axios from 'axios';
-import { API_URL } from 'constants/constance';
-import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { commentSchema } from 'schemas/basic';
+import { useSelector } from 'react-redux';
+import { FaTimes } from 'react-icons/fa';
+import { LuEdit2 } from 'react-icons/lu';
 
-const Comments = ({ product, isLoading, error = '', comments = [], addNewCommentClick }) => {
+const Comments = ({
+    product,
+    isLoading,
+    error = '',
+    comments = [],
+    addNewCommentClick,
+    deleteClick,
+}) => {
     const [comment, setComment] = useState('');
     const user = useSelector((state) => state.auth.user);
     return (
@@ -22,12 +26,14 @@ const Comments = ({ product, isLoading, error = '', comments = [], addNewComment
                             >
                                 <span className="text-md font-semibold">{comment?.user?.name}</span>
                                 <p>{comment?.content}</p>
-                                {/* <div className="flex gap-2 text-sm">
-                                    <span className="px-2 py-1 border cursor-pointer">
-                                        Chỉnh sửa
+                                <div className="flex gap-2 text-sm">
+                                    <span className="px-2 py-1 border cursor-pointer grid place-content-center">
+                                        <LuEdit2 />
                                     </span>
-                                    <span className="px-2 py-1 border cursor-pointer">Xóa</span>
-                                </div> */}
+                                    <span className="px-2 py-1 border cursor-pointer grid place-content-center">
+                                        <FaTimes />
+                                    </span>
+                                </div>
                             </div>
                         );
                     })}

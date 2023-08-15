@@ -1,36 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { message } from 'antd';
-import axios from 'axios';
-import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN_NAME } from 'constants/constance';
+import authApi from 'api/authApi';
 
-export const loadUser = createAsyncThunk('auth/loadUser', async () => { 
+export const loadUser = createAsyncThunk('auth/loadUser', async (_ = null, thunkAPI) => {
     try {
-        const response = await axios.get(`${API_URL}/auth`);
-        if (response.data.success) {
-            return response.data;
+        const response = await authApi.loadUser();
+        if (response.success) {
+            return response;
         }
     } catch (error) {
         if (error.response.data) {
-            return error.response.data;
+            return thunkAPI.rejectWithValue(error.response.data);
         } else {
-            return error.message;
-        }
-    }
-});
-
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
-    try {
-        const response = await axios.post(`${API_URL}/auth/register`, user);
-        if (response.data.success) {
-            localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_NAME, response.data.accessToken);
-
-            thunkAPI.dispatch(loadUser());
-        }
-    } catch (error) {
-        if (error.response.data) {
-            return error.response.data;
-        } else {
-            return error.message;
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 });
@@ -44,7 +26,7 @@ const authSlice = createSlice({
         error: '',
     },
     reducers: {
-        logOut: (state, action) => {
+        logOut: (state) => {
             message.success('Đã đăng xuất tài khoản');
 
             state.isAuthenticated = false;

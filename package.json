@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "install": "^0.13.0",
-    "npm": "^9.8.0",
-    "query-string": "^8.1.0"
-  }
-}

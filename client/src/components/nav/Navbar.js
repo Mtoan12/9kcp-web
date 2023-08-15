@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { message } from 'antd';
+import authApi from 'api/authApi';
 import Backdrop from 'components/Backdrop';
-import { API_URL } from 'constants/constance';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logOut } from 'redux/slices/auth';
@@ -10,8 +10,13 @@ const Navbar = ({ show, setShow }) => {
     const dispatch = useDispatch();
 
     const onClickLogOutHandler = async () => {
-        await axios.get(`${API_URL}/auth/logout`);
-        dispatch(logOut());
+        try {
+            await authApi.logout();
+            dispatch(logOut());
+        } catch (error) {
+            console.error(error);
+            message .error(error.message);
+        }
     };
     return (
         <>

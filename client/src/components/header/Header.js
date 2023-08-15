@@ -1,16 +1,16 @@
+import { message } from 'antd';
+import authApi from 'api/authApi';
 import AccountNav from 'components/AccountNav';
 import { UserNav } from 'components/UserNav';
 import Navbar from 'components/nav/Navbar';
 import { CartContext } from 'context/CartContext';
 import logo from 'img/logo.webp';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logOut } from 'redux/slices/auth';
-import './HeaderStyles.css';
-import axios from 'axios';
-import { API_URL } from 'constants/constance';
 import SearchTextField from './../SearchTextField';
+import './HeaderStyles.css';
 
 const Header = () => {
     const [inputShowing, setInputShowing] = useState(false);
@@ -38,8 +38,13 @@ const Header = () => {
     }, []);
 
     const onClickLogOutHandler = async () => {
-        await axios.get(`${API_URL}/auth/logout`);
-        dispatch(logOut());
+        try {
+            await authApi.logout();
+            dispatch(logOut());
+        } catch (error) {
+            console.error(error);
+            message.error(error.message);
+        }
     };
 
     const handleOnSearchEnter = (e) => {
