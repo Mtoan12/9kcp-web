@@ -1,5 +1,5 @@
-export const API_URL = 'http://localhost:5000/api';
-export const PRODUCTION_API_URL = 'https://kicap-api.vercel.app/api';
+// export const API_URL = 'http://localhost:5000/api';
+export const API_URL = 'https://kicap-api.vercel.app/api';
 
 export const API_UPLOADS = 'http://localhost:5000/uploads';
 // export const API_UPLOADS = 'https://kicap-api.vercel.app/uploads';

@@ -1,8 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { API_UPLOADS } from 'constants/constance';
-import { formatPrice } from 'utils/formatPrice';
 import { InputNumber } from 'antd';
-
+import { useNavigate } from 'react-router-dom';
+import { formatPrice } from 'utils/formatPrice';
 const CartProduct = ({
     item: { _id, imageName, imageUrl, title: productName, price },
     quantity,
