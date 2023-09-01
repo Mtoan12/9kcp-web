@@ -1,7 +1,7 @@
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 const path = require('path');
-const storage = require('../storage/storage');
+const { storage } = require('../storage/storage');
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         // console.log(file);

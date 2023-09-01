@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { isObjectIdValid } = require('../utils/validateData.js');
 const { default: mongoose } = require('mongoose');
+const { deleteImage } = require('../storage/storage');
 
 const getProducts = async (req, res, next) => {
     try {
@@ -144,16 +145,28 @@ const editProduct = async (req, res, next) => {
             const newImageUrl = req?.file?.path;
             const oldProduct = await Products.findById(_id);
             let imageName;
+            let imageUrl;
             if (newImageName) {
                 imageName = newImageName;
+                imageUrl = newImageUrl;
                 oldProduct.imageName && deleteImage(oldProduct.imageName);
             } else {
-                imageName = oldProduct.imageName || `${oldProduct._id}.webp`;
+                imageName = oldProduct.imageName;
+                imageUrl = oldProduct.imageUrl;
             }
             //const imageName = newImageName? newImageName : oldProduct.imageName && deleteImage(oldProduct.imageName);
             const product = await Products.findOneAndUpdate(
                 { _id },
-                { title, brand, price, inStock, category, imageName, description, imageUrl },
+                {
+                    title,
+                    brand,
+                    price,
+                    inStock,
+                    category,
+                    imageName,
+                    description,
+                    imageUrl,
+                },
                 { new: true }
             );
             res.json({
@@ -279,15 +292,6 @@ const getSearch = async (req, res, next) => {
         });
     } catch (error) {
         next(error);
-    }
-};
-
-const deleteImage = (imgName) => {
-    const filePath = path.join(__dirname, '../public/uploads/', imgName);
-    try {
-        fs.unlinkSync(filePath);
-    } catch (error) {
-        return;
     }
 };
 

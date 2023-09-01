@@ -15,4 +15,12 @@ const storage = new CloudinaryStorage({
     },
 });
 
-module.exports = storage;
+const deleteImage = (imageName) => {
+    cloudinary.uploader.destroy(imageName, function (error, result) {
+        if (error) {
+            throw new Error(error);
+        }
+    });
+};
+
+module.exports = { storage, deleteImage };
