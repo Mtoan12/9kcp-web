@@ -51,6 +51,7 @@ const AllProductsPage = () => {
                                         price={product.price}
                                         category={product.category}
                                         imageName={product.imageName}
+                                        imageUrl={product.imageUrl}
                                     />
                                 );
                             })}

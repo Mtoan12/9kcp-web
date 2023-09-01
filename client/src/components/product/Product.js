@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { API_UPLOADS } from 'constants/constance';
 import { formatPrice } from 'utils/formatPrice';
 
-const Product = ({ id, title, category, price, imageName }) => {
+const Product = ({ id, title, category, price, imageName, imageUrl }) => {
     return (
         <div>
             <Link to={`/product/${id}`} className="flex flex-col items-center">
                 <div className="rounded-lg overflow-hidden hover:opacity-90 h-[300px]  hover-effect">
                     <img
                         className="object-cover h-full"
-                        src={`${API_UPLOADS}/${imageName}`}
+                        src={imageUrl}
                         alt={title}
                         onError={({ currentTarget }) => {
                             currentTarget.onerror = null; // prevents looping

@@ -29,4 +29,20 @@ router.get('/kit', getAllKits);
 router.get('/keycap', getAllKeycaps);
 router.get('/keyboard', getAllKeyboard);
 
+const Products = require('../models/Product');
+router.post('/sua-image', async (req, res) => {
+    const { id, imageName, imageUrl } = req.body;
+    try {
+        const edit = await Products.findByIdAndUpdate(id, { imageName, imageUrl }, { new: true });
+
+        if (!edit) {
+            res.json({ success: false, message: error.message });
+        }
+
+        res.json({ success: true, message: 'edited successfully', edit });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
 module.exports = router;

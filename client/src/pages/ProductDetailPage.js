@@ -111,6 +111,7 @@ const ProductDetailPage = () => {
                                 price,
                                 review,
                                 imageName = `${item._id}.webp`,
+                                imageUrl,
                                 inStock,
                                 description = 'Chưa có mô tả',
                             } = item;
@@ -119,7 +120,7 @@ const ProductDetailPage = () => {
                                     <div className="flex flex-col lg:flex-row lg:justify-center gap-10">
                                         <div className="w-full lg:w-1/2 max-w-[750px]">
                                             <img
-                                                src={`${API_UPLOADS}/${imageName}`}
+                                                src={imageUrl}
                                                 className="w-full h-full object-cover"
                                                 alt={title}
                                             />

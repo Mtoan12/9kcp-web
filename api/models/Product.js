@@ -24,6 +24,12 @@ const productSchema = mongoose.Schema({
     },
     imageName: {
         type: String,
+        default: '',
+    },
+    imageUrl: {
+        type: String,
+        default:
+            'https://res-console.cloudinary.com/dlylqm8fu/thumbnails/transform/v1/image/upload/Y19saW1pdCxoXzE2MDAsd18xNjAwLGZfanBnLGZsX2xvc3N5LmFueV9mb3JtYXQucHJlc2VydmVfdHJhbnNwYXJlbmN5LnByb2dyZXNzaXZl/v1/S2ljYXAvZWZsZm9ydHM5Z3g3OXd2anNyZm8=/template_primary',
     },
     category: {
         type: String,

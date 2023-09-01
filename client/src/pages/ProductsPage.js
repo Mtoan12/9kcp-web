@@ -52,6 +52,7 @@ const ProductsPage = () => {
                                 price,
                                 category,
                                 imageName = `${product._id}.webp`,
+                                imageUrl,
                             } = product;
                             return (
                                 <Product
@@ -61,6 +62,7 @@ const ProductsPage = () => {
                                     price={price}
                                     category={category}
                                     imageName={imageName}
+                                    imageUrl={imageUrl}
                                 />
                             );
                         })}

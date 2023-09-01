@@ -59,6 +59,7 @@ const SearchProductsPage = () => {
                                         price={product.price}
                                         category={product.category}
                                         imageName={product.imageName}
+                                        imageUrl={product.imageUrl}
                                     />
                                 );
                             })}

@@ -56,9 +56,7 @@ const AdminProductTable = ({ products }) => {
                 render: (_, record) => (
                     <div className="w-[100%] max-w-[64px]">
                         <img
-                            src={`${API_UPLOADS}/${
-                                record.image ? record.image : record.id + '.webp'
-                            }`}
+                            src={record.image}
                             alt={record.id}
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null; // prevents looping
@@ -176,7 +174,7 @@ const AdminProductTable = ({ products }) => {
         setData(
             products.map((product) => {
                 return {
-                    image: product?.imageName,
+                    image: product?.imageUrl,
                     key: product?._id,
                     id: product?._id,
                     title: product?.title,

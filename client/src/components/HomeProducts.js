@@ -22,6 +22,7 @@ const HomeProducts = ({ header, products, link }) => {
                                 price={product.price}
                                 category={product.category}
                                 imageName={product.imageName}
+                                imageUrl={product.imageUrl}
                             />
                         );
                     })}

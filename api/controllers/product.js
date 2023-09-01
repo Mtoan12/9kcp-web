@@ -106,6 +106,7 @@ const addProduct = async (req, res, next) => {
                 category,
                 description,
                 imageName: req.file.filename,
+                imageUrl: req.file.path,
             });
 
             await newProduct.save();
@@ -140,6 +141,7 @@ const editProduct = async (req, res, next) => {
         const { title, brand, price, inStock, category, description } = JSON.parse(req.body.info);
         try {
             const newImageName = req?.file?.filename;
+            const newImageUrl = req?.file?.path;
             const oldProduct = await Products.findById(_id);
             let imageName;
             if (newImageName) {
@@ -151,7 +153,7 @@ const editProduct = async (req, res, next) => {
             //const imageName = newImageName? newImageName : oldProduct.imageName && deleteImage(oldProduct.imageName);
             const product = await Products.findOneAndUpdate(
                 { _id },
-                { title, brand, price, inStock, category, imageName, description },
+                { title, brand, price, inStock, category, imageName, description, imageUrl },
                 { new: true }
             );
             res.json({

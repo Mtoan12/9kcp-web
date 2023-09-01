@@ -20,14 +20,14 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
 
     useEffect(() => {
         if (method === 'put' && productEdit) {
-            const { _id, title, brand, category, inStock, price, imageName, description } =
+            const { _id, title, brand, category, inStock, price, imageUrl, description } =
                 productEdit;
             setTitle(title);
             setBrand(brand);
             setCategory(category);
             setInStock(inStock);
             setPrice(price);
-            setImage(imageName || `${_id}.webp`);
+            setImage(imageUrl || `${_id}.webp`);
             setDescription(description);
         } else {
             setTitle('');
@@ -128,7 +128,7 @@ const AdminProductModal = ({ isShow, setIsShow, method, products, productEdit })
                             <div>
                                 <img
                                     className={`w-full ${showNewImage ? 'hidden' : undefined}`}
-                                    src={`${API_UPLOADS}/${image}`}
+                                    src={image}
                                     alt=""
                                 />
                                 <img
