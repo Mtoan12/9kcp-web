@@ -1,6 +1,14 @@
 import axios from 'axios';
-import { API_URL } from 'constants/constance';
+// import { API_URL } from 'constants/constance';
 import refreshToken from 'utils/refreshToken';
+
+// let API_URL = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:5000/api';
+let API_URL;
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    API_URL = 'http://localhost:5000/api';
+} else {
+    API_URL = 'https://kicap-api.vercel.app/api';
+}
 
 const instance = axios.create({
     baseURL: API_URL,
