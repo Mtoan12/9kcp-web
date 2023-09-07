@@ -1,15 +1,18 @@
-import AboutPage from 'pages/AboutPage';
-import AllProductsPage from 'pages/AllProductsPage';
-import CartPage from 'pages/CartPage';
-import Login from 'pages/Login';
-import OrdersPage from 'pages/OrdersPage';
-import ProductDetailPage from 'pages/ProductDetailPage';
-import ProductsPage from 'pages/ProductsPage';
-import Register from 'pages/Register';
-import SearchProductsPage from 'pages/SearchProductsPage';
-import Home from 'pages/home/Home';
 import { Route, Routes } from 'react-router-dom';
 import UserInformation from './UserInformation';
+import { Suspense, lazy } from 'react';
+import Loading from './Loading';
+
+const AboutPage = lazy(() => import('pages/AboutPage'));
+const AllProductsPage = lazy(() => import('pages/AllProductsPage'));
+const CartPage = lazy(() => import('pages/CartPage'));
+const Login = lazy(() => import('pages/Login'));
+const OrdersPage = lazy(() => import('pages/OrdersPage'));
+const ProductDetailPage = lazy(() => import('pages/ProductDetailPage'));
+const ProductsPage = lazy(() => import('pages/ProductsPage'));
+const Register = lazy(() => import('pages/Register'));
+const SearchProductsPage = lazy(() => import('pages/SearchProductsPage'));
+const Home = lazy(() => import('pages/home/Home'));
 
 const pages = [
     {
@@ -68,13 +71,15 @@ const pages = [
 
 const AppPages = () => {
     return (
-        <Routes>
-            {pages &&
-                pages.map((page) => {
-                    const Component = page.element;
-                    return <Route key={page.path} path={page.path} element={<Component />} />;
-                })}
-        </Routes>
+        <Suspense fallback={Loading}>
+            <Routes>
+                {pages &&
+                    pages.map((page) => {
+                        const Component = page.element;
+                        return <Route key={page.path} path={page.path} element={<Component />} />;
+                    })}
+            </Routes>
+        </Suspense>
     );
 };
 export default AppPages;

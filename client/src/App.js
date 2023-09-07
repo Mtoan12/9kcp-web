@@ -15,11 +15,11 @@ function App() {
     }, [dispatch]);
 
     return (
-        <div className="text-lg md:text-md lg:text-sm">
+        <div className="text-md lg:text-sm">
             <CartContextProvider>
                 <div className="flex flex-col justify-center items-center min-h-screen">
                     <Header />
-                    <div className="container flex-grow  px-3">
+                    <div className="container flex-grow lg:px-3">
                         <AppPages />
                         <AdminPages />
                     </div>

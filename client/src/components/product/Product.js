@@ -1,8 +1,8 @@
 import React from 'react';
 import './ProductStyle.css';
+import { API_UPLOADS } from '../../constants/constance';
 import { Link } from 'react-router-dom';
-import { API_UPLOADS } from 'constants/constance';
-import { formatPrice } from 'utils/formatPrice';
+import { formatPrice } from '../../utils/formatPrice';
 
 const Product = ({ id, title, category, price, imageName, imageUrl }) => {
     return (
@@ -11,6 +11,7 @@ const Product = ({ id, title, category, price, imageName, imageUrl }) => {
                 <div className="rounded-lg overflow-hidden hover:opacity-90 h-[300px]  hover-effect">
                     <img
                         className="object-cover h-full"
+                        loading="lazy"
                         src={imageUrl}
                         alt={title}
                         onError={({ currentTarget }) => {
